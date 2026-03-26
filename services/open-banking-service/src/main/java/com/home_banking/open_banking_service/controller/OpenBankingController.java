@@ -15,8 +15,11 @@ import reactor.core.publisher.Mono;
 public class OpenBankingController {
     private final EnablebankingClient enablebankingClient;
 
+    /*
+    * Interacts with the HTTP Call from Account Service
+    */
     @GetMapping("/aspsps")
     public Mono<AspspsListResponse> getAspsps(@RequestParam String country){
-        
+        return enablebankingClient.getAvailableBanks(country);
     }
 }
