@@ -4,7 +4,6 @@ import com.home_banking.open_banking_service.dto.AspspsListResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
@@ -18,14 +17,13 @@ public class EnablebankingClient {
         this.webClient = webClient;
     }
 
-    public Mono<AspspsListResponse> getAvailableBanks(String country){
+    public AspspsListResponse getAvailableBanks(String country){
         return webClient.get()
                 .uri(uri -> uri
                         .path("/aspsps")
                         .queryParamIfPresent("country", Optional.ofNullable(country))
                         .build())
                 .header("Authorization", "Bearer " + jwtProvider.generateJwt())
-                .retrieve()
-                .bodyToMono(AspspsListResponse.class);
+                .retrieve();
     }
 }
