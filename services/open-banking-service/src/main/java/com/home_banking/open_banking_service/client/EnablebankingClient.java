@@ -1,6 +1,7 @@
 package com.home_banking.open_banking_service.client;
 
 import com.home_banking.open_banking_service.dto.AspspsListResponse;
+import com.home_banking.open_banking_service.utils.EnableBankingJwtProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,6 +16,7 @@ public class EnablebankingClient {
 
     public EnablebankingClient(WebClient webClient) {
         this.webClient = webClient;
+        this.jwtProvider = new EnableBankingJwtProvider();
     }
 
     public AspspsListResponse getAvailableBanks(String country){
@@ -24,6 +26,8 @@ public class EnablebankingClient {
                         .queryParamIfPresent("country", Optional.ofNullable(country))
                         .build())
                 .header("Authorization", "Bearer " + jwtProvider.generateJwt())
-                .retrieve();
+                .retrieve()
+                .bodyToMono(AspspsListResponse.class)
+                .block();
     }
 }
