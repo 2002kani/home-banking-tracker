@@ -14,9 +14,9 @@ public class EnablebankingClient {
     private final WebClient webClient;
     private final EnableBankingJwtProvider jwtProvider;
 
-    public EnablebankingClient(WebClient webClient) {
+    public EnablebankingClient(WebClient webClient,  EnableBankingJwtProvider jwtProvider) {
         this.webClient = webClient;
-        this.jwtProvider = new EnableBankingJwtProvider();
+        this.jwtProvider = jwtProvider;
     }
 
     public AspspsListResponse getAvailableBanks(String country){
