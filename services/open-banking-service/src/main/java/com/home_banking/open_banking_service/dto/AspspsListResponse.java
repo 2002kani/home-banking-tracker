@@ -6,5 +6,5 @@ import java.util.List;
 
 @Data
 public class AspspsListResponse {
-    private List<AspspDto> aspsp;
+    private List<AspspDto> aspsps;
 }

@@ -11,5 +11,5 @@ public class AspspDto {
     private String country;
 
     @JsonProperty("auth_methods")
-    private List<String> authMethods;
+    private List<AuthMethodDto> authMethods;
 }
