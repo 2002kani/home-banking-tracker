@@ -55,7 +55,7 @@ public class EnableBankingJwtProvider {
                     .add("typ", "JWT")
                     .and()
                 .issuer("enablebanking.com")
-                .claim("aud", "api.enablebanking.com")  // ← String, kein Array
+                .claim("aud", "api.enablebanking.com")
                 .claim("iat", timeNow)
                 .claim("exp", timeNow + 3600)
                 .signWith(privateKey, SignatureAlgorithm.RS256)
