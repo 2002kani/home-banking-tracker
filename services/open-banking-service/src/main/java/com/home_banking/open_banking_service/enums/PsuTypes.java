@@ -1,8 +1,13 @@
 package com.home_banking.open_banking_service.enums;
 
-import lombok.Data;
+public enum PsuTypes {
+    BUSINESS("business"),
+    PERSONAL("personal");
 
-@Data
-public class PsuTypes {
-    private String business;
+    private final String value;
+
+    PsuTypes(String value) {
+        this.value = value;
+    }
 }
+
