@@ -55,7 +55,6 @@ public class EnableBankingJwtProvider {
                     .add("typ", "JWT")
                     .and()
                 .issuer("enablebanking.com")
-                .issuer("enablebanking.com")
                 .claim("aud", "api.enablebanking.com")  // ← String, kein Array
                 .claim("iat", timeNow)
                 .claim("exp", timeNow + 3600)
