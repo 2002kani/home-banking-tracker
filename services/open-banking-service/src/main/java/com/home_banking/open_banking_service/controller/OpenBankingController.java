@@ -18,7 +18,7 @@ public class OpenBankingController {
     * Interacts with the HTTP Call from Account Service
     */
     @GetMapping("/aspsps")
-    public AspspsListResponse getAspsps(@RequestParam String country){
+    public AspspsListResponse getAspsps(@RequestParam(required = false) String country){
         return enablebankingClient.getAvailableBanks(country);
     }
 
@@ -41,7 +41,6 @@ public class OpenBankingController {
         if(error != null){
             return ResponseEntity.badRequest().body(errorDescription);
         }
-
         return ResponseEntity.ok(code);
     }
 }
