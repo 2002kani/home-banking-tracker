@@ -53,6 +53,8 @@ public class EnablebankingClient {
                 .redirectUrl(redirectUrl)
                 .build();
 
+        log.info("send to enable Banking: {}", request);
+
         return webClient.post()
                 .uri("/auth")
                 .header("Authorization", "Bearer " + jwtProvider.generateJwt())

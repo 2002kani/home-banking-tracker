@@ -27,4 +27,21 @@ public class OpenBankingController {
         StartAuthResponse resp = enablebankingClient.startAuthorization(bank, country);
         return ResponseEntity.ok(resp);
     }
+
+    /*
+    * After valid authorization, enable Banking redirects you to this callback url
+    */
+    @GetMapping("/callback")
+    public ResponseEntity<String> handleCallback(
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String error,
+            @RequestParam(required = false, name = "error_description") String errorDescription)
+    {
+        if(error != null){
+            return ResponseEntity.badRequest().body(errorDescription);
+        }
+
+        return ResponseEntity.ok(code);
+    }
 }
