@@ -1,18 +1,27 @@
 package com.home_banking.open_banking_service.client;
 
-import com.home_banking.open_banking_service.dto.AspspsListResponse;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.home_banking.open_banking_service.dto.*;
 import com.home_banking.open_banking_service.utils.EnableBankingJwtProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
 public class EnablebankingClient {
     private final WebClient webClient;
     private final EnableBankingJwtProvider jwtProvider;
+
+    @Value("${enablebanking.api.redirect-url}")
+    private String redirectUrl;
 
     public EnablebankingClient(WebClient webClient,  EnableBankingJwtProvider jwtProvider) {
         this.webClient = webClient;
@@ -28,6 +37,28 @@ public class EnablebankingClient {
                 .header("Authorization", "Bearer " + jwtProvider.generateJwt())
                 .retrieve()
                 .bodyToMono(AspspsListResponse.class)
+                .block();
+    }
+
+    public StartAuthResponse startAuthorization(String bank, String country){
+        StartAuthRequest request = StartAuthRequest.builder()
+                .access(AccessDto.builder()
+                        .validUntil(Instant.now().plus(90, ChronoUnit.DAYS).toString())
+                        .build())
+                .aspsp(AspspMinDto.builder()
+                        .name(bank)
+                        .country(country)
+                        .build())
+                .state(UUID.randomUUID().toString())
+                .redirectUrl(redirectUrl)
+                .build();
+
+        return webClient.post()
+                .uri("/auth")
+                .header("Authorization", "Bearer " + jwtProvider.generateJwt())
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(StartAuthResponse.class)
                 .block();
     }
 }
