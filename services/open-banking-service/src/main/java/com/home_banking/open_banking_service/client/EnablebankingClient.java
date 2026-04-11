@@ -65,6 +65,12 @@ public class EnablebankingClient {
     }
 
     public AuthorizeSessionResponse authorizeSession(String code){
-
+        return webClient.post()
+                .uri("/session")
+                .header("Authorization", "Bearer " + jwtProvider.generateJwt())
+                .bodyValue(AuthSessionRequest.builder().code(code).build())
+                .retrieve()
+                .bodyToMono(AuthorizeSessionResponse.class)
+                .block();
     }
 }
