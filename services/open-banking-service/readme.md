@@ -1,9 +1,5 @@
 # Todo´s:
 
-### Day 2
-
-- JWT Provider erstellen
-- Client Anfrage zu GET /aspsps machen (Bank liste holen)
-- Bank wählen und user auth
-
-### Day 3
+- Client zum session auth fertigstellen
+- Höchstwahrscheinlich fehler beheben beim builden -> dtos werden falsch gebaut / nicht erkannt etc
+- ggf dto attribute ergänzen falls weitere informationen benötigt. 
