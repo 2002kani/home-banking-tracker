@@ -2,6 +2,7 @@ package com.home_banking.open_banking_service.controller;
 
 import com.home_banking.open_banking_service.client.EnablebankingClient;
 import com.home_banking.open_banking_service.dto.AspspsListResponse;
+import com.home_banking.open_banking_service.dto.AuthorizeSessionResponse;
 import com.home_banking.open_banking_service.dto.StartAuthResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,7 @@ public class OpenBankingController {
         if(error != null){
             return ResponseEntity.badRequest().body(errorDescription);
         }
-        return ResponseEntity.ok(code);
+        AuthorizeSessionResponse resp = enablebankingClient.authorizeSession(code);
+        return ResponseEntity.ok(resp.getSessionId()); // Hier ggf. ändern.
     }
 }

@@ -63,4 +63,8 @@ public class EnablebankingClient {
                 .bodyToMono(StartAuthResponse.class)
                 .block();
     }
+
+    public AuthorizeSessionResponse authorizeSession(String code){
+
+    }
 }
