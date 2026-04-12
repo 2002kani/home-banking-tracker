@@ -32,7 +32,8 @@ public class OpenBankingController {
     }
 
     /*
-    * After valid authorization, enable Banking redirects you to this callback url
+    * After valid authorization, enable Banking redirects you to this callback url.
+    * Exchange the code with sessionId for api calls to enableBanking
     */
     @GetMapping("/callback")
     public ResponseEntity<String> handleCallback(

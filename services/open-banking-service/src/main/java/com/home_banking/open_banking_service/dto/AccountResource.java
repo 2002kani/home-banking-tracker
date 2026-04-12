@@ -14,6 +14,8 @@ public class AccountResource {
 
     private String currency;
 
+    private String uid;
+
     @JsonProperty("identification_hash")
     private String identificationHash;
 }
