@@ -4,6 +4,7 @@ import com.home_banking.open_banking_service.client.EnablebankingClient;
 import com.home_banking.open_banking_service.dto.AspspsListResponse;
 import com.home_banking.open_banking_service.dto.AuthorizeSessionResponse;
 import com.home_banking.open_banking_service.dto.StartAuthResponse;
+import com.home_banking.open_banking_service.service.OpenBankingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class OpenBankingController {
     private final EnablebankingClient enablebankingClient;
+    private final OpenBankingService openBankingService;
 
     /*
     * Interacts with the HTTP Call from Account Service
@@ -42,7 +44,7 @@ public class OpenBankingController {
         if(error != null){
             return ResponseEntity.badRequest().body(errorDescription);
         }
-        AuthorizeSessionResponse resp = enablebankingClient.authorizeSession(code);
-        return ResponseEntity.ok(resp.getSessionId()); // Hier ggf. ändern.
+        String sessionId = openBankingService.authAndSave(code, state, "Sparkasse", "DE");
+        return ResponseEntity.ok(sessionId);
     }
 }
