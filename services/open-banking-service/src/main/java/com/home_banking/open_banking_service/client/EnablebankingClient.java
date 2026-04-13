@@ -73,4 +73,5 @@ public class EnablebankingClient {
                 .bodyToMono(AuthorizeSessionResponse.class)
                 .block();
     }
+    // TODO: both transactions & balances api call
 }
