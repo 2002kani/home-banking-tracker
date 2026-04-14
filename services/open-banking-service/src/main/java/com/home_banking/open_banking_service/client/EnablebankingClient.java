@@ -2,6 +2,8 @@ package com.home_banking.open_banking_service.client;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.home_banking.open_banking_service.dto.*;
+import com.home_banking.open_banking_service.dto.sessionResponses.BalancesResponse;
+import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsResponse;
 import com.home_banking.open_banking_service.utils.EnableBankingJwtProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,5 +75,22 @@ public class EnablebankingClient {
                 .bodyToMono(AuthorizeSessionResponse.class)
                 .block();
     }
-    // TODO: both transactions & balances api call
+
+    public BalancesResponse getBalances(String accountId){
+        return webClient.get()
+                .uri("/accounts/" + accountId + "/balances")
+                .header("Authorization", "Bearer " + jwtProvider.generateJwt())
+                .retrieve()
+                .bodyToMono(BalancesResponse.class)
+                .block();
+    }
+
+    public TransactionsResponse getTransactions(String accountId){
+        return webClient.get()
+                .uri("/accounts/" + accountId + "/transactions")
+                .header("Authorization", "Bearer " + jwtProvider.generateJwt())
+                .retrieve()
+                .bodyToMono(TransactionsResponse.class)
+                .block();
+    }
 }
