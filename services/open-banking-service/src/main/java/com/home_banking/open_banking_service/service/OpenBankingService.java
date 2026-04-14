@@ -39,7 +39,7 @@ public class OpenBankingService implements IOpenBankingService {
                 .build();
         bankSessionRepository.save(session);
 
-        // Save account details into db as well
+        // Save account details into db too
         if(resp.getAccounts() != null){
             resp.getAccounts().forEach(account -> {
                 BankAccount bankAccount = BankAccount.builder()
