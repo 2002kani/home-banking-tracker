@@ -3,6 +3,10 @@ package com.home_banking.open_banking_service.controller;
 import com.home_banking.open_banking_service.client.EnablebankingClient;
 import com.home_banking.open_banking_service.dto.AspspsListResponse;
 import com.home_banking.open_banking_service.dto.StartAuthResponse;
+import com.home_banking.open_banking_service.dto.sessionResponses.BalancesResponse;
+import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsResponse;
+import com.home_banking.open_banking_service.entity.BankAccount;
+import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.service.OpenBankingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class OpenBankingController {
     private final EnablebankingClient enablebankingClient;
     private final OpenBankingService openBankingService;
+    private final BankAccountRepository  bankAccountRepository;
 
     /*
     * Interacts with the HTTP Call from Account Service
@@ -45,5 +50,22 @@ public class OpenBankingController {
         }
         String sessionId = openBankingService.authAndSave(code, state, "Sparkasse", "DE");
         return ResponseEntity.ok(sessionId);
+    }
+
+    /*
+    * The following two endpoints are for postman test purposes only!
+    */
+    @GetMapping("/balances")
+    public ResponseEntity<BalancesResponse> getBalances(){
+        BankAccount bankAccount = bankAccountRepository.findAll().get(0);  // Workaround bis production
+        BalancesResponse resp = enablebankingClient.getBalances(bankAccount.getAccountUid());
+        return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<TransactionsResponse> getTransactions(){
+        BankAccount bankAccount = bankAccountRepository.findAll().get(0);
+        TransactionsResponse resp = enablebankingClient.getTransactions(bankAccount.getAccountUid());
+        return ResponseEntity.ok(resp);
     }
 }
