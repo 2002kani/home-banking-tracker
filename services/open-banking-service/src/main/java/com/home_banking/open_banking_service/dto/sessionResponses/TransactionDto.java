@@ -14,6 +14,9 @@ public class TransactionDto {
     @JsonProperty("transaction_amount")
     private TransactionAmount transactionAmount;
 
+    @JsonProperty("transaction_id")
+    private String transactionId;
+
     private PartyDto creditor;
 
     private PartyDto debtor;

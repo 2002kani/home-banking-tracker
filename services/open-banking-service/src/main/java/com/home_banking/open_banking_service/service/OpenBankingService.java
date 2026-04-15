@@ -31,7 +31,7 @@ public class OpenBankingService implements IOpenBankingService {
 
         BankSession session = BankSession.builder()
                 .sessionId(resp.getSessionId())
-                .status(state)
+                .status("ACTIVE")
                 .bankName(bankName)
                 .bankCountry(bankCountry)
                 .validUntil(Instant.now().plus(90, ChronoUnit.DAYS))

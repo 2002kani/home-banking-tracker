@@ -85,6 +85,7 @@ public class EnablebankingClient {
                 .block();
     }
 
+    // TODO: als parameter noch start und enddatum einbauen
     public TransactionsResponse getTransactions(String accountId){
         return webClient.get()
                 .uri("/accounts/" + accountId + "/transactions")
