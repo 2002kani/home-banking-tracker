@@ -1,10 +1,10 @@
 # Todo´s:
 
-- Client anfragen erstellen für:
-  - Bank Balance ()
-  - Bank transactions ()
-  - ggf. auch noch bank details ()
+3. Scheduler Service erstellen
+    - methode erstellen session und bank account zu synchronisieren und für jeden acc
+      dann untere methode aufzurufen je session und account
+    - methode erstellen um event zu builden und dann jede transaction zu builden
 
-- Kafka template erstellen um dort die topics zu publishen ()
+4. cronjob aktivieren
 
-- Dtos / events für die anfragen erstellen (am besten unter neuen folder innerhalb dto) ()
+5. ggf eine methode erstellen die alle tarnsactions einmalig reinpackt, weil danach nur immer ein tag alte (wegen cronjob einmal täglich)
