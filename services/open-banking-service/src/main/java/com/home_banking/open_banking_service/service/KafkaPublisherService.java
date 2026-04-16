@@ -1,5 +1,6 @@
 package com.home_banking.open_banking_service.service;
 
+import com.home_banking.open_banking_service.event.AccountUpdateEvent;
 import com.home_banking.open_banking_service.event.TransactionRawEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +16,16 @@ public class KafkaPublisherService implements IKafkaPublisherService{
     @Value("${kafka.topics.transactions-raw}")
     private String transactionTopic;
 
+    @Value("${kafka.topics.account-update}")
+    private String balanceTopic;
+
     @Override
     public void publishTransactionEvent(TransactionRawEvent event) {
         kafkaTemplate.send(transactionTopic, event.getSessionId(), event);  // sessionId as key, so any event per session are stored in same partition
+    }
+
+    @Override
+    public void publishBalanceEvent(AccountUpdateEvent event) {
+        kafkaTemplate.send(balanceTopic, event.getSessionId(), event);
     }
 }

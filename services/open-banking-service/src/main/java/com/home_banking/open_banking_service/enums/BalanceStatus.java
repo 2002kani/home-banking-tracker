@@ -1,5 +1,7 @@
 package com.home_banking.open_banking_service.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum BalanceStatus {
     CLAV,
     CLBD,
@@ -9,5 +11,10 @@ public enum BalanceStatus {
     ITBD,
     OPAV,
     OPBD,
-    OTHR
+    OTHR;
+
+    @JsonValue
+    public String getValue() {
+        return this.name();
+    }
 }

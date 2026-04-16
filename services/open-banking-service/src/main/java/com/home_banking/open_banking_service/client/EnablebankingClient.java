@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
@@ -92,5 +93,16 @@ public class EnablebankingClient {
                 .block();
     }
 
-    // TODO: hier getTransactionsById erstellen
+    public TransactionsResponse getTransactionsByDate(String accountId, LocalDate dateFrom, LocalDate dateTo){
+        return webClient.get()
+                .uri(uri -> uri
+                        .path("/accounts/" + accountId + "/transactions")
+                        .queryParam("date_from", dateFrom.toString())
+                        .queryParam("date_to", dateTo.toString())
+                        .build())
+                .header("Authorization", "Bearer " + jwtProvider.generateJwt())
+                .retrieve()
+                .bodyToMono(TransactionsResponse.class)
+                .block();
+    }
 }

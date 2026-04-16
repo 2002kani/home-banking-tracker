@@ -1,8 +1,10 @@
 package com.home_banking.open_banking_service.service;
 
 import com.home_banking.open_banking_service.client.EnablebankingClient;
+import com.home_banking.open_banking_service.dto.sessionResponses.BalancesResponse;
 import com.home_banking.open_banking_service.entity.BankAccount;
 import com.home_banking.open_banking_service.entity.BankSession;
+import com.home_banking.open_banking_service.event.AccountUpdateEvent;
 import com.home_banking.open_banking_service.event.TransactionRawEvent;
 import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.repository.BankSessionRepository;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,6 +39,7 @@ public class SchedulerService implements  ISchedulerService {
             accounts.forEach(account -> {
                 try{
                     mapAccountTransaction(session, account);
+                    mapAccountBalance(session, account);
                 }catch(Exception e){
                     log.error("Sync failed for Account {}: {}", account.getAccountUid(), e.getMessage());
                 }
@@ -44,7 +48,11 @@ public class SchedulerService implements  ISchedulerService {
     }
 
     private void mapAccountTransaction(BankSession session, BankAccount account) {
-        var response = enablebankingClient.getAllTransactions(account.getAccountUid());
+        var response = enablebankingClient.getTransactionsByDate(
+                account.getAccountUid(),
+                LocalDate.now().minusDays(1),
+                LocalDate.now()
+        );
 
         if(response == null || response.getTransactions() == null) return;
 
@@ -65,5 +73,21 @@ public class SchedulerService implements  ISchedulerService {
             kafkaPublisherService.publishTransactionEvent(event);
             log.info("event published with session: {}", event.getSessionId());
         });
+    }
+
+    private void mapAccountBalance(BankSession session, BankAccount account){
+        BalancesResponse resp = enablebankingClient.getBalances(account.getAccountUid());
+
+        if(resp != null || !resp.getBalances().isEmpty()){
+            AccountUpdateEvent event = AccountUpdateEvent.builder()
+                    .sessionId(session.getSessionId())
+                    .accountUid(account.getAccountUid())
+                    .iban(account.getIban())
+                    .currency(resp.getBalances().get(0).getBalanceAmount().getCurrency())
+                    .balance(resp.getBalances().get(0).getBalanceAmount().getAmount())
+                    .build();
+
+            kafkaPublisherService.publishBalanceEvent(event);
+        };
     }
 }
