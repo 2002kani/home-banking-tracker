@@ -65,7 +65,7 @@ public class OpenBankingController {
     @GetMapping("/transactions")
     public ResponseEntity<TransactionsResponse> getTransactions(){
         BankAccount bankAccount = bankAccountRepository.findAll().get(0);
-        TransactionsResponse resp = enablebankingClient.getTransactions(bankAccount.getAccountUid());
+        TransactionsResponse resp = enablebankingClient.getAllTransactions(bankAccount.getAccountUid());
         return ResponseEntity.ok(resp);
     }
 }

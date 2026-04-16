@@ -1,6 +1,5 @@
 package com.home_banking.open_banking_service.client;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.home_banking.open_banking_service.dto.*;
 import com.home_banking.open_banking_service.dto.sessionResponses.BalancesResponse;
 import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsResponse;
@@ -8,7 +7,6 @@ import com.home_banking.open_banking_service.utils.EnableBankingJwtProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Instant;
@@ -85,8 +83,7 @@ public class EnablebankingClient {
                 .block();
     }
 
-    // TODO: als parameter noch start und enddatum einbauen
-    public TransactionsResponse getTransactions(String accountId){
+    public TransactionsResponse getAllTransactions(String accountId){
         return webClient.get()
                 .uri("/accounts/" + accountId + "/transactions")
                 .header("Authorization", "Bearer " + jwtProvider.generateJwt())
@@ -94,4 +91,6 @@ public class EnablebankingClient {
                 .bodyToMono(TransactionsResponse.class)
                 .block();
     }
+
+    // TODO: hier getTransactionsById erstellen
 }

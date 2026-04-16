@@ -12,7 +12,7 @@ public class KafkaPublisherService implements IKafkaPublisherService{
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    @Value("kafka.topics.transactions-raw")
+    @Value("${kafka.topics.transactions-raw}")
     private String transactionTopic;
 
     @Override

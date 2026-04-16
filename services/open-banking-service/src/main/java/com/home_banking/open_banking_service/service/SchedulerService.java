@@ -26,6 +26,7 @@ public class SchedulerService implements  ISchedulerService {
     @Scheduled(fixedRate = 10000)
     //@Scheduled(cron = "0 0 0 * * *")
     public void syncTransactions() {
+        log.info("SYNC STARTED");
         // Get sessions and the bank account for each session
         List<BankSession> activeSessions = bankSessionRepository.findByStatus("ACTIVE");
 
@@ -43,7 +44,7 @@ public class SchedulerService implements  ISchedulerService {
     }
 
     private void mapAccountTransaction(BankSession session, BankAccount account) {
-        var response = enablebankingClient.getTransactions(account.getAccountUid());
+        var response = enablebankingClient.getAllTransactions(account.getAccountUid());
 
         if(response == null || response.getTransactions() == null) return;
 
@@ -57,11 +58,12 @@ public class SchedulerService implements  ISchedulerService {
                     .creditor(tx.getCreditor())
                     .debtor(tx.getDebtor())
                     .type(tx.getType())
-                    .bookingDate(tx.getBookingDate())
+                    .bookingDate(tx.getBookingDate() != null ? tx.getBookingDate().toString() : null)
                     .status(tx.getStatus())
                     .build();
 
             kafkaPublisherService.publishTransactionEvent(event);
+            log.info("event published with session: {}", event.getSessionId());
         });
     }
 }
