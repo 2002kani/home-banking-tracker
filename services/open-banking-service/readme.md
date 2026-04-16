@@ -1,7 +1,5 @@
 # Todo´s:
 
-4. cronjob aktivieren
-
 5. ggf eine methode erstellen die alle tarnsactions einmalig reinpackt, weil danach nur immer ein tag alte (wegen cronjob einmal täglich)
 
 wichtig: transactionId im transactiondto ist nicht gut da laut den docs es für ungeeignet ist für unique sachen
@@ -9,4 +7,4 @@ wichtig: transactionId im transactiondto ist nicht gut da laut den docs es für 
 
 daher nutze stattdessen eigenes hash.
 - erstelle eigeen hash methode die einen unique key ausgibt
-- den nutzt du dann und gibst ihn beim builden des events in schedulerservice an, statt tx.transactionId
+- den nutzt du dann und gibst ihn beim builden des events in schedulerservice an, statt tx.transactionI
