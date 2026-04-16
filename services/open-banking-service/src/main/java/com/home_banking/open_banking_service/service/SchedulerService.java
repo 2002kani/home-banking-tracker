@@ -22,9 +22,9 @@ public class SchedulerService implements  ISchedulerService {
     private final EnablebankingClient enablebankingClient;
     private final KafkaPublisherService kafkaPublisherService;
 
-    // Testing cron, every minute: 0 * * * * *
     @Override
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(fixedRate = 10000)
+    //@Scheduled(cron = "0 0 0 * * *")
     public void syncTransactions() {
         // Get sessions and the bank account for each session
         List<BankSession> activeSessions = bankSessionRepository.findByStatus("ACTIVE");
