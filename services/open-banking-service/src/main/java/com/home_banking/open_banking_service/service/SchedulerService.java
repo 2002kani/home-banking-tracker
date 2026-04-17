@@ -8,6 +8,7 @@ import com.home_banking.open_banking_service.event.AccountUpdateEvent;
 import com.home_banking.open_banking_service.event.TransactionRawEvent;
 import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.repository.BankSessionRepository;
+import com.home_banking.open_banking_service.utils.IdBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,6 +25,7 @@ public class SchedulerService implements  ISchedulerService {
     private final BankAccountRepository bankAccountRepository;
     private final EnablebankingClient enablebankingClient;
     private final KafkaPublisherService kafkaPublisherService;
+    private final IdBuilder idBuilder;
 
     @Override
     @Scheduled(fixedRate = 10000)
@@ -39,7 +41,7 @@ public class SchedulerService implements  ISchedulerService {
             accounts.forEach(account -> {
                 try{
                     mapAccountTransaction(session, account);
-                    mapAccountBalance(session, account);
+                    //mapAccountBalance(session, account);
                 }catch(Exception e){
                     log.error("Sync failed for Account {}: {}", account.getAccountUid(), e.getMessage());
                 }
@@ -60,7 +62,7 @@ public class SchedulerService implements  ISchedulerService {
             TransactionRawEvent event = TransactionRawEvent.builder()
                     .sessionId(session.getSessionId())
                     .accountId(account.getAccountUid())
-                    .externalId(tx.getTransactionId())
+                    .externalId(idBuilder.buildTransactionId(tx))
                     .currency(tx.getTransactionAmount().getCurrency())
                     .amount(tx.getTransactionAmount().getAmount())
                     .creditor(tx.getCreditor())

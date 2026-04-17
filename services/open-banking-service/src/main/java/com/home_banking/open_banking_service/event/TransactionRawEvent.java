@@ -18,7 +18,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionRawEvent {
-    private String transactionId;
     private String sessionId;
     private String accountId;
     private String externalId;
