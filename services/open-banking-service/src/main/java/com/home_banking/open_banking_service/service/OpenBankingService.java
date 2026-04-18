@@ -67,13 +67,12 @@ public class OpenBankingService implements IOpenBankingService {
                         .iban(bankAccount.getIban())
                         .currency(account.getCurrency())
                         .balance(getEventBalance(account.getUid()))
+                        .name(account.getName())
                         .build();
 
                 kafkaPublisherService.publishBalanceEvent(event);
             });
         }
-        // 6. event konsumieren in account service (kafka consumer ergänzen)
-        // 7. methode erstellen die consumed event in db befüllt
 
         return resp.getSessionId();
     }

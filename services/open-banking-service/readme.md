@@ -10,13 +10,8 @@ im account service folgendes implementieren, folgende controller endpunkte:
 
 
 TODOS:
-
-1. Folgendes soll funktionieren: nach erfolgreicher verbindung mit bank konto innerhalb authAndSave() soll ein event gepublished werden
-der die entity acount in account service entspricht, und dieser soll einmnalig dann genutzt werden um in die datenbank zu speichern.
-
-3. updateAccount fertig stellen -> soll balance immer nach consume ändern
-
-4. die oberen endpunkte implementieren samt logik
+- db löschen und nochmal neu auth durhcgehen und prüfen ob alles passt (keine fehler? userid mitgegeben? balance vernünftig geändert? Account table erstellt?)
+- die oberen endpunkte implementieren samt logik
  
 
 

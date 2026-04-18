@@ -90,6 +90,7 @@ public class SchedulerService implements  ISchedulerService {
                     .iban(account.getIban())
                     .currency(resp.getBalances().get(0).getBalanceAmount().getCurrency())
                     .balance(resp.getBalances().get(0).getBalanceAmount().getAmount())
+                    .name(account.getName())
                     .build();
 
             kafkaPublisherService.publishBalanceEvent(event);
