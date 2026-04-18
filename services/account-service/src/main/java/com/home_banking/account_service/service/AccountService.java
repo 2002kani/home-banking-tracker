@@ -3,10 +3,13 @@ package com.home_banking.account_service.service;
 import com.home_banking.account_service.client.OpenBankingClient;
 import com.home_banking.account_service.dto.BanksListResponse;
 import com.home_banking.account_service.dto.StartAuthResponse;
+import com.home_banking.account_service.entitiy.Account;
 import com.home_banking.account_service.event.AccountUpdateEvent;
 import com.home_banking.account_service.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 
 @RequiredArgsConstructor
 @Service
@@ -33,5 +36,26 @@ public class AccountService implements IAccountService {
 
         // in db speichern
         accountRepository.findByUidAndUserId(event.getAccountUid(), event.getUserId())
+                .ifPresentOrElse(
+                  existingAccount -> {
+                      existingAccount.setBalance(event.getBalance());
+                      existingAccount.setUpdatedAt(Instant.now());
+                      accountRepository.save(existingAccount);
+                  },
+                        () -> {
+                            Account account = Account.builder()
+                                    .uid(event.getAccountUid())
+                                    .sessionId(event.getSessionId())
+                                    .userId(event.getUserId())
+                                    .iban(event.getIban())
+                                    .name(event.getName())
+                                    .currency(event.getCurrency())
+                                    .balance(event.getBalance())
+                                    .createdAt(Instant.now())
+                                    .updatedAt(Instant.now())
+                                    .build();
+                            accountRepository.save(account);
+                        }
+                );
     }
 }
