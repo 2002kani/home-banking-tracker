@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("api/v1/home-banking")
 @AllArgsConstructor
@@ -43,12 +45,16 @@ public class OpenBankingController {
             @RequestParam(required = false) String code,
             @RequestParam(required = false) String state,
             @RequestParam(required = false) String error,
-            @RequestParam(required = false, name = "error_description") String errorDescription)
+            @RequestParam(required = false, name = "error_description") String errorDescription,
+            @RequestHeader(value = "X-User-Id", required = false) String userId)
     {
         if(error != null){
             return ResponseEntity.badRequest().body(errorDescription);
         }
-        String sessionId = openBankingService.authAndSave(code, state, "Sparkasse", "DE");
+        UUID userUuid = userId != null ? UUID.fromString(userId) : UUID.fromString("00000000-0000-0000-0000-000000000001");
+
+        // TODO: exchange hardcoded logic to more substantial solution
+        String sessionId = openBankingService.authAndSave(code, state, "Sparkasse", "DE", userUuid);
         return ResponseEntity.ok(sessionId);
     }
 

@@ -40,8 +40,9 @@ public class SchedulerService implements  ISchedulerService {
 
             accounts.forEach(account -> {
                 try{
+                    // TODO: hier feature einbauen der beim ersten druchlauf immer all transactrions anzeigt und erst danach by date
                     mapAccountTransaction(session, account);
-                    //mapAccountBalance(session, account);
+                    mapAccountBalance(session, account);
                 }catch(Exception e){
                     log.error("Sync failed for Account {}: {}", account.getAccountUid(), e.getMessage());
                 }
@@ -61,6 +62,7 @@ public class SchedulerService implements  ISchedulerService {
         response.getTransactions().forEach(tx -> {
             TransactionRawEvent event = TransactionRawEvent.builder()
                     .sessionId(session.getSessionId())
+                    .userId(session.getUserId())
                     .accountId(account.getAccountUid())
                     .externalId(idBuilder.buildTransactionId(tx))
                     .currency(tx.getTransactionAmount().getCurrency())
@@ -80,10 +82,11 @@ public class SchedulerService implements  ISchedulerService {
     private void mapAccountBalance(BankSession session, BankAccount account){
         BalancesResponse resp = enablebankingClient.getBalances(account.getAccountUid());
 
-        if(resp != null || !resp.getBalances().isEmpty()){
+        if(resp != null && !resp.getBalances().isEmpty()){
             AccountUpdateEvent event = AccountUpdateEvent.builder()
                     .sessionId(session.getSessionId())
                     .accountUid(account.getAccountUid())
+                    .userId(session.getUserId())
                     .iban(account.getIban())
                     .currency(resp.getBalances().get(0).getBalanceAmount().getCurrency())
                     .balance(resp.getBalances().get(0).getBalanceAmount().getAmount())

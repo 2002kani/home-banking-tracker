@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,6 +24,9 @@ public class BankAccount {
 
     @Column(name = "account_uid", nullable = false)
     private String accountUid;
+
+    @Column(name = "user_id")
+    private UUID userId;
 
     private String iban;
 

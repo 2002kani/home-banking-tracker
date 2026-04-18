@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -21,6 +22,9 @@ public class BankSession {
 
     @Column(name = "session_id",  nullable = false,  unique = true)
     private String sessionId;
+
+    @Column(name = "user_id")
+    private UUID userId;
 
     @Column(name = "bank_name")
     private String bankName;

@@ -21,6 +21,7 @@ public class TransactionRawEvent {
     private String sessionId;
     private String accountId;
     private String externalId;
+    private UUID userId;
     private String currency;
     private String amount;
     private PartyDto creditor;
