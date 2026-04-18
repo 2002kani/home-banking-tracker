@@ -24,6 +24,6 @@ public class AccountController {
             @RequestParam String bank,
             @RequestParam String country
     ){
-        return ResponseEntity.ok(accountService.startAuth(bank, country));
+        return ResponseEntity.ok(accountService.startAuth(bank, country)); // Besser ggf autom. weiterleiten in der ui
     }
 }
