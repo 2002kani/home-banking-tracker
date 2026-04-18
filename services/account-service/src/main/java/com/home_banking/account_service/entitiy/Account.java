@@ -29,17 +29,13 @@ public class Account {
     @Column(name = "user_id")
     private UUID userId;
 
-    @Column(name = "iban")
     private String iban;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "currency")
     private String currency;
 
     // wird durch accounts.updated Kafka Event aktualisiert
-    @Column(name = "balance")
     private String balance;
 
     @Column(name = "created_at")
