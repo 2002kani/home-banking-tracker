@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,8 +41,13 @@ public class SchedulerService implements  ISchedulerService {
 
             accounts.forEach(account -> {
                 try{
-                    // TODO: hier feature einbauen der beim ersten druchlauf immer all transactrions anzeigt und erst danach by date
-                    mapAccountTransaction(session, account);
+                    if(account.getLastSyncAt() == null){
+                        mapAccountTransaction(session, account, LocalDate.now().minusDays(90), LocalDate.now());
+                    }else{
+                        mapAccountTransaction(session, account, LocalDate.now().minusDays(1),  LocalDate.now());
+                    }
+                    account.setLastSyncAt(Instant.now());
+                    bankAccountRepository.save(account);
                     mapAccountBalance(session, account);
                 }catch(Exception e){
                     log.error("Sync failed for Account {}: {}", account.getAccountUid(), e.getMessage());
@@ -50,11 +56,11 @@ public class SchedulerService implements  ISchedulerService {
         });
     }
 
-    private void mapAccountTransaction(BankSession session, BankAccount account) {
+    private void mapAccountTransaction(BankSession session, BankAccount account, LocalDate dateFrom,  LocalDate dateTo) {
         var response = enablebankingClient.getTransactionsByDate(
                 account.getAccountUid(),
-                LocalDate.now().minusDays(1),
-                LocalDate.now()
+                dateFrom,
+                dateTo
         );
 
         if(response == null || response.getTransactions() == null) return;

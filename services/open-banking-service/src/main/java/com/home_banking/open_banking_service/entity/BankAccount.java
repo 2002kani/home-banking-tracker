@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Data
@@ -36,4 +37,7 @@ public class BankAccount {
 
     @Column(name = "identification_hash")
     private String identificationHash;
+
+    @Column(name = "last_sync_at")
+    private Instant lastSyncAt;
 }

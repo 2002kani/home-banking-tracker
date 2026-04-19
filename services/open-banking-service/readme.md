@@ -10,7 +10,6 @@ im account service folgendes implementieren, folgende controller endpunkte:
 
 
 TODOS:
-- db löschen und nochmal neu auth durhcgehen und prüfen ob alles passt (keine fehler? userid mitgegeben? balance vernünftig geändert? Account table erstellt?)
 - die oberen endpunkte implementieren samt logik
  
 
