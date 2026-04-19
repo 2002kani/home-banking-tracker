@@ -26,4 +26,7 @@ public class AccountController {
     ){
         return ResponseEntity.ok(accountService.startAuth(bank, country)); // Besser ggf autom. weiterleiten in der ui
     }
+
+    @GetMapping("/account/balance")
+
 }
