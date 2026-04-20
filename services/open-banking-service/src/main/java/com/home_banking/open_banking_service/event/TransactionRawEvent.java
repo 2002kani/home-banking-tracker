@@ -1,8 +1,6 @@
 package com.home_banking.open_banking_service.event;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.home_banking.open_banking_service.dto.sessionResponses.PartyDto;
-import com.home_banking.open_banking_service.dto.sessionResponses.TransactionAmount;
 import com.home_banking.open_banking_service.enums.CreditDebitIndicator;
 import com.home_banking.open_banking_service.enums.TransactionStatus;
 import lombok.AllArgsConstructor;
@@ -27,6 +25,6 @@ public class TransactionRawEvent {
     private PartyDto creditor;
     private PartyDto debtor;
     private CreditDebitIndicator type;
-    private String bookingDate;
+    private LocalDate bookingDate;
     private TransactionStatus status;
 }

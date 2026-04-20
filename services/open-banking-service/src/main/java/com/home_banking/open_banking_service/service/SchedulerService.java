@@ -76,7 +76,7 @@ public class SchedulerService implements  ISchedulerService {
                     .creditor(tx.getCreditor())
                     .debtor(tx.getDebtor())
                     .type(tx.getType())
-                    .bookingDate(tx.getBookingDate() != null ? tx.getBookingDate().toString() : null)
+                    .bookingDate(tx.getBookingDate() != null ? tx.getBookingDate() : null)
                     .status(tx.getStatus())
                     .build();
 
