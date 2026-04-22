@@ -1,6 +1,7 @@
 package com.home_banking.account_service.service;
 
 import com.home_banking.account_service.client.OpenBankingClient;
+import com.home_banking.account_service.dto.AccountDto;
 import com.home_banking.account_service.dto.BanksListResponse;
 import com.home_banking.account_service.dto.StartAuthResponse;
 import com.home_banking.account_service.entitiy.Account;
@@ -29,12 +30,6 @@ public class AccountService implements IAccountService {
 
     @Override
     public void updateAccount(AccountUpdateEvent event) {
-        // Prüfen ob account existiert.
-
-        // ja: komplett builden und befüllen.
-        // nein: nur balance builden und befüllen, sowie updatedAt aktualisieren
-
-        // in db speichern
         accountRepository.findByUidAndUserId(event.getAccountUid(), event.getUserId())
                 .ifPresentOrElse(
                   existingAccount -> {
@@ -57,5 +52,17 @@ public class AccountService implements IAccountService {
                             accountRepository.save(account);
                         }
                 );
+    }
+
+    @Override
+    public AccountDto getAccount(Long id) {
+        return accountRepository.findById(id)
+                .map(account -> AccountDto.builder()
+                        .balance(account.getBalance())
+                        .iban(account.getIban())
+                        .name(account.getName())
+                        .currency(account.getCurrency())
+                        .build())
+                .orElseThrow(() -> new RuntimeException("Account not found"));
     }
 }
