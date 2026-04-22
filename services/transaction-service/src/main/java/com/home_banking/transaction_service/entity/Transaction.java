@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -51,7 +52,7 @@ public class Transaction {
     private CreditDebitIndicator type;
 
     @Column(name = "booking_date")
-    private String bookingDate;
+    private LocalDate bookingDate;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

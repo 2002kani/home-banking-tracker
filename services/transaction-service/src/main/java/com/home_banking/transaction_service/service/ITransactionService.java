@@ -2,6 +2,8 @@ package com.home_banking.transaction_service.service;
 
 import com.home_banking.transaction_service.event.TransactionEvent;
 
+import java.util.List;
+
 public interface ITransactionService {
-    public void updateTransactions(TransactionEvent event);
+    void persistTransactions(TransactionEvent event);
 }

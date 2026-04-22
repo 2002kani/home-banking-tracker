@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -24,7 +25,7 @@ public class TransactionEvent {
     private PartyDto creditor;
     private PartyDto debtor;
     private CreditDebitIndicator type;
-    private String bookingDate;
+    private LocalDate bookingDate;
     private TransactionStatus status;
 }
 
