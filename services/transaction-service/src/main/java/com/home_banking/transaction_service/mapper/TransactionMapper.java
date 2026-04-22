@@ -1,5 +1,6 @@
 package com.home_banking.transaction_service.mapper;
 
+import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.entity.Transaction;
 import com.home_banking.transaction_service.event.TransactionEvent;
 
@@ -20,6 +21,19 @@ public class TransactionMapper {
                 .bookingDate(event.getBookingDate())
                 .status(event.getStatus())
                 .createdAt(Instant.now())
+                .build();
+    }
+
+    public static TransactionDto mapToDto(Transaction transaction) {
+        return TransactionDto.builder()
+                .accountId(transaction.getAccountId())
+                .amount(transaction.getAmount())
+                .currency(transaction.getCurrency())
+                .creditorName(transaction.getCreditorName())
+                .debtorName(transaction.getDebtorName())
+                .type(transaction.getType())
+                .bookingDate(transaction.getBookingDate())
+                .status(transaction.getStatus())
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package com.home_banking.transaction_service.service;
 
-import com.home_banking.transaction_service.entity.Transaction;
+import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.event.TransactionEvent;
 import com.home_banking.transaction_service.mapper.TransactionMapper;
 import com.home_banking.transaction_service.repository.TransactionRepository;
@@ -13,6 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionService implements ITransactionService {
     private final TransactionRepository transactionRepository;
+
+
+    @Override
+    public List<TransactionDto> getTransactions() {
+        return transactionRepository.findAll().stream()
+                .map(TransactionMapper::mapToDto)
+                .toList();
+    }
 
     @Override
     public void persistTransactions(TransactionEvent event) {
