@@ -4,11 +4,9 @@ import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,9 +21,19 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
-    // einzelne transaktionen abrufen können
+    @GetMapping("/transactions/{id}")
+    public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id){
+        return ResponseEntity.ok(transactionService.getTransactionById(id));
+    }
 
-    // transaktionen pro datum anzeigen lassen
+    @GetMapping("/transactions")
+    public ResponseEntity<List<TransactionDto>> getTransactionBetweenDate(
+            @RequestParam LocalDate dateFrom,
+            @RequestParam LocalDate dateTo
+            ){
+        List<TransactionDto> transactions = transactionService.getTransactionsByDate(dateFrom, dateTo);
+        return ResponseEntity.ok(transactions);
+    }
 
     // transaktionen je category anzeigeen lassen
 

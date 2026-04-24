@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionDto {
+    private Long id;
     private String accountId;
     private String amount;
     private String currency;
