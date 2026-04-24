@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class TransactionService implements ITransactionService {
     private final TransactionRepository transactionRepository;
 
-
     @Override
-    public List<TransactionDto> getTransactions() {
-        return transactionRepository.findAll().stream()
+    public List<TransactionDto> getTransactions(UUID userId) {
+        return transactionRepository.findAllByUserId(userId).stream()
                 .map(TransactionMapper::mapToDto)
                 .toList();
     }
@@ -39,8 +39,8 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<TransactionDto> getTransactionsByDate(LocalDate dateFrom, LocalDate dateTo) {
-        List<Transaction> transactions = transactionRepository.findByBookingDateBetween(dateFrom, dateTo);
+    public List<TransactionDto> getTransactionsByDate(LocalDate dateFrom, LocalDate dateTo, UUID userId) {
+        List<Transaction> transactions = transactionRepository.findByBookingDateBetweenAndUserId(dateFrom, dateTo, userId);
 
         return transactions.stream()
                 .map(TransactionMapper::mapToDto)

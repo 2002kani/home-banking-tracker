@@ -58,6 +58,10 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Column(name = "created_at")
     private Instant createdAt;
 }

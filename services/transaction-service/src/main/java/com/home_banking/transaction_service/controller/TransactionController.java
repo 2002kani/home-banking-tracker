@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,24 +16,27 @@ import java.util.List;
 public class TransactionController {
     private final TransactionService transactionService;
 
+    /*
+    /* Important: Exchange current implementation of userId with more secure way.
+    /* (Take a look at open tickets)
+    */
+
     @GetMapping("/transactions")
-    public ResponseEntity<List<TransactionDto>> getTransactions(){
-        List<TransactionDto> transactions =  transactionService.getTransactions();
-        return ResponseEntity.ok(transactions);
+    public ResponseEntity<List<TransactionDto>> getTransactions(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestParam(required = false) LocalDate dateFrom,
+            @RequestParam(required = false) LocalDate dateTo
+    ){
+        if(dateFrom != null && dateTo != null){
+            List<TransactionDto> transactions = transactionService.getTransactionsByDate(dateFrom, dateTo, UUID.fromString(userId));
+            return ResponseEntity.ok(transactions);
+        }
+        return ResponseEntity.ok(transactionService.getTransactions(UUID.fromString(userId)));
     }
 
     @GetMapping("/transactions/{id}")
     public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id){
         return ResponseEntity.ok(transactionService.getTransactionById(id));
-    }
-
-    @GetMapping("/transactions")
-    public ResponseEntity<List<TransactionDto>> getTransactionBetweenDate(
-            @RequestParam LocalDate dateFrom,
-            @RequestParam LocalDate dateTo
-            ){
-        List<TransactionDto> transactions = transactionService.getTransactionsByDate(dateFrom, dateTo);
-        return ResponseEntity.ok(transactions);
     }
 
     // transaktionen je category anzeigeen lassen
