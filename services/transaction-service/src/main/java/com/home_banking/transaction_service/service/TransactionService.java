@@ -1,9 +1,12 @@
 package com.home_banking.transaction_service.service;
 
 import com.home_banking.transaction_service.dto.TransactionDto;
+import com.home_banking.transaction_service.entity.Category;
 import com.home_banking.transaction_service.entity.Transaction;
+import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import com.home_banking.transaction_service.event.TransactionEvent;
 import com.home_banking.transaction_service.mapper.TransactionMapper;
+import com.home_banking.transaction_service.repository.CategoryRepository;
 import com.home_banking.transaction_service.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransactionService implements ITransactionService {
     private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<TransactionDto> getTransactions(UUID userId) {
@@ -46,4 +50,25 @@ public class TransactionService implements ITransactionService {
                 .map(TransactionMapper::mapToDto)
                 .toList();
     }
+
+    @Override
+    public void categorizeTransaction(UUID userId, Long id, Long categoryId) {
+        Transaction transaction = transactionRepository.findByUserIdAndId(userId, id)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+
+        Category category = categoryRepository.findByIdAndUserIdOrIsSystemTrue(categoryId, userId)
+                .orElseThrow(() ->  new RuntimeException("Category not found"));
+
+        transaction.setCategory(category);
+        transactionRepository.save(transaction);
+    }
+
+    @Override
+    public List<TransactionDto> getTransactionsByType(UUID userId, CreditDebitIndicator type) {
+        return transactionRepository.findByUserIdAndType(userId, type).stream()
+                .map(TransactionMapper::mapToDto)
+                .toList();
+    }
+
+
 }

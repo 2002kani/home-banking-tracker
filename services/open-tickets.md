@@ -1,6 +1,5 @@
 # Tickets:
 - category controller erstellen für:
-  - transaktionen kategorisieren
   - isSystem=true kategorien erstellen (mit flyway zB)
   - alle transaktionen anzeigen je kategorie (specification dafür lernen und erstellen)
 

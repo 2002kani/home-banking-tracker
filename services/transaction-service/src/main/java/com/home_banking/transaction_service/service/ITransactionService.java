@@ -1,6 +1,7 @@
 package com.home_banking.transaction_service.service;
 
 import com.home_banking.transaction_service.dto.TransactionDto;
+import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import com.home_banking.transaction_service.event.TransactionEvent;
 
 import java.time.LocalDate;
@@ -12,4 +13,6 @@ public interface ITransactionService {
     void persistTransactions(TransactionEvent event);
     TransactionDto getTransactionById(Long id);
     List<TransactionDto> getTransactionsByDate(LocalDate dateFrom, LocalDate dateTo, UUID userId);
+    void categorizeTransaction(UUID userId, Long id, Long categoryId);
+    List<TransactionDto> getTransactionsByType(UUID userId, CreditDebitIndicator type);
 }
