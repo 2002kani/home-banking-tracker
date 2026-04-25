@@ -30,8 +30,13 @@ public class Category {
     private String color;
 
     @Column(name = "is_system")
-    private boolean isSystem;  // true = pre defined, false = user created
+    private Boolean isSystem;  // true = pre defined, false = user created
 
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = Instant.now();
+    }
 }

@@ -1,7 +1,8 @@
 # Tickets:
-- schau transactioncontroller
-- Category entity erstellen (schau claude)
-- category attribut in transaction entity für die verknpüpfung erstellen
+- category controller erstellen für:
+  - transaktionen kategorisieren
+  - isSystem=true kategorien erstellen (mit flyway zB)
+  - alle transaktionen anzeigen je kategorie (specification dafür lernen und erstellen)
 
 
 
@@ -9,4 +10,5 @@
 
 # Langzeit Tickets:
 - richtige userId generieren (im api gateway wahrscheinlich)
+    - dann in transactions und category controller & service bearbeiten
 - hardcoded values mit solider logik austauschen (OpenBankingController, line:53)

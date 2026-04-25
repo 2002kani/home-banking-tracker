@@ -7,6 +7,7 @@ import com.home_banking.open_banking_service.dto.sessionResponses.BalancesRespon
 import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsResponse;
 import com.home_banking.open_banking_service.entity.BankAccount;
 import com.home_banking.open_banking_service.repository.BankAccountRepository;
+import com.home_banking.open_banking_service.service.IOpenBankingService;
 import com.home_banking.open_banking_service.service.OpenBankingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class OpenBankingController {
     private final EnablebankingClient enablebankingClient;
-    private final OpenBankingService openBankingService;
+    private final IOpenBankingService openBankingService;
     private final BankAccountRepository  bankAccountRepository;
 
     /*

@@ -1,7 +1,7 @@
 package com.home_banking.transaction_service.controller;
 
 import com.home_banking.transaction_service.dto.TransactionDto;
-import com.home_banking.transaction_service.service.TransactionService;
+import com.home_banking.transaction_service.service.ITransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,9 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1")
+@RequestMapping("/api/v1")
 public class TransactionController {
-    private final TransactionService transactionService;
+    private final ITransactionService transactionService;
 
     /*
     /* Important: Exchange current implementation of userId with more secure way.
@@ -34,7 +34,7 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.getTransactions(UUID.fromString(userId)));
     }
 
-    @GetMapping("/transactions/{id}")
+    @GetMapping("/transaction/{id}")
     public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id){
         return ResponseEntity.ok(transactionService.getTransactionById(id));
     }

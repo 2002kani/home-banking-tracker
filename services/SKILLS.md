@@ -68,7 +68,6 @@ transaction-service/
 ### Spring Security
 - JWT-basierte Authentifizierung mit RSA-256 Signierung
 - Stateless Authentication: kein Session-Speicher, Token wird lokal validiert
-- `@RequestHeader("X-User-Id")` Pattern für userId-Weitergabe nach Gateway-Validierung
 
 ### Spring Data JPA
 - Repository-Pattern mit `JpaRepository`
