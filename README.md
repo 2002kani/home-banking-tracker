@@ -12,6 +12,7 @@ A personal finance management backend that connects to real bank accounts via th
 - Apache Kafka
 - PostgreSQL
 - Hibernate
+- Flyway
 - Docker
 - JWT
 - Spring Cloud Gateway
