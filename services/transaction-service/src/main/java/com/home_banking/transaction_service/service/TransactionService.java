@@ -8,7 +8,9 @@ import com.home_banking.transaction_service.event.TransactionEvent;
 import com.home_banking.transaction_service.mapper.TransactionMapper;
 import com.home_banking.transaction_service.repository.CategoryRepository;
 import com.home_banking.transaction_service.repository.TransactionRepository;
+import com.home_banking.transaction_service.specification.TransactionSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,8 +24,14 @@ public class TransactionService implements ITransactionService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<TransactionDto> getTransactions(UUID userId) {
-        return transactionRepository.findAllByUserId(userId).stream()
+    public List<TransactionDto> getTransactions(UUID userId, LocalDate from, LocalDate to, CreditDebitIndicator type) {
+        Specification<Transaction> specs = Specification
+                .where(TransactionSpecification.byUserId(userId))
+                .and(TransactionSpecification.byDateBetween(from, to))
+                .and(TransactionSpecification.byType(type));
+
+        return transactionRepository.findAll(specs)
+                .stream()
                 .map(TransactionMapper::mapToDto)
                 .toList();
     }
@@ -43,15 +51,6 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<TransactionDto> getTransactionsByDate(LocalDate dateFrom, LocalDate dateTo, UUID userId) {
-        List<Transaction> transactions = transactionRepository.findByBookingDateBetweenAndUserId(dateFrom, dateTo, userId);
-
-        return transactions.stream()
-                .map(TransactionMapper::mapToDto)
-                .toList();
-    }
-
-    @Override
     public void categorizeTransaction(UUID userId, Long id, Long categoryId) {
         Transaction transaction = transactionRepository.findByUserIdAndId(userId, id)
                 .orElseThrow(() -> new RuntimeException("Transaction not found"));
@@ -62,13 +61,4 @@ public class TransactionService implements ITransactionService {
         transaction.setCategory(category);
         transactionRepository.save(transaction);
     }
-
-    @Override
-    public List<TransactionDto> getTransactionsByType(UUID userId, CreditDebitIndicator type) {
-        return transactionRepository.findByUserIdAndType(userId, type).stream()
-                .map(TransactionMapper::mapToDto)
-                .toList();
-    }
-
-
 }

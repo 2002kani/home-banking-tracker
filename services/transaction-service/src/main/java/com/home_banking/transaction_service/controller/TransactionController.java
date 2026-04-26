@@ -21,8 +21,6 @@ public class TransactionController {
     /* (Take a look at open tickets)
     */
 
-
-    // Hier mit Specification neu umbauen
     @GetMapping("/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactions(
             @RequestHeader("X-User-Id") String userId,
@@ -30,14 +28,12 @@ public class TransactionController {
             @RequestParam(required = false) LocalDate dateTo,
             @RequestParam(required = false)CreditDebitIndicator type
             ){
-        if(dateFrom != null && dateTo != null){
-            List<TransactionDto> transactions = transactionService.getTransactionsByDate(dateFrom, dateTo, UUID.fromString(userId));
-            return ResponseEntity.ok(transactions);
-        }
-        if(type!=null){
-            return ResponseEntity.ok(transactionService.getTransactionsByType(UUID.fromString(userId), type));
-        }
-        return ResponseEntity.ok(transactionService.getTransactions(UUID.fromString(userId)));
+        return ResponseEntity.ok(transactionService.getTransactions(
+                UUID.fromString(userId),
+                dateFrom,
+                dateTo,
+                type
+        ));
     }
 
     @GetMapping("/transaction/{id}")
@@ -51,6 +47,7 @@ public class TransactionController {
             @PathVariable Long id,
             @RequestParam Long categoryId
     ){
+        transactionService.categorizeTransaction(UUID.fromString(userId), id, categoryId);
         return ResponseEntity.noContent().build();
     }
 

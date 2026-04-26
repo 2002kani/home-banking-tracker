@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ITransactionService {
-    List<TransactionDto> getTransactions(UUID userId);
+    List<TransactionDto> getTransactions(UUID userId, LocalDate from, LocalDate to, CreditDebitIndicator type);
     void persistTransactions(TransactionEvent event);
     TransactionDto getTransactionById(Long id);
-    List<TransactionDto> getTransactionsByDate(LocalDate dateFrom, LocalDate dateTo, UUID userId);
     void categorizeTransaction(UUID userId, Long id, Long categoryId);
-    List<TransactionDto> getTransactionsByType(UUID userId, CreditDebitIndicator type);
 }
