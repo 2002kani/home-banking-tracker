@@ -10,6 +10,8 @@ import com.home_banking.transaction_service.repository.CategoryRepository;
 import com.home_banking.transaction_service.repository.TransactionRepository;
 import com.home_banking.transaction_service.specification.TransactionSpecification;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class TransactionService implements ITransactionService {
     private final TransactionRepository transactionRepository;
@@ -39,8 +42,10 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public void persistTransactions(TransactionEvent event) {
-        if(!transactionRepository.existsByExternalId(event.getExternalId())){
+        try {
             transactionRepository.save(TransactionMapper.mapToEntity(event));
+        } catch (DataIntegrityViolationException e) {
+            log.warn("Duplicate transaction ignored: {}", event.getExternalId());
         }
     }
 
