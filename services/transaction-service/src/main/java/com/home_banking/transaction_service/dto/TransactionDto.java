@@ -23,4 +23,6 @@ public class TransactionDto {
     private CreditDebitIndicator type;
     private LocalDate bookingDate;
     private TransactionStatus status;
+    private Long categoryId;
+    private String categoryName;
 }

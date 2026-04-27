@@ -26,6 +26,7 @@ public class TransactionMapper {
 
     public static TransactionDto mapToDto(Transaction transaction) {
         return TransactionDto.builder()
+                .id(transaction.getId())
                 .accountId(transaction.getAccountId())
                 .amount(transaction.getAmount())
                 .currency(transaction.getCurrency())
@@ -34,6 +35,8 @@ public class TransactionMapper {
                 .type(transaction.getType())
                 .bookingDate(transaction.getBookingDate())
                 .status(transaction.getStatus())
+                .categoryId(transaction.getCategory() != null ? transaction.getCategory().getId() : null)
+                .categoryName(transaction.getCategory() != null ? transaction.getCategory().getName() : null)
                 .build();
     }
 }

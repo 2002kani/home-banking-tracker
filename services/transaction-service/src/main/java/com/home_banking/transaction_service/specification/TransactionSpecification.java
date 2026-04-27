@@ -26,4 +26,9 @@ public class TransactionSpecification {
             return cb.between(root.get("bookingDate"), dateFrom, dateTo);
         };
     }
+
+    public static Specification<Transaction> byCategory(Long categoryId) {
+        return (root, query, cb) ->
+                categoryId == null ? null : cb.equal(root.get("category").get("id"), categoryId);
+    }
 }

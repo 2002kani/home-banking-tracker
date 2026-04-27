@@ -26,13 +26,15 @@ public class TransactionController {
             @RequestHeader("X-User-Id") String userId,
             @RequestParam(required = false) LocalDate dateFrom,
             @RequestParam(required = false) LocalDate dateTo,
-            @RequestParam(required = false)CreditDebitIndicator type
+            @RequestParam(required = false) CreditDebitIndicator type,
+            @RequestParam(required = false) Long categoryId
             ){
         return ResponseEntity.ok(transactionService.getTransactions(
                 UUID.fromString(userId),
                 dateFrom,
                 dateTo,
-                type
+                type,
+                categoryId
         ));
     }
 
@@ -50,6 +52,4 @@ public class TransactionController {
         transactionService.categorizeTransaction(UUID.fromString(userId), id, categoryId);
         return ResponseEntity.noContent().build();
     }
-
-    // alle transaktionen je category anzeigeen lassen (ggf auch in getTransactions)
 }
