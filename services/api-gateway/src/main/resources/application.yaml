@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: transaction-service
+            uri: http://localhost:8080
+            predicates:
+              - Path=/api/v1/transactions/**, /api/v1/transaction/**
+          - id: account-service
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/v1/account/**
+
+server:
+  port: 8090
