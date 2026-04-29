@@ -1,4 +1,4 @@
-# Real Banking Manager
+# Real Banking Manager (WIP)
 
 A personal finance management backend that connects to real bank accounts via the Enable Banking Open Banking API. The system performs automated OAuth2 authorization flows with RSA-signed JWT authentication, periodically syncs real transaction data and account balances through a scheduled polling service, and distributes the data across microservices via Apache Kafka. Users can view their transaction history, monitor account balances, and categorize spending — all sourced from their actual bank. Not production-ready yet. Built as a portfolio project to explore microservice architecture and Open Banking integration.
 
