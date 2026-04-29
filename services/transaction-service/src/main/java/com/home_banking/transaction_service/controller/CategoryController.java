@@ -33,4 +33,13 @@ public class CategoryController {
                 .status(HttpStatus.CREATED)
                 .body(categoryService.createCategory(request, UUID.fromString(userId)));
     }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<Void> deleteCategory(
+            @PathVariable Long id,
+            @RequestHeader("X-User-Id") String userId
+    ) {
+        categoryService.deleteCategory(id, UUID.fromString(userId));
+        return ResponseEntity.noContent().build();
+    }
 }

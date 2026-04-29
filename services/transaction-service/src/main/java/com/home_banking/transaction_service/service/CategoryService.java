@@ -31,4 +31,16 @@ public class CategoryService implements ICategoryService {
         categoryRepository.save(category);
         return CategoryMapper.mapToDto(category);
     }
+
+    @Override
+    public void deleteCategory(Long id, UUID userId) {
+        Category category = categoryRepository.findByIdForUser(id, userId)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        if(category.getIsSystem() == true){
+            throw new RuntimeException("System-Kategorien können nicht gelöscht werden");
+        }
+
+        categoryRepository.delete(category);
+    }
 }

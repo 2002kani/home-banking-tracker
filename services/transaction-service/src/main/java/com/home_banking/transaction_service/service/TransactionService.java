@@ -61,7 +61,7 @@ public class TransactionService implements ITransactionService {
         Transaction transaction = transactionRepository.findByUserIdAndId(userId, id)
                 .orElseThrow(() -> new RuntimeException("Transaction not found"));
 
-        Category category = categoryRepository.findByIdAndUserIdOrIsSystemTrue(categoryId, userId)
+        Category category = categoryRepository.findByIdForUser(categoryId, userId)
                 .orElseThrow(() ->  new RuntimeException("Category not found"));
 
         transaction.setCategory(category);

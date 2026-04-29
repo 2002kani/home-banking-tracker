@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface ICategoryService {
     List<CategoryDto> getCategories(UUID userId);
     CategoryDto createCategory(CategoryDto request, UUID userId);
+    void deleteCategory(Long id, UUID userId);
 }
