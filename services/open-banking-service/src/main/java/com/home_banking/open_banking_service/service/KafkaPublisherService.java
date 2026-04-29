@@ -19,6 +19,10 @@ public class KafkaPublisherService implements IKafkaPublisherService{
     @Value("${kafka.topics.account-update}")
     private String balanceTopic;
 
+    /*
+    Both of the methods get called once a day (Cron job) therefore:
+    Open-banking-service publishes transactions & balance updates once a day to kafka.
+    */
     @Override
     public void publishTransactionEvent(TransactionRawEvent event) {
         kafkaTemplate.send(transactionTopic, event.getSessionId(), event);  // sessionId as key, so any event per session are stored in same partition
