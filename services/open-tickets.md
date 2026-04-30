@@ -1,7 +1,7 @@
 # Tickets:
 
 - Api gateway soll funkjtionieren (bisher muss ich immer den port der einzelnen services
-mitgeben, ich kann nicht 8090 machen für api gateway)
+  mitgeben, ich kann nicht 8090 machen für api gateway)
 - Dockerfile erstellen um alle services gleichzeitig laufen zu lassen, statt einzeln
 - auth service erstellen
 
