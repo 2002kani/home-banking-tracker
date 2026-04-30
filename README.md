@@ -35,8 +35,53 @@ The core integration layer that connects the system to real bank accounts via th
 | `AccountUpdateEvent` | Account metadata and current balance — consumed by Account Service |
 | `TransactionRawEvent` | Raw transaction data — consumed by Transaction Service |
 
+---
 
+### Account Service
 
+The user-facing service for managing bank account data. It acts as the gateway for the authorization flow and keeps account information up to date via Kafka.
+
+**Authorization Proxy**
+- Exposes `GET /api/v1/account/banks` to list available banks (proxied to Open Banking Service)
+- Exposes `POST /api/v1/account/auth` to initiate the bank authorization flow (proxied to Open Banking Service)
+
+**Account Management**
+- Consumes `AccountUpdateEvent` from Kafka: creates a new account record if it does not exist yet, or updates the balance of an existing one
+- Persists account data (IBAN, name, currency, balance, session reference) in PostgreSQL
+- Exposes `GET /api/v1/account/accounts` to retrieve account details by ID
+
+**Kafka Events consumed**
+
+| Event | Description |
+|---|---|
+| `AccountUpdateEvent` | Account metadata and balance update from Open Banking Service |
+
+---
+
+### Transaction Service
+
+Responsible for persisting, querying, and categorizing transaction data received from the Open Banking Service.
+
+**Kafka Consumer**
+- Consumes `TransactionRawEvent` from Kafka and persists transactions to PostgreSQL
+- Duplicate transactions (identified via `externalId`) are silently ignored via a unique constraint
+
+**Transaction Querying**
+- `GET /api/v1/transactions` returns transactions for a user with optional filters: date range, type (credit/debit), and category
+- `GET /api/v1/transaction/{id}` returns a single transaction by ID
+- Filtering is implemented via JPA Specifications for flexible query composition
+
+**Categorization**
+- Users can create, list, and delete custom categories (`GET/POST /api/v1/categories`, `DELETE /api/v1/category/{id}`)
+- `PATCH /api/v1/transaction/{id}` assigns a category to a transaction
+
+**Kafka Events consumed**
+
+| Event | Description |
+|---|---|
+| `TransactionRawEvent` | Raw transaction data from Open Banking Service |
+
+---
 
 ## Tech Stack
 - Java (Spring Boot)
