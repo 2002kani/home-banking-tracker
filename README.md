@@ -100,3 +100,7 @@ The backend implementation may be somewhat overengineered at this stage. It coul
 ![Architecture Minimal](github/architecture-minimal.png)
 
 
+## Work in progress
+This project is still under development and therefore lacks a few features. If you have any feedback or suggestions just reach out to me or open an issue. Also feel free to clone this repo and try it out yourself. Just start the docker compose container and the services and you are good to go!
+
+
