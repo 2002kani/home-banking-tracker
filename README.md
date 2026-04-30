@@ -16,7 +16,7 @@ The core integration layer that connects the system to real bank accounts via th
 **Authorization Flow**
 - Fetches available banks (ASPSPs) from EnableBanking, optionally filtered by country
 - Initiates the OAuth2-like authorization flow and redirects the user to their bank
-- Handles the callback with `code` + `state`, exchanges it for a session, and persists session and account data (IBAN, currency, name) in PostgreSQL
+- Handles the callback, exchanges it for a session, and saves session and account data in PostgreSQL
 - Sessions are valid for 90 days
 
 **Scheduled Sync**
@@ -35,7 +35,7 @@ The core integration layer that connects the system to real bank accounts via th
 | `AccountUpdateEvent` | Account metadata and current balance — consumed by Account Service |
 | `TransactionRawEvent` | Raw transaction data — consumed by Transaction Service |
 
----
+
 
 
 ## Tech Stack
