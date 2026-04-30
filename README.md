@@ -50,8 +50,8 @@ The user-facing service for managing bank account data. It acts as the gateway f
 
 **Account Management**
 - Consumes `AccountUpdateEvent` from Kafka: creates a new account record if it does not exist yet, or updates the balance of an existing one
-- Persists account data (IBAN, name, currency, balance, session reference) in PostgreSQL
-- Exposes `GET /api/v1/account/accounts` to retrieve account details by ID
+- Persists account data in PostgreSQL
+- Makes possible to retrieve account details.
 
 **Kafka Events consumed**
 
@@ -77,15 +77,9 @@ Responsible for persisting, querying, and categorizing transaction data received
 - Filtering is implemented via JPA Specifications for flexible query composition
 
 **Categorization**
-- Users can create, list, and delete custom categories (`GET/POST /api/v1/categories`, `DELETE /api/v1/category/{id}`)
-- `PATCH /api/v1/transaction/{id}` assigns a category to a transaction
-
-**Kafka Events consumed**
-
-| Event | Description |
-|---|---|
-| `TransactionRawEvent` | Raw transaction data from Open Banking Service |
-
+- Users can create, list, and delete custom categories (`GET/POST /api/v1/categories`, `DELETE /api/v1/category/{id} ...`)
+- Lets user assign a category to a transaction
+  
 ---
 
 
