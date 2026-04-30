@@ -36,7 +36,6 @@ Kafka Events published
 | `AccountUpdateEvent` | Account metadata and current balance — consumed by Account Service |
 | `TransactionRawEvent` | Raw transaction data — consumed by Transaction Service |
 
----
 
 
 
@@ -59,7 +58,6 @@ Kafka Events consumed
 |---|---|
 | `AccountUpdateEvent` | Account metadata and balance update from Open Banking Service |
 
----
 
 
 
@@ -80,7 +78,6 @@ Categorization
 - Users can create, list, and delete custom categories (`GET/POST /api/v1/categories`, `DELETE /api/v1/category/{id} ...`)
 - Lets user assign a category to a transaction
   
----
 
 
 
