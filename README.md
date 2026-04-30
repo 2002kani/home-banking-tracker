@@ -14,22 +14,22 @@ A personal finance management backend that connects to real bank accounts via th
 
 The core integration layer that connects the system to real bank accounts via the [EnableBanking API](https://enablebanking.com).
 
-**Authorization Flow**
+Authorization Flow
 - Fetches available banks (ASPSPs) from EnableBanking, optionally filtered by country
 - Initiates the OAuth2-like authorization flow and redirects the user to their bank
 - Handles the callback, exchanges it for a session, and saves session and account data in PostgreSQL
 - Sessions are valid for 90 days
 
-**Scheduled Sync**
+Scheduled Sync
 - Periodically polls all active bank sessions for transactions and balances
 - First sync: fetches the last 90 days of transactions; subsequent syncs: last 1 day
 - Publishes `TransactionRawEvent` and `AccountUpdateEvent` to Kafka for downstream services
 
-**JWT Authentication**
+JWT Authentication
 - Every EnableBanking API call is authenticated with an RS256-signed JWT
 - The private RSA key is loaded from a PEM file at startup
 
-**Kafka Events published**
+Kafka Events published
 
 | Event | Description |
 |---|---|
