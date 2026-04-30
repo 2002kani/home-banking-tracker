@@ -44,16 +44,16 @@ Kafka Events published
 
 The user-facing service for managing bank account data. It acts as the gateway for the authorization flow and keeps account information up to date via Kafka.
 
-**Authorization Proxy**
+Authorization Proxy
 - Exposes `GET /api/v1/account/banks` to list available banks (proxied to Open Banking Service)
 - Exposes `POST /api/v1/account/auth` to initiate the bank authorization flow (proxied to Open Banking Service)
 
-**Account Management**
+Account Management
 - Consumes `AccountUpdateEvent` from Kafka: creates a new account record if it does not exist yet, or updates the balance of an existing one
 - Persists account data in PostgreSQL
 - Makes possible to retrieve account details.
 
-**Kafka Events consumed**
+Kafka Events consumed
 
 | Event | Description |
 |---|---|
@@ -67,16 +67,16 @@ The user-facing service for managing bank account data. It acts as the gateway f
 
 Responsible for persisting, querying, and categorizing transaction data received from the Open Banking Service.
 
-**Kafka Consumer**
+Kafka Consumer
 - Consumes `TransactionRawEvent` from Kafka and persists transactions to PostgreSQL
 - Duplicate transactions (identified via `externalId`) are silently ignored via a unique constraint
 
-**Transaction Querying**
+Transaction Querying
 - `GET /api/v1/transactions` returns transactions for a user with optional filters: date range, type (credit/debit), and category
 - `GET /api/v1/transaction/{id}` returns a single transaction by ID
 - Filtering is implemented via JPA Specifications for flexible query composition
 
-**Categorization**
+Categorization
 - Users can create, list, and delete custom categories (`GET/POST /api/v1/categories`, `DELETE /api/v1/category/{id} ...`)
 - Lets user assign a category to a transaction
   
