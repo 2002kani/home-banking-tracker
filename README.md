@@ -95,7 +95,7 @@ Categorization
 
 
 ## Personal note
-The backend implementation may be somewhat overengineered at this stage. It could definitely be built much more simpler without many of the components currently in use. However, this is primarily a learning project for myself focusing on fundamentals and getting deeper in topics such as JWT-based authentication, Kafka queues, and communication between microservices. In a prettier world the application could also be structured like this:
+The backend implementation may be somewhat overengineered at this stage. It could definitely be built much more simpler without many of the components currently in use. However, this is primarily a learning project for myself focusing on fundamentals and getting deeper in topics such as JWT-based authentication, Kafka queues, and communication between microservices. In a happier world the application could also be structured like this:
 
 ![Architecture Minimal](github/architecture-minimal.png)
 
