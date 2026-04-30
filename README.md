@@ -7,6 +7,7 @@ A personal finance management backend that connects to real bank accounts via th
 ![Backend Architecture](github/backend-architecture.png)
 
 
+
 ## Services
 
 ### Open Banking Service
@@ -37,6 +38,8 @@ The core integration layer that connects the system to real bank accounts via th
 
 ---
 
+
+
 ### Account Service
 
 The user-facing service for managing bank account data. It acts as the gateway for the authorization flow and keeps account information up to date via Kafka.
@@ -57,6 +60,8 @@ The user-facing service for managing bank account data. It acts as the gateway f
 | `AccountUpdateEvent` | Account metadata and balance update from Open Banking Service |
 
 ---
+
+
 
 ### Transaction Service
 
@@ -83,6 +88,8 @@ Responsible for persisting, querying, and categorizing transaction data received
 
 ---
 
+
+
 ## Tech Stack
 - Java (Spring Boot)
 - Apache Kafka
@@ -93,6 +100,7 @@ Responsible for persisting, querying, and categorizing transaction data received
 - JWT
 - Spring Cloud Gateway
 - ngrok
+
 
 
 ## Personal note
