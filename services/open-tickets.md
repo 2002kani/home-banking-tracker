@@ -8,11 +8,11 @@
     
 
 # Backlog:
-- richtige userId generieren (im api gateway wahrscheinlich)
+- richtige userId generieren
     - dann in transactions und category controller & service bearbeiten
+    - Jwt aus Auth Service -> Signatur -> UserId => In api gateway implementieren bzw hinzufügen
 - hardcoded values mit solider logik austauschen (OpenBankingController, line:53)
 - Auth Service erstellen
-- Jwt aus Auth Service -> Signatur -> UserId => In api gateway implementieren bzw hinzufügen
 - In transaction-service: Alerts publishen für notificationservice in kafka 
 - Fehler beheben: wegen LocalDate musste ich extra KafkaConsumerConfig und ProducerCOnfig erstellen
   (ist deprecated), daher eine ebssere lösung finden
