@@ -4,6 +4,7 @@
   mitgeben, ich kann nicht 8090 machen für api gateway)
 - Dockerfile erstellen um alle services gleichzeitig laufen zu lassen, statt einzeln
 - auth service erstellen
+  - falls fertig: in application.properties -> create-drop wechseln zu update
 
     
 
