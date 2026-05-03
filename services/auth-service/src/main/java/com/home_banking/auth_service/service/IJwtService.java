@@ -11,4 +11,5 @@ public interface IJwtService {
     <T> T extractClaim(String token, Function<Claims, T> claimsResolver);
     String generateJwt(Map<String, Object> extraClaims, UserDetails userDetails);
     boolean isTokenValid(String token, UserDetails userDetails);
+    boolean isTokenExpired(String token);
 }

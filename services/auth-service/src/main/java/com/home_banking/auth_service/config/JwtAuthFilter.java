@@ -1,13 +1,15 @@
 package com.home_banking.auth_service.config;
 
-import com.home_banking.auth_service.repository.UserRepository;
+import com.home_banking.auth_service.entity.User;
 import com.home_banking.auth_service.service.IJwtService;
+import com.home_banking.auth_service.service.IUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -23,7 +25,7 @@ This makes sure the filter checks the request for different methods all the time
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final IJwtService jwtService;
-    private final UserRepository userRepository;
+    private final IUserDetailService userDetailService;
 
     @Override
     protected void doFilterInternal(
@@ -43,11 +45,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
 
-        userRepository.findByEmail(userEmail)
-                .ifPresentOrElse((email) -> {
-                    // UserDetails weitermachen
-                }, () -> {
-
-                });
+        // SecurityContextHolder == null, shows that the user is not already authenticated: therefore skip the authentication process
+        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            User user = userDetailService.loadUserByUsername(userEmail);
+        }
     }
 }
