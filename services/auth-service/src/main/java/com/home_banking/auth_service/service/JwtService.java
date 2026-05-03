@@ -2,15 +2,19 @@ package com.home_banking.auth_service.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
+import java.util.Map;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -34,6 +38,25 @@ public class JwtService implements IJwtService {
         final Claims claims = extractAllCLaims(token);
         return claimsResolver.apply(claims);
     }
+
+    // Header gets built automatically
+    @Override
+    public String generateJwt(Map<String, Object> extraClaims, UserDetails userDetails) {
+        return Jwts
+                .builder()
+                .subject(userDetails.getUsername())
+                .claims(extraClaims)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    @Override
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        return false;
+    }
+
 
     private Claims extractAllCLaims(String token){
         return Jwts

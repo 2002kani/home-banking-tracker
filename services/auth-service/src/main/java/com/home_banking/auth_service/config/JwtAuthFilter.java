@@ -14,6 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /*
+JwtAuthFilter - Validation Service which checks for correct existing jwts from requests
+
 Fires JwtAuthFilter by extending OncePerRequestFilter everytime the user makes an http request.
 This makes sure the filter checks the request for different methods all the time.
 */
