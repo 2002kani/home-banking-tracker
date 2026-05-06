@@ -44,6 +44,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
+        
 
         // SecurityContextHolder == null, shows that the user is not already authenticated: therefore skip the authentication process
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
