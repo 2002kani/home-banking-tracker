@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -18,11 +19,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@RequiredArgsConstructor
 @Service
 public class JwtService implements IJwtService {
-    @Value("${jwt.auth-private-path}")
-    private Resource privateKeyResource;
+    private final Long accessTokenExpiration;
+    private final SecretKey signingKey;
+
+    public JwtService(
+            @Value("${jwt.access-token-expiration}") Long accessTokenExpiration,
+            @Value("${jwt.auth-private-path}") Resource privateKeyResource
+    ) {
+        this.accessTokenExpiration = accessTokenExpiration;
+        this.signingKey = loadKey(privateKeyResource);
+    }
 
     /*
     This method encodes the jwt payload in order to extract the username (email) out
@@ -52,8 +60,8 @@ public class JwtService implements IJwtService {
                 .subject(userDetails.getUsername())
                 .claims(extraClaims)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .expiration(new Date(System.currentTimeMillis() + accessTokenExpiration * 1000))
+                .signWith(signingKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -71,22 +79,19 @@ public class JwtService implements IJwtService {
     private Claims extractAllCLaims(String token){
         return Jwts
                 .parser()
-                .verifyWith(getSigningKey())
+                .verifyWith(signingKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
-    private SecretKey getSigningKey() {
+    private SecretKey loadKey(Resource resource) {
         try{
-            byte[] keyBytes = Base64.getDecoder().decode(extractJwtSecret(privateKeyResource));
+            String secret = new String(resource.getInputStream().readAllBytes());
+            byte[] keyBytes = Base64.getDecoder().decode(secret);
             return Keys.hmacShaKeyFor(keyBytes);
         } catch(Exception e){
-            throw new RuntimeException(e);
+            throw new IllegalStateException("Failed to load JWT key", e);
         }
-    }
-
-    private String extractJwtSecret(Resource resource) throws IOException {
-        return new String(resource.getInputStream().readAllBytes());
     }
 }
