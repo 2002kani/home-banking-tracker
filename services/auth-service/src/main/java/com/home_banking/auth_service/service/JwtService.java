@@ -14,6 +14,7 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -37,6 +38,10 @@ public class JwtService implements IJwtService {
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllCLaims(token);
         return claimsResolver.apply(claims);
+    }
+
+    public String generateToken(UserDetails userDetails) {
+        return generateJwt(new HashMap<>(), userDetails);
     }
 
     // Header gets built automatically
