@@ -29,8 +29,8 @@ public class SchedulerService implements  ISchedulerService {
     private final IdBuilder idBuilder;
 
     @Override
-    @Scheduled(fixedRate = 10000)
-    //@Scheduled(cron = "0 0 0 * * *")
+    // @Scheduled(fixedRate = 10000)
+    @Scheduled(cron = "0 0 0 * * *")
     public void syncTransactions() {
         log.info("SYNC STARTED");
         // Get sessions and the bank account for each session

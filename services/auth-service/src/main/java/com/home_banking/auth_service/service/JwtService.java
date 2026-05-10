@@ -2,17 +2,16 @@ package com.home_banking.auth_service.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.io.IOException;
+import java.security.KeyFactory;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,29 +21,27 @@ import java.util.function.Function;
 @Service
 public class JwtService implements IJwtService {
     private final Long accessTokenExpiration;
-    private final SecretKey signingKey;
+    private final RSAPrivateKey privateKey;
+    private final RSAPublicKey publicKey;
 
     public JwtService(
             @Value("${jwt.access-token-expiration}") Long accessTokenExpiration,
-            @Value("${jwt.auth-private-path}") Resource privateKeyResource
+            @Value("${jwt.auth-private-path}") Resource privateKeyResource,
+            @Value("${jwt.auth-public-path}") Resource publicKeyResource
     ) {
         this.accessTokenExpiration = accessTokenExpiration;
-        this.signingKey = loadKey(privateKeyResource);
+        this.privateKey = loadPrivateKey(privateKeyResource);
+        this.publicKey = loadPublicKey(publicKeyResource);
     }
 
-    /*
-    This method encodes the jwt payload in order to extract the username (email) out
-    The username lives in the "subject" field of the payload.
-    */
     @Override
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Extractor, which lets you easily extract claims from the token
     @Override
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllCLaims(token);
+        final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
@@ -52,7 +49,6 @@ public class JwtService implements IJwtService {
         return generateJwt(new HashMap<>(), userDetails);
     }
 
-    // Header gets built automatically
     @Override
     public String generateJwt(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts
@@ -61,7 +57,7 @@ public class JwtService implements IJwtService {
                 .claims(extraClaims)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpiration * 1000))
-                .signWith(signingKey, SignatureAlgorithm.HS256)
+                .signWith(privateKey, Jwts.SIG.RS256)
                 .compact();
     }
 
@@ -76,22 +72,30 @@ public class JwtService implements IJwtService {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
-    private Claims extractAllCLaims(String token){
+    private Claims extractAllClaims(String token) {
         return Jwts
                 .parser()
-                .verifyWith(signingKey)
+                .verifyWith(publicKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
-    private SecretKey loadKey(Resource resource) {
-        try{
-            String secret = new String(resource.getInputStream().readAllBytes());
-            byte[] keyBytes = Base64.getDecoder().decode(secret);
-            return Keys.hmacShaKeyFor(keyBytes);
-        } catch(Exception e){
-            throw new IllegalStateException("Failed to load JWT key", e);
+    private RSAPrivateKey loadPrivateKey(Resource resource) {
+        try {
+            byte[] keyBytes = Base64.getMimeDecoder().decode(resource.getInputStream().readAllBytes());
+            return (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(keyBytes));
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load RSA private key", e);
+        }
+    }
+
+    private RSAPublicKey loadPublicKey(Resource resource) {
+        try {
+            byte[] keyBytes = Base64.getMimeDecoder().decode(resource.getInputStream().readAllBytes());
+            return (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(keyBytes));
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to load RSA public key", e);
         }
     }
 }
