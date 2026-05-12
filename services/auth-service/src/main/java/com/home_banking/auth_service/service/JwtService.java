@@ -45,6 +45,15 @@ public class JwtService implements IJwtService {
         return claimsResolver.apply(claims);
     }
 
+    /*
+    pass on empty Hashmap for now: Later maybe extra claims for each user type
+
+    Map<String, Object> claims = new Hashmap<>();
+    claims.put("role", "ADMIN");
+    claims.put("age", 25);
+
+    Now you could pass claims as arg -> return generateJwt(claims, userDetails);
+    */
     public String generateToken(UserDetails userDetails) {
         return generateJwt(new HashMap<>(), userDetails);
     }
@@ -53,7 +62,7 @@ public class JwtService implements IJwtService {
     public String generateJwt(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts
                 .builder()
-                .subject(userDetails.getUsername())
+                .subject(userDetails.getUsername()) // since it returns the email from the user
                 .claims(extraClaims)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpiration * 1000))

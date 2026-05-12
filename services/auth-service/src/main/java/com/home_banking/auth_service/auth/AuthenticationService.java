@@ -33,7 +33,7 @@ public class AuthenticationService {
                 .build();
 
         userRepository.save(user);
-        var token = jwtService.generateToken(user);
+        String token = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(token)

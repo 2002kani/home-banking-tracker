@@ -1,6 +1,5 @@
 package com.home_banking.auth_service.config;
 
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +18,16 @@ public class SecurityConfiguration {
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    /*
+    This file describes how spring security is handled by client requests for the application
+    */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/auth/**").permitAll()  // auth api -> /register & /authenticate are public
+                        .anyRequest().authenticated()  // Every other api is secured -> /accounts & /transactions ...
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
