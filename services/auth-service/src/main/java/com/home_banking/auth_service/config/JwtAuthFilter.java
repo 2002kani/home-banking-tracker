@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,7 @@ This makes sure the filter checks the request for different methods all the time
 */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final IJwtService jwtService;
     private final UserDetailsService userDetailService;
@@ -44,8 +46,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
-        
+        try{
+            userEmail = jwtService.extractUsername(jwt);
+        }catch(Exception e){
+            log.warn("Expired / Invalid JWT token: {}", e.getMessage());
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // SecurityContextHolder == null, shows that the user is not already authenticated: therefore skip the authentication process
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
