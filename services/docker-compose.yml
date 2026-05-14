@@ -130,10 +130,6 @@ services:
       - account-service
       - transaction-service
       - open-banking-service
-    environment:
-      SPRING_CLOUD_GATEWAY_MVC_ROUTES_0_URI: http://transaction-service:8080
-      SPRING_CLOUD_GATEWAY_MVC_ROUTES_1_URI: http://account-service:8081
-      SPRING_CLOUD_GATEWAY_MVC_ROUTES_2_URI: http://auth-service:8083
 
 volumes:
   postgres_data:
