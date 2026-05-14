@@ -8,7 +8,6 @@ import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsRe
 import com.home_banking.open_banking_service.entity.BankAccount;
 import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.service.IOpenBankingService;
-import com.home_banking.open_banking_service.service.OpenBankingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class KafkaConsumer implements IKafkaConsumer {
-    private final AccountService accountService;
+    private final IAccountService accountService;
 
     @KafkaListener(topics = "${kafka.topics.account-update}", groupId = "${spring.kafka.consumer.group-id}")
     @Override

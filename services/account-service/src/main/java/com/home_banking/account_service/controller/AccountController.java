@@ -25,11 +25,11 @@ public class AccountController {
             @RequestParam String bank,
             @RequestParam String country
     ){
-        return ResponseEntity.ok(accountService.startAuth(bank, country)); // Besser ggf autom. weiterleiten in der ui
+        return ResponseEntity.ok(accountService.startAuth(bank, country)); // TODO: Besser ggf autom. weiterleiten in der ui (?)
     }
 
-    @GetMapping("/accounts")
-    public ResponseEntity<AccountDto> getAccount(@RequestParam Long id){
+    @GetMapping("/accounts/{id}")
+    public ResponseEntity<AccountDto> getAccount(@PathVariable Long id){
         AccountDto account = accountService.getAccount(id);
         return ResponseEntity.ok(account);
     }
