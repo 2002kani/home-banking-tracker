@@ -82,6 +82,6 @@ public class OpenBankingService implements IOpenBankingService {
         if(resp == null ||resp.getBalances() == null){
             return null;
         }
-        return resp.getBalances().get(0).getBalanceAmount().getAmount();
+        return resp.getBalances().getFirst().getBalanceAmount().getAmount();
     }
 }

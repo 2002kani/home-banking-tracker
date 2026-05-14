@@ -2,6 +2,7 @@ package com.home_banking.open_banking_service.service;
 
 import com.home_banking.open_banking_service.client.EnablebankingClient;
 import com.home_banking.open_banking_service.dto.sessionResponses.BalancesResponse;
+import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsResponse;
 import com.home_banking.open_banking_service.entity.BankAccount;
 import com.home_banking.open_banking_service.entity.BankSession;
 import com.home_banking.open_banking_service.event.AccountUpdateEvent;
@@ -57,7 +58,7 @@ public class SchedulerService implements  ISchedulerService {
     }
 
     private void mapAccountTransaction(BankSession session, BankAccount account, LocalDate dateFrom,  LocalDate dateTo) {
-        var response = enablebankingClient.getTransactionsByDate(
+        TransactionsResponse response = enablebankingClient.getTransactionsByDate(
                 account.getAccountUid(),
                 dateFrom,
                 dateTo
@@ -94,12 +95,12 @@ public class SchedulerService implements  ISchedulerService {
                     .accountUid(account.getAccountUid())
                     .userId(session.getUserId())
                     .iban(account.getIban())
-                    .currency(resp.getBalances().get(0).getBalanceAmount().getCurrency())
-                    .balance(resp.getBalances().get(0).getBalanceAmount().getAmount())
+                    .currency(resp.getBalances().getFirst().getBalanceAmount().getCurrency())
+                    .balance(resp.getBalances().getFirst().getBalanceAmount().getAmount())
                     .name(account.getName())
                     .build();
 
             kafkaPublisherService.publishBalanceEvent(event);
-        };
+        }
     }
 }

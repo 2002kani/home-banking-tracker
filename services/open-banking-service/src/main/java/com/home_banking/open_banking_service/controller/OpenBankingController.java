@@ -51,7 +51,7 @@ public class OpenBankingController {
         if(error != null){
             return ResponseEntity.badRequest().body(errorDescription);
         }
-        UUID userUuid = userId != null ? UUID.fromString(userId) : UUID.fromString("00000000-0000-0000-0000-000000000001");
+        UUID userUuid = userId != null ? UUID.fromString(userId) : UUID.fromString("00000000-0000-0000-0000-000000000001"); // Change that with real userId logic
 
         // TODO: exchange hardcoded logic to more substantial solution
         String sessionId = openBankingService.authAndSave(code, state, "Sparkasse", "DE", userUuid);
