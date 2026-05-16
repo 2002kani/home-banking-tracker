@@ -15,8 +15,7 @@ public class GatewayJwtService {
     private final RSAPublicKey publicKey;
 
     public GatewayJwtService(
-            @Value("${jwt.auth-public-path}") Resource publicKeyResource,
-            @Value("${jwt.access-token-expiration}") Long accessTokenExpiration
+            @Value("${jwt.auth-public-path}") Resource publicKeyResource
     ){
         this.publicKey = loadPublicKey(publicKeyResource);
     }
