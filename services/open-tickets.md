@@ -1,7 +1,5 @@
 # Tickets:
-- Api gateway soll funkjtionieren (zurzeit 404 error)
-
-- API Gateway soll JWT
+- API Gateway soll JWT implementieren
 
 (- richtige userId generieren
     - dann in transactions und category controller & service bearbeiten
