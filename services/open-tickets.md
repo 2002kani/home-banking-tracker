@@ -1,6 +1,4 @@
 # Tickets:
-- API Gateway soll JWT implementieren
-
 (- richtige userId generieren
     - dann in transactions und category controller & service bearbeiten
     - Jwt aus Auth Service -> Signatur -> UserId => In api gateway implementieren bzw hinzufügen
