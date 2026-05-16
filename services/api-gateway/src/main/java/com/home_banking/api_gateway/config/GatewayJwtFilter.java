@@ -6,10 +6,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +33,10 @@ public class GatewayJwtFilter extends OncePerRequestFilter {
         }
 
         try{
-            gatewayJwtService.validate(authHeader.substring(7));
+            String subject = gatewayJwtService.validate(authHeader.substring(7));
+            UsernamePasswordAuthenticationToken auth =
+                    new UsernamePasswordAuthenticationToken(subject, null, Collections.emptyList());
+            SecurityContextHolder.getContext().setAuthentication(auth);
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;

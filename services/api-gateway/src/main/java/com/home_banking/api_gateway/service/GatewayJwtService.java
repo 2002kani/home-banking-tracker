@@ -20,11 +20,13 @@ public class GatewayJwtService {
         this.publicKey = loadPublicKey(publicKeyResource);
     }
 
-    public void validate(String token){
-        Jwts.parser()
+    public String validate(String token){
+        return Jwts.parser()
                 .verifyWith(publicKey)
                 .build()
-                .parseSignedClaims(token);
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
     }
 
     public RSAPublicKey loadPublicKey(Resource resource){
