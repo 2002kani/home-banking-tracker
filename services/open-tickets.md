@@ -16,3 +16,5 @@
   - zurzeit benutzen wir ngrok dafür (application.properties (open-banking-servicer))
 
 - In open-banking-service: echte jpa relation zwischen BankAccount und BankSession herstellen (OneToMany)
+
+- Falls in Production gehen: alle secrets als env variable übergeben
