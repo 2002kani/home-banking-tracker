@@ -1,5 +1,6 @@
 package com.home_banking.api_gateway.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -9,6 +10,7 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.function.Function;
 
 @Service
 public class GatewayJwtService {
@@ -20,13 +22,12 @@ public class GatewayJwtService {
         this.publicKey = loadPublicKey(publicKeyResource);
     }
 
-    public String validate(String token){
+    public Claims extractAllClaims(String token){
         return Jwts.parser()
                 .verifyWith(publicKey)
                 .build()
                 .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+                .getPayload();
     }
 
     public RSAPublicKey loadPublicKey(Resource resource){

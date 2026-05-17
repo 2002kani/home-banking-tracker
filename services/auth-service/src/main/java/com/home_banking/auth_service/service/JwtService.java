@@ -1,5 +1,6 @@
 package com.home_banking.auth_service.service;
 
+import com.home_banking.auth_service.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,10 +61,13 @@ public class JwtService implements IJwtService {
 
     @Override
     public String generateJwt(Map<String, Object> extraClaims, UserDetails userDetails) {
+        User user = (User) userDetails;
+
         return Jwts
                 .builder()
                 .subject(userDetails.getUsername()) // since it returns the email from the user
                 .claims(extraClaims)
+                .claim("userId", user.getId())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpiration * 1000))
                 .signWith(privateKey, Jwts.SIG.RS256)
