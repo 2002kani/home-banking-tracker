@@ -1,8 +1,7 @@
 # Tickets:
-(- richtige userId generieren
-    - dann in transactions und category controller & service bearbeiten
-    - Jwt aus Auth Service -> Signatur -> UserId => In api gateway implementieren bzw hinzufügen
-- hardcoded values mit solider logik austauschen (OpenBankingController, line:53))
+
+- hardcoded values mit solider logik austauschen (OpenBankingController, line:53)) -> GANZ ENTFERNEN
+- Alle X-User-id stellen überprüfen und zu Long ändern und den uuid cast entfernen
 
 # Backlog:
 - In transaction-service: Alerts publishen für notificationservice in kafka 
