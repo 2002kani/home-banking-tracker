@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import {
@@ -16,13 +16,15 @@ import {
   SidebarProvider,
 } from "../ui/sidebar";
 import { ChevronsUpDown } from "lucide-react";
-import { version } from "@/lib/constants";
-import path from "path";
+import { sidebarNav, sidebarSecondaryNav, version } from "@/lib/constants";
+import Header from "./Header";
 
 export default function AppLayout() {
+  const location = useLocation();
+
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar collapsible="icon">
         <SidebarHeader className="border-b border-sidebar-border">
           <div className="flex items-center gap-2 px-2 py-1.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
@@ -41,11 +43,46 @@ export default function AppLayout() {
 
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className="text-[10px] uppercase tracking-widest">
+            <SidebarGroupLabel className="text-[11px] uppercase tracking-wider">
               Übersicht
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu></SidebarMenu>
+              <SidebarMenu>
+                {sidebarNav.map((item) => (
+                  <SidebarMenuItem key={item.url} className="pb-1">
+                    <SidebarMenuButton
+                      render={<Link to={item.url} />}
+                      isActive={location.pathname === item.url}
+                      tooltip={item.title}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-[11px] uppercase tracking-wider">
+              Verwaltung
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {sidebarSecondaryNav.map((item) => (
+                  <SidebarMenuItem key={item.url} className="pb-1">
+                    <SidebarMenuButton
+                      render={<Link to={item.url} />}
+                      isActive={location.pathname === item.url}
+                      tooltip={item.title}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
@@ -74,6 +111,7 @@ export default function AppLayout() {
       </Sidebar>
 
       <SidebarInset>
+        <Header title="Dashboard"></Header>
         <main className="p-6">
           <Outlet />
         </main>
