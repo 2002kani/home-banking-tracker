@@ -1,6 +1,5 @@
 import { Search, Command } from "lucide-react";
 
-import { SidebarTrigger } from "../ui/sidebar";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 
@@ -14,7 +13,7 @@ export default function Header(props: IProps) {
 
   return (
     <header className="sticky top-0 z-20 flex h-15.5 items-center gap-3 border-b border-border bg-background/80 px-4 backdrop-blur">
-      <SidebarTrigger className="-ml-1" />
+      {/* <SidebarTrigger className="-ml-1" /> */}
       <Separator orientation="vertical" className="h-5" />
       <div className="flex items-center gap-2 text-sm">
         <span className="text-muted-foreground">
