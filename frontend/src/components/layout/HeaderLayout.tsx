@@ -4,11 +4,11 @@ import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 
 interface IProps {
-  title: string;
+  title?: string;
   breadcrumb?: string;
 }
 
-export default function Header(props: IProps) {
+export default function HeaderLayout(props: IProps) {
   const { breadcrumb, title } = props;
 
   return (

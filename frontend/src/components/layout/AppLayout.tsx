@@ -17,10 +17,14 @@ import {
 } from "../ui/sidebar";
 import { ChevronsUpDown } from "lucide-react";
 import { sidebarNav, sidebarSecondaryNav, version } from "@/lib/constants";
-import Header from "./Header";
+
+import HeaderLayout from "./HeaderLayout";
 
 export default function AppLayout() {
   const location = useLocation();
+  const allRoutes = [...sidebarNav, ...sidebarSecondaryNav];
+
+  const currentRoute = allRoutes.find((item) => item.url == location.pathname);
 
   return (
     <SidebarProvider>
@@ -111,7 +115,7 @@ export default function AppLayout() {
       </Sidebar>
 
       <SidebarInset>
-        <Header title="Dashboard"></Header>
+        <HeaderLayout title={currentRoute?.title}></HeaderLayout>
         <main className="p-6">
           <Outlet />
         </main>
