@@ -1,4 +1,5 @@
-import PageHeader from "@/components/shared/PageHeader";
+import PageHeader from "@/components/shared/pageHeader";
+import TransactionsTable from "./transactionsTable";
 
 function TransactionsPage() {
   return (
@@ -7,6 +8,9 @@ function TransactionsPage() {
         title="Transaktionen"
         description="Alle Bewegungen über sämtliche Konten."
       />
+      <div className="mt-8 max-w-5xl">
+        <TransactionsTable />
+      </div>
     </>
   );
 }

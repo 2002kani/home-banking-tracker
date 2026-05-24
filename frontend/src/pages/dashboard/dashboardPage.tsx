@@ -1,4 +1,4 @@
-import PageHeader from "@/components/shared/PageHeader";
+import PageHeader from "@/components/shared/pageHeader";
 
 function DashboardPage() {
   return (

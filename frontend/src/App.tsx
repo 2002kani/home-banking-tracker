@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AppLayout from "@/components/layout/AppLayout";
-import TransactionPage from "./pages/TransactionsPage";
-import DashboardPage from "./pages/DashboardPage";
-import CategoriesPage from "./pages/CategoriesPage";
+import AppLayout from "./components/layout/appLayout";
+import TransactionsPage from "./pages/transactions/transactionsPage";
+import DashboardPage from "./pages/dashboard/dashboardPage";
+import CategoriesPage from "./pages/categories/categoriesPage";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="transactions" element={<TransactionPage />} />
+          <Route path="transactions" element={<TransactionsPage />} />
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="accounts" element={<DashboardPage />} />
           <Route path="analytics" element={<DashboardPage />} />

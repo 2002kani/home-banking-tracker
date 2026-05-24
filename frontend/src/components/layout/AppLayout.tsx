@@ -18,7 +18,7 @@ import {
 import { ChevronsUpDown } from "lucide-react";
 import { sidebarNav, sidebarSecondaryNav, version } from "@/lib/constants";
 
-import HeaderLayout from "./HeaderLayout";
+import HeaderLayout from "./headerLayout";
 
 export default function AppLayout() {
   const location = useLocation();
