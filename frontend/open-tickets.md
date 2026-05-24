@@ -12,3 +12,4 @@
 # Backlog
 
 - Breadcrumbs vernünftig hinbekommen
+- Dropdown bei Transactions implementieren (Copy X id, More infos -> Popover with full transaction details)

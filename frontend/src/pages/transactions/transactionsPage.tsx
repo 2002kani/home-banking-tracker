@@ -8,7 +8,7 @@ function TransactionsPage() {
         title="Transaktionen"
         description="Alle Bewegungen über sämtliche Konten."
       />
-      <div className="mt-8 max-w-5xl">
+      <div className="mt-6">
         <TransactionsTable />
       </div>
     </>

@@ -1,27 +1,35 @@
 export type Payment = {
   id: string;
+  date: string;
+  creditor: string;
+  category: string; // TODO: change that
+  status: "pending" | "processing" | "success" | "failed"; // TODO: change that
   amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
 };
 
 export const payments: Payment[] = [
   {
     id: "728ed52f",
-    amount: 100,
+    date: "01.01.2024",
+    creditor: "REWE",
+    category: "Groceries",
     status: "pending",
-    email: "m@example.com",
+    amount: 100,
   },
   {
     id: "489e1d42",
-    amount: 125,
+    date: "05.01.2024",
+    creditor: "Amazon",
+    category: "Shopping",
     status: "processing",
-    email: "example@gmail.com",
+    amount: 125,
   },
   {
     id: "1a2b3c4d",
-    amount: 150,
+    date: "10.01.2024",
+    creditor: "Spotify",
+    category: "Subscription",
     status: "success",
-    email: "success@gmail.com",
+    amount: 150,
   },
 ];
