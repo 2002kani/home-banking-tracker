@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -41,7 +40,7 @@ public class EnablebankingClient {
                 .block();
     }
 
-    public StartAuthResponse startAuthorization(String bank, String country){
+    public StartAuthResponse startAuthorization(String bank, String country, String state){
         StartAuthRequest request = StartAuthRequest.builder()
                 .access(AccessDto.builder()
                         .validUntil(Instant.now().plus(90, ChronoUnit.DAYS).toString())
@@ -50,8 +49,8 @@ public class EnablebankingClient {
                         .name(bank)
                         .country(country)
                         .build())
-                .state(UUID.randomUUID().toString())
-                .redirectUrl(redirectUrl)
+                .state(state)
+                .redirectUrl(redirectUrl) // TODO: ggf mit ein bash skript ngropk https server starten für redirectUrl (und dann auch entfernen wieder)
                 .build();
 
         log.info("send to enable Banking: {}", request);

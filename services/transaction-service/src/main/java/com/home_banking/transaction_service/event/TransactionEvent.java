@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Builder
 @Data
@@ -19,7 +18,7 @@ public class TransactionEvent {
     private String sessionId;
     private String accountId;
     private String externalId;
-    private UUID userId;
+    private Long userId;
     private String currency;
     private String amount;
     private PartyDto creditor;

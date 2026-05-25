@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class CategoryService implements ICategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<CategoryDto> getCategories(UUID userId) {
+    public List<CategoryDto> getCategories(Long userId) {
          return categoryRepository.findAllByUserIdOrIsSystemTrue(userId)
                  .stream()
                  .map(CategoryMapper::mapToDto)
@@ -26,14 +25,14 @@ public class CategoryService implements ICategoryService {
 
     @Override
     @Transactional
-    public CategoryDto createCategory(CategoryDto request, UUID userId) {
+    public CategoryDto createCategory(CategoryDto request, Long userId) {
         Category category = CategoryMapper.mapToEntity(request, userId);
         categoryRepository.save(category);
         return CategoryMapper.mapToDto(category);
     }
 
     @Override
-    public void deleteCategory(Long id, UUID userId) {
+    public void deleteCategory(Long id, Long userId) {
         Category category = categoryRepository.findByIdForUser(id, userId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 

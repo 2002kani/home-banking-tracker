@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -27,7 +26,7 @@ public class BankAccount {
     private String accountUid;
 
     @Column(name = "user_id")
-    private UUID userId;
+    private Long userId;
 
     private String iban;
 

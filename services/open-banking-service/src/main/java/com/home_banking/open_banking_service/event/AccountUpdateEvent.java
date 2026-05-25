@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,7 +12,7 @@ import java.util.UUID;
 public class AccountUpdateEvent {
     private String sessionId;
     private String accountUid;
-    private UUID userId;
+    private Long userId;
     private String iban;
     private String balance;
     private String currency;

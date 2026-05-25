@@ -5,10 +5,9 @@ import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class TransactionSpecification {
-    public static Specification<Transaction> byUserId(UUID userId) {
+    public static Specification<Transaction> byUserId(Long userId) {
         return (root, query, cb) ->
             cb.equal(root.get("userId"), userId);
     }

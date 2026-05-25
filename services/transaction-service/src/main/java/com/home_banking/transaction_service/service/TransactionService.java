@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -27,7 +26,7 @@ public class TransactionService implements ITransactionService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<TransactionDto> getTransactions(UUID userId, LocalDate from, LocalDate to, CreditDebitIndicator type,  Long categoryId) {
+    public List<TransactionDto> getTransactions(Long userId, LocalDate from, LocalDate to, CreditDebitIndicator type,  Long categoryId) {
         Specification<Transaction> specs = Specification
                 .where(TransactionSpecification.byUserId(userId))
                 .and(TransactionSpecification.byDateBetween(from, to))
@@ -57,7 +56,7 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public void categorizeTransaction(UUID userId, Long id, Long categoryId) {
+    public void categorizeTransaction(Long userId, Long id, Long categoryId) {
         Transaction transaction = transactionRepository.findByUserIdAndId(userId, id)
                 .orElseThrow(() -> new RuntimeException("Transaction not found"));
 

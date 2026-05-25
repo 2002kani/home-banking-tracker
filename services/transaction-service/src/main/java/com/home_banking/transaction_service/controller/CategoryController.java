@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,28 +17,28 @@ public class CategoryController {
     private final ICategoryService categoryService;
 
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryDto>> getCategories(@RequestHeader("X-User-Id") String userId) {
-        List<CategoryDto> categories = categoryService.getCategories(UUID.fromString(userId));
+    public ResponseEntity<List<CategoryDto>> getCategories(@RequestHeader("X-User-Id") Long userId) {
+        List<CategoryDto> categories = categoryService.getCategories(userId);
         return ResponseEntity.ok(categories);
     }
 
     @Valid
     @PostMapping("/categories")
     public ResponseEntity<CategoryDto> createCategory(
-            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestBody CategoryDto request
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(categoryService.createCategory(request, UUID.fromString(userId)));
+                .body(categoryService.createCategory(request, userId));
     }
 
     @DeleteMapping("/category/{id}")
     public ResponseEntity<Void> deleteCategory(
             @PathVariable Long id,
-            @RequestHeader("X-User-Id") String userId
+            @RequestHeader("X-User-Id") Long userId
     ) {
-        categoryService.deleteCategory(id, UUID.fromString(userId));
+        categoryService.deleteCategory(id, userId);
         return ResponseEntity.noContent().build();
     }
 }

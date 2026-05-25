@@ -55,8 +55,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public AccountDto getAccount(Long id) {
-        return accountRepository.findById(id)
+    public AccountDto getAccount(Long id, Long userId) {
+        return accountRepository.findByIdAndUserId(id, userId)
                 .map(account -> AccountDto.builder()
                         .balance(account.getBalance())
                         .iban(account.getIban())

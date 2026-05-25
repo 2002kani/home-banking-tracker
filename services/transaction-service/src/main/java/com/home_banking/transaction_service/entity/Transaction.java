@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -33,7 +32,7 @@ public class Transaction {
     private String externalId;
 
     @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    private Long userId;
 
     @Column(name = "currency")
     private String currency;

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,21 +15,16 @@ import java.util.UUID;
 public class TransactionController {
     private final ITransactionService transactionService;
 
-    /*
-    /* Important: Exchange current implementation of userId with more secure way.
-    /* (Take a look at open tickets)
-    */
-
     @GetMapping("/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactions(
-            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Id") Long userId,
             @RequestParam(required = false) LocalDate dateFrom,
             @RequestParam(required = false) LocalDate dateTo,
             @RequestParam(required = false) CreditDebitIndicator type,
             @RequestParam(required = false) Long categoryId
             ){
         return ResponseEntity.ok(transactionService.getTransactions(
-                UUID.fromString(userId),
+                userId,
                 dateFrom,
                 dateTo,
                 type,
@@ -45,11 +39,11 @@ public class TransactionController {
 
     @PatchMapping("/transaction/{id}")
     public ResponseEntity<Void> categorizeTransaction(
-            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long id,
             @RequestParam Long categoryId
     ){
-        transactionService.categorizeTransaction(UUID.fromString(userId), id, categoryId);
+        transactionService.categorizeTransaction(userId, id, categoryId);
         return ResponseEntity.noContent().build();
     }
 }

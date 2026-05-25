@@ -38,7 +38,7 @@ public class GatewayJwtFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             Claims claims = gatewayJwtService.extractAllClaims(token);
             String subject = claims.getSubject();
-            Long userId = claims.get("userId",Long.class);
+            Long userId = claims.get("userId", Long.class);
 
             UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(subject, null, Collections.emptyList());

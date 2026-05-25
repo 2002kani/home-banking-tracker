@@ -29,8 +29,11 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
-    public ResponseEntity<AccountDto> getAccount(@PathVariable Long id){
-        AccountDto account = accountService.getAccount(id);
+    public ResponseEntity<AccountDto> getAccount(
+            @RequestHeader("X-User-Id") Long userId,
+            @PathVariable Long id
+    ){
+        AccountDto account = accountService.getAccount(id, userId);
         return ResponseEntity.ok(account);
     }
 }

@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -27,7 +26,7 @@ public class Account {
     private String sessionId;
 
     @Column(name = "user_id")
-    private UUID userId;
+    private Long userId;
 
     private String iban;
 

@@ -20,6 +20,7 @@ public class SecurityConfiguration {
 
     /*
     This file describes how spring security is handled by client requests for the application
+    TODO: Delete that since we have it already defined in api-gateway!
     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

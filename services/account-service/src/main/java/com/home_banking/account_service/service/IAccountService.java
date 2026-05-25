@@ -9,5 +9,5 @@ public interface IAccountService {
     public BanksListResponse getAvailableBanks(String country);
     public StartAuthResponse startAuth(String bank, String country);
     public void updateAccount(AccountUpdateEvent event);
-    public AccountDto getAccount(Long id);
+    public AccountDto getAccount(Long id, Long userId);
 }

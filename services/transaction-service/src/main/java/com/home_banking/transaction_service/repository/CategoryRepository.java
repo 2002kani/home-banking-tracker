@@ -7,11 +7,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CategoryRepository extends JpaRepository<Category,Long> {
-    List<Category> findAllByUserIdOrIsSystemTrue(UUID userId);
+    List<Category> findAllByUserIdOrIsSystemTrue(Long userId);
 
     @Query("SELECT c FROM Category c WHERE c.id = :id AND (c.userId = :userId OR c.isSystem = true)")
-    Optional<Category> findByIdForUser(@Param("id") Long id, @Param("userId") UUID userId);
+    Optional<Category> findByIdForUser(@Param("id") Long id, @Param("userId") Long userId);
 }

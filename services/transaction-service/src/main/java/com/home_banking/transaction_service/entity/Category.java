@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +20,7 @@ public class Category {
     private Long id;
 
     @Column(name = "user_id")
-    private UUID userId;  // null = system category for all Users
+    private Long userId;  // null = system category for all Users
 
     @Column(name = "name", nullable = false)
     private String name;

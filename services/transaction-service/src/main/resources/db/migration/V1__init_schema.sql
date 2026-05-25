@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS category (
     id         BIGSERIAL PRIMARY KEY,
-    user_id    UUID,
+    user_id    BIGINT,
     name       VARCHAR(255) NOT NULL,
     color      VARCHAR(50),
     is_system  BOOLEAN,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     session_id    VARCHAR(255),
     account_id    VARCHAR(255),
     external_id   VARCHAR(255) UNIQUE,
-    user_id       UUID         NOT NULL,
+    user_id       BIGINT       NOT NULL,
     currency      VARCHAR(10),
     amount        VARCHAR(50),
     creditor_name VARCHAR(255),

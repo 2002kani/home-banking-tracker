@@ -5,9 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
     boolean existsByExternalId(String externalId);
-    Optional<Transaction> findByUserIdAndId(UUID userId, Long id);
+    Optional<Transaction> findByUserIdAndId(Long userId, Long id);
 }

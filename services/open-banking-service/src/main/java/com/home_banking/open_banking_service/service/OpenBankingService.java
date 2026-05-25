@@ -2,12 +2,15 @@ package com.home_banking.open_banking_service.service;
 
 import com.home_banking.open_banking_service.client.EnablebankingClient;
 import com.home_banking.open_banking_service.dto.AuthorizeSessionResponse;
+import com.home_banking.open_banking_service.dto.StartAuthResponse;
 import com.home_banking.open_banking_service.dto.sessionResponses.BalancesResponse;
 import com.home_banking.open_banking_service.entity.BankAccount;
 import com.home_banking.open_banking_service.entity.BankSession;
+import com.home_banking.open_banking_service.entity.PendingSession;
 import com.home_banking.open_banking_service.event.AccountUpdateEvent;
 import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.repository.BankSessionRepository;
+import com.home_banking.open_banking_service.repository.PendingSessionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -19,20 +22,39 @@ public class OpenBankingService implements IOpenBankingService {
     private final EnablebankingClient enablebankingClient;
     private final BankSessionRepository bankSessionRepository;
     private final BankAccountRepository bankAccountRepository;
+    private final PendingSessionRepository pendingSessionRepository;
     private final KafkaPublisherService kafkaPublisherService;
 
     public OpenBankingService(EnablebankingClient enablebankingClient,
                               BankSessionRepository bankSessionRepository,
                               BankAccountRepository bankAccountRepository,
+                              PendingSessionRepository pendingSessionRepository,
                               KafkaPublisherService kafkaPublisherService) {
         this.enablebankingClient = enablebankingClient;
         this.bankSessionRepository = bankSessionRepository;
         this.bankAccountRepository = bankAccountRepository;
+        this.pendingSessionRepository = pendingSessionRepository;
         this.kafkaPublisherService = kafkaPublisherService;
     }
 
     @Override
-    public String authAndSave(String code, String state, String bankName, String bankCountry, UUID userId) {
+    public StartAuthResponse startAuth(String bank, String country, Long userId) {
+        String state = UUID.randomUUID().toString();
+        pendingSessionRepository.save(PendingSession.builder()
+                .state(state)
+                .userId(userId)
+                .createdAt(Instant.now())
+                .build());
+        return enablebankingClient.startAuthorization(bank, country, state);
+    }
+
+    @Override
+    public String authAndSave(String code, String state, String bankName, String bankCountry) {
+        PendingSession pending = pendingSessionRepository.findById(state)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown state: " + state));
+        Long userId = pending.getUserId();
+        pendingSessionRepository.delete(pending);
+
         AuthorizeSessionResponse resp = enablebankingClient.authorizeSession(code);
 
         BankSession session = BankSession.builder()
@@ -46,14 +68,13 @@ public class OpenBankingService implements IOpenBankingService {
                 .build();
         bankSessionRepository.save(session);
 
-        // Save account details into db too
-        if(resp.getAccounts() != null){
+        if (resp.getAccounts() != null) {
             resp.getAccounts().forEach(account -> {
                 BankAccount bankAccount = BankAccount.builder()
                         .sessionId(resp.getSessionId())
                         .accountUid(account.getUid())
                         .userId(userId)
-                        .iban(resp.getAccounts() != null ? account.getAccountId().getIban() : null)
+                        .iban(account.getAccountId().getIban())
                         .currency(account.getCurrency())
                         .name(account.getName())
                         .identificationHash(account.getIdentificationHash())
@@ -79,7 +100,7 @@ public class OpenBankingService implements IOpenBankingService {
 
     private String getEventBalance(String accountUid) {
         BalancesResponse resp = enablebankingClient.getBalances(accountUid);
-        if(resp == null ||resp.getBalances() == null){
+        if (resp == null || resp.getBalances() == null) {
             return null;
         }
         return resp.getBalances().getFirst().getBalanceAmount().getAmount();
