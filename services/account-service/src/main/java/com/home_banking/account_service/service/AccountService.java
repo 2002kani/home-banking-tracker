@@ -24,8 +24,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public StartAuthResponse startAuth(String bank, String country){
-        return openBankingClient.startAuth(bank, country);
+    public StartAuthResponse startAuth(String bank, String country, Long userId){
+        return openBankingClient.startAuth(bank, country, userId);
     }
 
     @Override

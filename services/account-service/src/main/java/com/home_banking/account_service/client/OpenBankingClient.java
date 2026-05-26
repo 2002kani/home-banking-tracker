@@ -24,13 +24,14 @@ public class OpenBankingClient {
                 .block();
     }
 
-    public StartAuthResponse startAuth(String bank, String country){
+    public StartAuthResponse startAuth(String bank, String country, Long userId){
         return webClient.post()
                 .uri(uri -> uri
                         .path("/auth")
                         .queryParam("bank", bank)
                         .queryParam("country", country)
                         .build())
+                .header("X-User-Id", String.valueOf(userId))
                 .retrieve()
                 .bodyToMono(StartAuthResponse.class)
                 .block();

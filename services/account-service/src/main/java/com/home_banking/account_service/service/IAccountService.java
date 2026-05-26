@@ -7,7 +7,7 @@ import com.home_banking.account_service.event.AccountUpdateEvent;
 
 public interface IAccountService {
     public BanksListResponse getAvailableBanks(String country);
-    public StartAuthResponse startAuth(String bank, String country);
+    public StartAuthResponse startAuth(String bank, String country, Long userId);
     public void updateAccount(AccountUpdateEvent event);
     public AccountDto getAccount(Long id, Long userId);
 }

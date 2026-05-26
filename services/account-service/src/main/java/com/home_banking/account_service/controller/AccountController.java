@@ -23,9 +23,10 @@ public class AccountController {
     @PostMapping("/auth")
     public ResponseEntity<StartAuthResponse> startAuthorization(
             @RequestParam String bank,
-            @RequestParam String country
+            @RequestParam String country,
+            @RequestHeader("X-User-Id") Long userId
     ){
-        return ResponseEntity.ok(accountService.startAuth(bank, country)); // TODO: Besser ggf autom. weiterleiten in der ui (?)
+        return ResponseEntity.ok(accountService.startAuth(bank, country, userId)); // TODO: Besser ggf autom. weiterleiten in der ui (?)
     }
 
     @GetMapping("/accounts/{id}")

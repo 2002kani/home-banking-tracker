@@ -95,6 +95,7 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      OPEN_BANKING_API_BASE_URL: http://open-banking-service:8082/api/v1/open-banking
 
   transaction-service:
     build: ./transaction-service
