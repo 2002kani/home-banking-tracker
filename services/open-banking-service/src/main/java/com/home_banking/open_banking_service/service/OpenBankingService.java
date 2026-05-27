@@ -57,7 +57,7 @@ public class OpenBankingService implements IOpenBankingService {
     }
 
     @Override
-    public String authAndSave(String code, String state, String bankName, String bankCountry) {
+    public void authAndSave(String code, String state, String bankName, String bankCountry) {
         PendingSession pending = pendingSessionRepository.findById(state)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown state: " + state));
         Long userId = pending.getUserId();
@@ -103,8 +103,7 @@ public class OpenBankingService implements IOpenBankingService {
             });
         }
 
-        ngrokService.closeTunnel();
-        return resp.getSessionId();
+        ngrokService.closeTunnelDelayed();
     }
 
     private String getEventBalance(String accountUid) {

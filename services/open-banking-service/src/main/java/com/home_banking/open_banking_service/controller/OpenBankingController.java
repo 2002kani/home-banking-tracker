@@ -8,19 +8,26 @@ import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsRe
 import com.home_banking.open_banking_service.entity.BankAccount;
 import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.service.IOpenBankingService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("api/v1/open-banking")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class OpenBankingController {
     private final EnablebankingClient enablebankingClient;
     private final IOpenBankingService openBankingService;
     private final BankAccountRepository bankAccountRepository;
+
+    @Value("${frontend.redirection-url}")
+    private String redirectionUrl;
 
     @GetMapping("/aspsps")
     public AspspsListResponse getAspsps(@RequestParam(required = false) String country) {
@@ -53,8 +60,10 @@ public class OpenBankingController {
             return ResponseEntity.badRequest().body(errorDescription);
         }
         // TODO: exchange hardcoded bank/country with dynamic solution
-        String sessionId = openBankingService.authAndSave(code, state, "Sparkasse", "DE");
-        return ResponseEntity.ok(sessionId);
+        openBankingService.authAndSave(code, state, "Sparkasse", "DE");
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(redirectionUrl))
+                .build();
     }
 
     /*

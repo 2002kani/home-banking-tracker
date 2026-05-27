@@ -17,3 +17,7 @@ Ngrok Java sdk implementation (automatisches öffnen & stoppen von ngrok server 
 - In open-banking-service: echte jpa relation zwischen BankAccount und BankSession herstellen (OneToMany)
 
 - Falls in Production gehen: alle secrets als env variable übergeben
+
+- Effizientere suche bei getBanks() ggf dass man suchen kann oder weiter eingrenzen
+
+- 

@@ -43,13 +43,17 @@ public class NgrokService {
 
         log.info("Ngrok tunnel opened: {}", publicUrl);
 
-        // Sicherheits-Timeout: schließt automatisch nach 10 Minuten
+        // Security Timeout: Closes automatically after 10 seconds
         timeoutTask = scheduler.schedule(() -> {
             log.warn("Ngrok tunnel auto-closing after timeout");
             closeTunnel();
         }, 10, TimeUnit.MINUTES);
 
         return publicUrl;
+    }
+
+    public void closeTunnelDelayed() {
+        scheduler.schedule(this::closeTunnel, 3, TimeUnit.SECONDS);
     }
 
     public synchronized void closeTunnel() {

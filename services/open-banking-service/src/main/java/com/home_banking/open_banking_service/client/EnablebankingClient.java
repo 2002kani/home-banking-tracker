@@ -50,7 +50,7 @@ public class EnablebankingClient {
                         .country(country)
                         .build())
                 .state(state)
-                .redirectUrl(redirectUrl) // TODO: ggf mit ein bash skript ngropk https server starten für redirectUrl (und dann auch entfernen wieder)
+                .redirectUrl(redirectUrl)
                 .build();
 
         log.info("send to enable Banking: {}", request);
