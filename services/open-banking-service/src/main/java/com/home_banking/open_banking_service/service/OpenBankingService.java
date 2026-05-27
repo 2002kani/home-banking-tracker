@@ -24,21 +24,29 @@ public class OpenBankingService implements IOpenBankingService {
     private final BankAccountRepository bankAccountRepository;
     private final PendingSessionRepository pendingSessionRepository;
     private final KafkaPublisherService kafkaPublisherService;
+    private final NgrokService ngrokService;
 
     public OpenBankingService(EnablebankingClient enablebankingClient,
                               BankSessionRepository bankSessionRepository,
                               BankAccountRepository bankAccountRepository,
                               PendingSessionRepository pendingSessionRepository,
-                              KafkaPublisherService kafkaPublisherService) {
+                              KafkaPublisherService kafkaPublisherService,
+                              NgrokService ngrokService) {
         this.enablebankingClient = enablebankingClient;
         this.bankSessionRepository = bankSessionRepository;
         this.bankAccountRepository = bankAccountRepository;
         this.pendingSessionRepository = pendingSessionRepository;
         this.kafkaPublisherService = kafkaPublisherService;
+        this.ngrokService = ngrokService;
     }
 
     @Override
     public StartAuthResponse startAuth(String bank, String country, Long userId) {
+        try {
+            ngrokService.openTunnel();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to open ngrok tunnel", e);
+        }
         String state = UUID.randomUUID().toString();
         pendingSessionRepository.save(PendingSession.builder()
                 .state(state)
@@ -95,6 +103,7 @@ public class OpenBankingService implements IOpenBankingService {
             });
         }
 
+        ngrokService.closeTunnel();
         return resp.getSessionId();
     }
 

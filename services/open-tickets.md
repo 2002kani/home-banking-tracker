@@ -1,7 +1,9 @@
 # Tickets:
 
-- hardcoded values mit solider logik austauschen (OpenBankingController, line:53)) -> GANZ ENTFERNEN
-- Alle X-User-id stellen überprüfen und zu Long ändern und den uuid cast entfernen
+Ngrok Java sdk implementation (automatisches öffnen & stoppen von ngrok server in bank connection)
+  - authToken herausfinden ( ngrok Dashboard → Your Authtoken. )
+  - den claude code benutzen (verstehen)
+  - openTunnel() ganz vorne in startAuth() und closeTunnel() ganz schluss von authAndSave()
 
 # Backlog:
 - In transaction-service: Alerts publishen für notificationservice in kafka 
