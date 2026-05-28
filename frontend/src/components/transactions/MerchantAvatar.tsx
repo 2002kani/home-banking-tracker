@@ -18,8 +18,10 @@ export function MerchantAvatar({ name, type }: MerchantAvatarProps) {
     <Avatar size="default">
       <AvatarFallback
         className={cn(
-          "text-xs font-bold text-white",
-          type === "CRDT" ? "bg-emerald-500" : "bg-slate-500",
+          "text-xs font-medium",
+          type === "CRDT"
+            ? "bg-foreground text-background"
+            : "bg-muted text-muted-foreground",
         )}
       >
         {initials}
