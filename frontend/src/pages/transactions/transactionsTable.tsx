@@ -206,9 +206,37 @@ const MOCK_DATA: Transaction[] = [
     categoryName: "Überweisung",
     categoryColor: "#2196F3",
   },
+  {
+    id: 15,
+    accountId: "DE89370400440532013000",
+    amount: "20.00",
+    currency: "EUR",
+    creditorName: "Maxilian Mustermann",
+    debtorName: "Eltern",
+    type: "DBIT",
+    bookingDate: "2024-01-30",
+    status: "BOOK",
+    categoryId: 8,
+    categoryName: "Wohnen",
+    categoryColor: "#2196F3",
+  },
+  {
+    id: 16,
+    accountId: "DE89370400440532013000",
+    amount: "999.00",
+    currency: "EUR",
+    creditorName: "Apple Store",
+    debtorName: "Max Mustermann",
+    type: "DBIT",
+    bookingDate: "2024-01-18",
+    status: "BOOK",
+    categoryId: 4,
+    categoryName: "Elektronik",
+    categoryColor: "#607D8B",
+  },
 ];
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 15;
 
 function getMerchantName(transaction: Transaction): string {
   return transaction.type === "CRDT"
@@ -299,7 +327,10 @@ function TransactionsTable() {
   });
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-  const paged = filtered.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE);
+  const paged = filtered.slice(
+    page * ITEMS_PER_PAGE,
+    (page + 1) * ITEMS_PER_PAGE,
+  );
 
   return (
     <div className="space-y-4">
@@ -323,7 +354,11 @@ function TransactionsTable() {
           </div>
         ) : (
           paged.map((t, i) => (
-            <TransactionRow key={t.id} transaction={t} isLast={i === paged.length - 1} />
+            <TransactionRow
+              key={t.id}
+              transaction={t}
+              isLast={i === paged.length - 1}
+            />
           ))
         )}
       </div>
