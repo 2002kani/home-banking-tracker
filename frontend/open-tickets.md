@@ -1,7 +1,7 @@
 # Tickets
 
 - Dashboard hinbekommen
-- Transaktionen hinbekommen
+- Transaktionen hinbekommen (Api zugriff TODO)
 - Konten hinbekommen
 - Analytics hinbekommen
 - Kategorien hinbekommen
