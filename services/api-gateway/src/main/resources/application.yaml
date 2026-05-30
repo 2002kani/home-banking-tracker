@@ -23,18 +23,42 @@ spring:
               uri: http://auth-service:8083
               predicates:
                 - Path=/api/v1/auth/**
+            - id: account-service-docs
+              uri: http://account-service:8081
+              predicates:
+                - Path=/account-service/v3/api-docs
+              filters:
+                - RewritePath=/account-service/v3/api-docs, /v3/api-docs
+            - id: transaction-service-docs
+              uri: http://transaction-service:8080
+              predicates:
+                - Path=/transaction-service/v3/api-docs
+              filters:
+                - RewritePath=/transaction-service/v3/api-docs, /v3/api-docs
+            - id: open-banking-service-docs
+              uri: http://open-banking-service:8082
+              predicates:
+                - Path=/open-banking-service/v3/api-docs
+              filters:
+                - RewritePath=/open-banking-service/v3/api-docs, /v3/api-docs
+            - id: auth-service-docs
+              uri: http://auth-service:8083
+              predicates:
+                - Path=/auth-service/v3/api-docs
+              filters:
+                - RewritePath=/auth-service/v3/api-docs, /v3/api-docs
 
 springdoc:
   swagger-ui:
     urls:
       - name: account-service
-        url: http://account-service:8081/v3/api-docs
+        url: /account-service/v3/api-docs
       - name: transaction-service
-        url: http://transaction-service:8080/v3/api-docs
+        url: /transaction-service/v3/api-docs
       - name: open-banking-service
-        url: http://open-banking-service:8082/v3/api-docs
+        url: /open-banking-service/v3/api-docs
       - name: auth-service
-        url: http://auth-service:8083/v3/api-docs
+        url: /auth-service/v3/api-docs
 
 logging:
   level:

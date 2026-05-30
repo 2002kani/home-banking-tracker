@@ -53,7 +53,12 @@ public class GatewayJwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return request.getRequestURI().startsWith("/api/v1/auth/");
+        String uri = request.getRequestURI();
+        return uri.startsWith("/api/v1/auth/")
+                || uri.startsWith("/swagger-ui")
+                || uri.startsWith("/v3/api-docs")
+                || uri.startsWith("/webjars")
+                || uri.endsWith("/v3/api-docs");
     }
 
     private static class UserIdHeaderRequestWrapper extends HttpServletRequestWrapper {
