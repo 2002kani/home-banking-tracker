@@ -1,10 +1,16 @@
 import { createContext, useContext, useState } from "react";
 import { clearToken, getStoredToken, setAuthToken } from "@/lib/auth";
+import type {
+  AuthenticationRequest,
+  RegisterRequest,
+} from "@/api/generated/auth-service";
+import { loginUser, registerUser } from "@/services/authService";
 
 type AuthContextType = {
   token: string | null;
   isAuthenticated: boolean;
-  login: (token: string) => void;
+  login: (req: AuthenticationRequest) => Promise<void>;
+  register: (req: RegisterRequest) => Promise<void>;
   logout: () => void;
 };
 
@@ -17,7 +23,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return stored;
   });
 
-  const login = (token: string) => {
+  const login = async (req: AuthenticationRequest) => {
+    const token = await loginUser(req);
+    setAuthToken(token);
+    setToken(token);
+  };
+
+  const register = async (req: RegisterRequest) => {
+    const token = await registerUser(req);
     setAuthToken(token);
     setToken(token);
   };
@@ -29,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ token, isAuthenticated: !!token, login, logout }}
+      value={{ token, isAuthenticated: !!token, login, register, logout }}
     >
       {children}
     </AuthContext.Provider>
