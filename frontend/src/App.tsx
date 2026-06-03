@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/layout/appLayout";
+import AuthLayout from "./components/layout/authLayout";
+import AuthPage from "./pages/auth/authPage";
 import TransactionsPage from "./pages/transactions/transactionsPage";
 import DashboardPage from "./pages/dashboard/dashboardPage";
 import CategoriesPage from "./pages/categories/categoriesPage";
@@ -11,6 +13,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/register" element={<AuthPage />} />
+        </Route>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
