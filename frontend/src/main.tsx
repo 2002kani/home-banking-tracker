@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App.tsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/authContext";
+import { ThemeProvider } from "@/context/themeContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AuthProvider>
-      <TooltipProvider>
-        <App />
-      </TooltipProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <App />
+        </TooltipProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>,
 );

@@ -2,6 +2,7 @@ import { Search, Command } from "lucide-react";
 
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
+import { ThemeToggle } from "../shared/themeToggle";
 
 interface IProps {
   title?: string;
@@ -33,6 +34,7 @@ export default function HeaderLayout(props: IProps) {
             <Command className="h-2.5 w-2.5" />K
           </kbd>
         </div>
+        <ThemeToggle />
       </div>
     </header>
   );
