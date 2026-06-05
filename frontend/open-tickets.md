@@ -6,7 +6,6 @@
 - Analytics hinbekommen
 - Kategorien hinbekommen
 - Settings hinbekommen
-- Login / Register Page erstellen (TODO)
 
 -=-=-=-=-=-=-=-=-
 

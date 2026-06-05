@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/layout/appLayout";
 import AuthLayout from "./components/layout/authLayout";
+import OnboardingLayout from "./components/layout/onboardingLayout";
 import { ProtectedRoute, PublicRoute } from "./components/layout/protectedRoute";
 import AuthPage from "./pages/auth/authPage";
+import BankSelectPage from "./pages/onboarding/bankSelectPage";
 import TransactionsPage from "./pages/transactions/transactionsPage";
 import DashboardPage from "./pages/dashboard/dashboardPage";
 import CategoriesPage from "./pages/categories/categoriesPage";
@@ -21,6 +23,9 @@ function App() {
           </Route>
         </Route>
         <Route element={<ProtectedRoute />}>
+          <Route element={<OnboardingLayout />}>
+            <Route path="/onboarding/bank-select" element={<BankSelectPage />} />
+          </Route>
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
