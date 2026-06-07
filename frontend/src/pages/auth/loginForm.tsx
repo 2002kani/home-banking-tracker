@@ -54,7 +54,7 @@ export function LoginForm() {
             type="button"
             className="text-[11px] text-muted-foreground hover:text-foreground transition-colors"
           >
-            Vergessen?
+            {/*Vergessen? */}
           </button>
         </div>
         <Input
