@@ -22,6 +22,6 @@ export const startAuthorization = <ThrowOnError extends boolean = false>(options
 
 export const getAvailableBanks = <ThrowOnError extends boolean = false>(options?: Options<GetAvailableBanksData, ThrowOnError>) => (options?.client ?? client).get<GetAvailableBanksResponses, unknown, ThrowOnError>({ url: '/api/v1/account/banks', ...options });
 
-export const getAccounts = <ThrowOnError extends boolean = false>(options: Options<GetAccountsData, ThrowOnError>) => (options.client ?? client).get<GetAccountsResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts', ...options });
+export const getAccounts = <ThrowOnError extends boolean = false>(options?: Options<GetAccountsData, ThrowOnError>) => (options?.client ?? client).get<GetAccountsResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts', ...options });
 
 export const getAccount = <ThrowOnError extends boolean = false>(options: Options<GetAccountData, ThrowOnError>) => (options.client ?? client).get<GetAccountResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts/{id}', ...options });

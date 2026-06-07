@@ -1,16 +1,24 @@
 import { useState } from "react";
-import { Search, Building2, ChevronRight, ArrowLeft } from "lucide-react";
+import {
+  Search,
+  Building2,
+  ChevronRight,
+  ArrowLeft,
+  Loader2,
+} from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import type { BankDto } from "@/api/generated/account-service/types.gen";
 import { useBanks } from "@/hooks/useBanks";
+import { authenticateWithBank } from "@/services/banksService";
 
 export default function BankSelectPage() {
   const [country, setCountry] = useState("");
   const [submittedCountry, setSubmittedCountry] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [selectingBank, setSelectingBank] = useState<string | null>(null);
 
   const { banks, isLoading } = useBanks(submittedCountry);
 
@@ -18,7 +26,12 @@ export default function BankSelectPage() {
     b.name?.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const handleSelectBank = (bank: BankDto) => {};
+  const handleSelectBank = async (bank: BankDto) => {
+    if (!bank.name || !bank.country) return;
+    setSelectingBank(bank.name);
+    const url = await authenticateWithBank(bank.name, bank.country);
+    window.location.assign(url);
+  };
 
   if (!submittedCountry) {
     return (
@@ -112,7 +125,8 @@ export default function BankSelectPage() {
             <button
               key={bank.name}
               onClick={() => handleSelectBank(bank)}
-              className="w-full flex items-center gap-3 rounded-lg border border-border px-4 py-3 text-left transition-colors hover:bg-accent hover:border-foreground/20 cursor-pointer"
+              disabled={selectingBank !== null}
+              className="w-full flex items-center gap-3 rounded-lg border border-border px-4 py-3 text-left transition-colors hover:bg-accent hover:border-foreground/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
                 <Building2 className="h-4 w-4 text-muted-foreground" />
@@ -123,7 +137,11 @@ export default function BankSelectPage() {
                   {bank.country}
                 </p>
               </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              {selectingBank === bank.name ? (
+                <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
+              ) : (
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              )}
             </button>
           ))
         )}

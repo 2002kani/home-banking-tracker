@@ -32,9 +32,6 @@ export type AccountDto = {
 
 export type StartAuthorizationData = {
     body?: never;
-    headers: {
-        'X-User-Id': number;
-    };
     path?: never;
     query: {
         bank: string;
@@ -72,9 +69,6 @@ export type GetAvailableBanksResponse = GetAvailableBanksResponses[keyof GetAvai
 
 export type GetAccountsData = {
     body?: never;
-    headers: {
-        'X-User-Id': number;
-    };
     path?: never;
     query?: never;
     url: '/api/v1/account/accounts';
@@ -91,9 +85,6 @@ export type GetAccountsResponse = GetAccountsResponses[keyof GetAccountsResponse
 
 export type GetAccountData = {
     body?: never;
-    headers: {
-        'X-User-Id': number;
-    };
     path: {
         id: number;
     };

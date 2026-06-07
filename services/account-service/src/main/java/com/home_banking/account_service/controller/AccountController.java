@@ -4,9 +4,12 @@ import com.home_banking.account_service.dto.AccountDto;
 import com.home_banking.account_service.dto.BanksListResponse;
 import com.home_banking.account_service.dto.StartAuthResponse;
 import com.home_banking.account_service.service.IAccountService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -24,14 +27,21 @@ public class AccountController {
     public ResponseEntity<StartAuthResponse> startAuthorization(
             @RequestParam String bank,
             @RequestParam String country,
-            @RequestHeader("X-User-Id") Long userId
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
     ){
         return ResponseEntity.ok(accountService.startAuth(bank, country, userId)); // TODO: Besser ggf autom. weiterleiten in der ui (?)
     }
 
+    @GetMapping("/accounts")
+    public ResponseEntity<List<AccountDto>> getAccounts(
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
+    ){
+        return ResponseEntity.ok(accountService.getAccounts(userId));
+    }
+
     @GetMapping("/accounts/{id}")
     public ResponseEntity<AccountDto> getAccount(
-            @RequestHeader("X-User-Id") Long userId,
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long id
     ){
         AccountDto account = accountService.getAccount(id, userId);

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -52,6 +53,19 @@ public class AccountService implements IAccountService {
                             accountRepository.save(account);
                         }
                 );
+    }
+
+    @Override
+    public List<AccountDto> getAccounts(Long userId) {
+        return accountRepository.findAllByUserId(userId)
+                .stream()
+                .map(acc -> AccountDto.builder()
+                        .iban(acc.getIban())
+                        .balance(acc.getBalance())
+                        .name(acc.getName())
+                        .currency(acc.getCurrency())
+                        .build())
+                .toList();
     }
 
     @Override

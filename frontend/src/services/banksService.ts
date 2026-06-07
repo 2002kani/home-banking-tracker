@@ -1,4 +1,7 @@
-import { getAvailableBanks } from "@/api/generated/account-service";
+import {
+  getAvailableBanks,
+  startAuthorization,
+} from "@/api/generated/account-service";
 import type { BankDto } from "@/api/generated/account-service";
 
 export async function getBanks(country: string): Promise<BankDto[]> {
@@ -7,11 +10,9 @@ export async function getBanks(country: string): Promise<BankDto[]> {
   return res.data.aspsps;
 }
 
-/* TODO
-
-- die /auth anfrage machen
-- onbopardign soll immer nach registrierung erschienen (einmalig auch)
-  - ggf backend anpassne damit es frontend tracken kann ob schon mal vorher registriert (zurückgeben?)
-    - dafür ein /accounts endpunkt (den ich eh bald brauche) der dann im frotnend prüfen soll ob accounts existieren -> falls nein: onboarding erscheint nach auth 
-
-*/
+export async function authenticateWithBank(bank: string, country: string) {
+  const res = await startAuthorization({ query: { bank, country } });
+  if (!res.data?.url)
+    throw new Error("Authentifizierung zur Bank fehlgeschlagen");
+  return res.data.url;
+}
