@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetAccountData, GetAccountResponses, GetAvailableBanksData, GetAvailableBanksResponses, StartAuthorizationData, StartAuthorizationResponses } from './types.gen';
+import type { GetAccountData, GetAccountResponses, GetAccountsData, GetAccountsResponses, GetAvailableBanksData, GetAvailableBanksResponses, StartAuthorizationData, StartAuthorizationResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -21,5 +21,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 export const startAuthorization = <ThrowOnError extends boolean = false>(options: Options<StartAuthorizationData, ThrowOnError>) => (options.client ?? client).post<StartAuthorizationResponses, unknown, ThrowOnError>({ url: '/api/v1/account/auth', ...options });
 
 export const getAvailableBanks = <ThrowOnError extends boolean = false>(options?: Options<GetAvailableBanksData, ThrowOnError>) => (options?.client ?? client).get<GetAvailableBanksResponses, unknown, ThrowOnError>({ url: '/api/v1/account/banks', ...options });
+
+export const getAccounts = <ThrowOnError extends boolean = false>(options: Options<GetAccountsData, ThrowOnError>) => (options.client ?? client).get<GetAccountsResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts', ...options });
 
 export const getAccount = <ThrowOnError extends boolean = false>(options: Options<GetAccountData, ThrowOnError>) => (options.client ?? client).get<GetAccountResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts/{id}', ...options });

@@ -70,6 +70,25 @@ export type GetAvailableBanksResponses = {
 
 export type GetAvailableBanksResponse = GetAvailableBanksResponses[keyof GetAvailableBanksResponses];
 
+export type GetAccountsData = {
+    body?: never;
+    headers: {
+        'X-User-Id': number;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/account/accounts';
+};
+
+export type GetAccountsResponses = {
+    /**
+     * OK
+     */
+    200: Array<AccountDto>;
+};
+
+export type GetAccountsResponse = GetAccountsResponses[keyof GetAccountsResponses];
+
 export type GetAccountData = {
     body?: never;
     headers: {
