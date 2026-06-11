@@ -8,6 +8,7 @@ import {
 } from "./components/layout/protectedRoute";
 import AuthPage from "./pages/auth/authPage";
 import BankSelectPage from "./pages/onboarding/bankSelectPage";
+import CallbackPage from "./pages/onboarding/callbackPage";
 import TransactionsPage from "./pages/transactions/transactionsPage";
 import DashboardPage from "./pages/dashboard/dashboardPage";
 import CategoriesPage from "./pages/categories/categoriesPage";
@@ -31,6 +32,10 @@ function App() {
             <Route
               path="/onboarding/bank-select"
               element={<BankSelectPage />}
+            />
+            <Route
+              path="/onboarding/callback"
+              element={<CallbackPage />}
             />
           </Route>
           <Route element={<OnboardingGuard />}>
