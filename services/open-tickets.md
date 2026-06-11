@@ -1,5 +1,7 @@
 # Tickets:
 
+- Refresh token pattern implementieren
+  (Cost: L, Complexity: L)
 
 # Backlog:
 - In transaction-service: Alerts publishen für notificationservice in kafka 
