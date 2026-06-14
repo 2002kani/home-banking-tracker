@@ -2,6 +2,7 @@
 
 - Refresh token pattern implementieren
   (Cost: L, Complexity: L)
+- HttpCookie nutzen für refreshToken (dann ggf auch für accessToken)
 
 # Backlog:
 - In transaction-service: Alerts publishen für notificationservice in kafka 

@@ -1,9 +1,11 @@
 package com.home_banking.auth_service.auth;
 
+import com.home_banking.auth_service.entity.RefreshToken;
 import com.home_banking.auth_service.entity.User;
 import com.home_banking.auth_service.enums.Role;
 import com.home_banking.auth_service.repository.UserRepository;
-import com.home_banking.auth_service.service.JwtService;
+import com.home_banking.auth_service.service.IJwtService;
+import com.home_banking.auth_service.service.IRefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,27 +18,30 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final IJwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final IRefreshTokenService refreshTokenService;
 
     public AuthenticationResponse register(RegisterRequest request){
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new RuntimeException("Email already exists");
         }
 
-        var user = User.builder()
+        User user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
-
         userRepository.save(user);
-        String token = jwtService.generateToken(user);
+
+        String accessToken = jwtService.generateToken(user);
+        RefreshToken refreshToken = refreshTokenService.generateRefreshToken(user);
 
         return AuthenticationResponse.builder()
-                .token(token)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken.getToken())
                 .build();
     }
 
@@ -48,13 +53,15 @@ public class AuthenticationService {
                 )
         );
 
-        var user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
-        var token = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user);
+        RefreshToken refreshToken = refreshTokenService.generateRefreshToken(user);
 
         return AuthenticationResponse.builder()
-                .token(token)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken.getToken())
                 .build();
     }
 }
