@@ -1,8 +1,9 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   clearToken,
   getStoredToken,
   setAuthToken,
+  setRefreshCallbacks,
   setRefreshToken,
 } from "@/lib/auth";
 import type {
@@ -46,6 +47,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     clearToken();
     setToken(null);
   };
+
+  useEffect(() => {
+    setRefreshCallbacks(
+      (newToken) => setToken(newToken),
+      () => { clearToken(); setToken(null); },
+    );
+  }, []);
 
   return (
     <AuthContext.Provider

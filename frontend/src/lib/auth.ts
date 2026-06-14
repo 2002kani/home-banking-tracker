@@ -33,12 +33,22 @@ export function clearToken() {
   accountClient.setConfig({ headers: { Authorization: undefined } });
 }
 
-// Silent-Refresh Interceptor: bei 401 automatisch neues Access Token holen und Request wiederholen
+// Silent-Refresh Interceptor: bei 401/403 automatisch neues Access Token holen und Request wiederholen
 let isRefreshing = false;
+let onTokenRefreshed: ((token: string) => void) | null = null;
+let onRefreshFailed: (() => void) | null = null;
+
+export function setRefreshCallbacks(
+  onSuccess: (token: string) => void,
+  onFailure: () => void,
+) {
+  onTokenRefreshed = onSuccess;
+  onRefreshFailed = onFailure;
+}
 
 function setupRefreshInterceptor(apiClient: typeof transactionClient) {
   apiClient.interceptors.response.use(async (response, request) => {
-    if (response.status !== 401 || isRefreshing) return response;
+    if (![401, 403].includes(response.status) || isRefreshing) return response;
 
     const storedRefreshToken = getStoredRefreshToken();
     if (!storedRefreshToken) return response;
@@ -46,10 +56,15 @@ function setupRefreshInterceptor(apiClient: typeof transactionClient) {
     isRefreshing = true;
     try {
       const res = await refresh({ body: { refreshToken: storedRefreshToken } });
-      if (!res.data?.accessToken) return response;
+      if (!res.data?.accessToken) {
+        clearToken();
+        onRefreshFailed?.();
+        return response;
+      }
 
       setAuthToken(res.data.accessToken);
       if (res.data.refreshToken) setRefreshToken(res.data.refreshToken);
+      onTokenRefreshed?.(res.data.accessToken);
 
       // Original-Request mit neuem Token wiederholen
       const newHeaders = new Headers(request.headers);
@@ -57,6 +72,7 @@ function setupRefreshInterceptor(apiClient: typeof transactionClient) {
       return fetch(new Request(request, { headers: newHeaders }));
     } catch {
       clearToken();
+      onRefreshFailed?.();
       return response;
     } finally {
       isRefreshing = false;
