@@ -1,5 +1,10 @@
 import { createContext, useContext, useState } from "react";
-import { clearToken, getStoredToken, setAuthToken } from "@/lib/auth";
+import {
+  clearToken,
+  getStoredToken,
+  setAuthToken,
+  setRefreshToken,
+} from "@/lib/auth";
 import type {
   AuthenticationRequest,
   RegisterRequest,
@@ -24,15 +29,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   const login = async (req: AuthenticationRequest) => {
-    const token = await loginUser(req);
-    setAuthToken(token);
-    setToken(token);
+    const { accessToken, refreshToken } = await loginUser(req);
+    setAuthToken(accessToken);
+    setRefreshToken(refreshToken);
+    setToken(accessToken);
   };
 
   const register = async (req: RegisterRequest) => {
-    const token = await registerUser(req);
-    setAuthToken(token);
-    setToken(token);
+    const { accessToken, refreshToken } = await registerUser(req);
+    setAuthToken(accessToken);
+    setRefreshToken(refreshToken);
+    setToken(accessToken);
   };
 
   const logout = () => {
