@@ -19,12 +19,24 @@ import { ChevronsUpDown } from "lucide-react";
 import { sidebarNav, sidebarSecondaryNav, version } from "@/lib/constants";
 
 import HeaderLayout from "./headerLayout";
+import { decodeJwtPayload } from "@/lib/decodeJwtPayload";
+import { useMemo } from "react";
 
 export default function AppLayout() {
   const location = useLocation();
   const allRoutes = [...sidebarNav, ...sidebarSecondaryNav];
 
+  const payload = useMemo(() => {
+    const token = localStorage.getItem("jwt");
+    if (!token) return null;
+    return decodeJwtPayload(token);
+  }, []);
+
   const currentRoute = allRoutes.find((item) => item.url == location.pathname);
+
+  const getInitials = (firstName?: string, lastName?: string): string => {
+    return `${firstName?.[0] ?? ""}${lastName?.[0] ?? ""}`.toUpperCase();
+  };
 
   return (
     <SidebarProvider>
@@ -100,12 +112,14 @@ export default function AppLayout() {
               >
                 <Avatar className="h-7 w-7 rounded-md">
                   <AvatarFallback className="rounded-md bg-sidebar-primary text-sidebar-primary-foreground text-xs">
-                    KK
+                    {getInitials(payload.firstName, payload.lastName)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-1 flex-col text-left text-xs leading-tight">
-                  <span className="font-medium">Kani Karadag</span>
-                  <span className="text-muted-foreground">test@email.com</span>
+                  <span className="font-medium">
+                    {payload.firstName} {payload.lastName}
+                  </span>
+                  <span className="text-muted-foreground">{payload.sub}</span>
                 </div>
                 <ChevronsUpDown className="ml-auto h-4 w-4 opacity-50" />
               </SidebarMenuButton>
