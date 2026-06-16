@@ -51,7 +51,7 @@ transaction queries and lets users manage and assign custom spending categories.
   ### Prerequisites
   - Docker & Docker Compose
   - Node.js (for the frontend)
-  - An [EnableBanking](https://enablebanking.com) developer account (API credentials + RSA private key)
+  - An [EnableBanking](https://enablebanking.com) developer account (about to be changed)
   - An [ngrok](https://ngrok.com) account (required for the OAuth2 bank callback — EnableBanking needs a
   public HTTPS URL)
 
@@ -67,16 +67,16 @@ transaction queries and lets users manage and assign custom spending categories.
   enablebanking.api.application-id=<your-application-id>
   enablebanking.api.private-key-path=classpath:keys/<your-key-file>.pem
   ngrok.authToken=<your-ngrok-auth-token>
-  spring.datasource.username=testUser
-  spring.datasource.password=testPassword
-  Also place your EnableBanking .pem private key in the same keys/ directory.
+  spring.datasource.username=USERNAME
+  spring.datasource.password=PASSWORD
 
   services/auth-service/src/main/resources/keys/secrets.properties
   services/account-service/src/main/resources/keys/secrets.properties
   services/transaction-service/src/main/resources/keys/secrets.properties
   services/api-gateway/src/main/resources/keys/secrets.properties
-  spring.datasource.username=testUser
-  spring.datasource.password=testPassword
+  spring.datasource.username=USERNAME
+  spring.datasource.password=PASSWORD
+  ```
 
   ---
   2. Update the redirect URL
@@ -108,7 +108,6 @@ transaction queries and lets users manage and assign custom spending categories.
   The frontend runs at http://localhost:5173.
 
   ---
-
 
 
 
