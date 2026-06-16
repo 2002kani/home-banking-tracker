@@ -1,6 +1,6 @@
 # Real Banking Manager (WIP)
 
-A personal finance management backend that connects to real bank accounts via the Enable Banking Open Banking API. The system performs automated OAuth2 authorization flows with RSA-signed JWT authentication, periodically syncs real transaction data and account balances through a scheduled polling service, and distributes the data across microservices via Apache Kafka. Users can view their transaction history, monitor account balances, and categorize spending — all sourced from their actual bank. Not production-ready yet. Built as a portfolio project to explore microservice architecture and Open Banking integration. 
+A full-stack personal finance management application that connects to real bank accounts via the Enable Banking Open Banking API. The backend performs automated OAuth2 authorization flows with RSA-signed JWT authentication, periodically syncs real transaction data and account balances through a scheduled polling service, and distributes the data across microservices via Apache Kafka. A React + TypeScript frontend provides a guided bank onboarding experience, transaction history with filtering and categorization, and account balance monitoring — all sourced from the user's actual bank. Not production-ready yet. Built as a portfolio project to explore microservice architecture, Open Banking integration, and full-stack development.
 
 ## Microservice Architecture Overview 
 
