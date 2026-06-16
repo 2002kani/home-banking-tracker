@@ -55,7 +55,6 @@ transaction queries and lets users manage and assign custom spending categories.
   - An [ngrok](https://ngrok.com) account (required for the OAuth2 bank callback — EnableBanking needs a
   public HTTPS URL)
 
-  ---
 
   ### 1. Configure secrets
 
@@ -78,7 +77,6 @@ transaction queries and lets users manage and assign custom spending categories.
   spring.datasource.password=PASSWORD
   ```
 
-  ---
   ### 2. Update the redirect URL
 
   In services/open-banking-service/src/main/resources/application.properties, set the ngrok callback URL to
@@ -86,7 +84,7 @@ transaction queries and lets users manage and assign custom spending categories.
 
   enablebanking.api.redirect-url=https://<your-ngrok-domain>/api/v1/open-banking/callback
 
-  ---
+
   ### 3. Start the backend
 
   The Dockerfiles build the Spring Boot services automatically — no local Java or Maven needed.
@@ -98,7 +96,7 @@ transaction queries and lets users manage and assign custom spending categories.
   http://localhost:8091.
   The API is accessible via the gateway at http://localhost:8090.
 
-  ---
+  
   ### 4. Start the frontend
 
   cd frontend
@@ -106,8 +104,6 @@ transaction queries and lets users manage and assign custom spending categories.
   npm run dev
 
   The frontend runs at http://localhost:5173.
-
-  ---
 
 
 
