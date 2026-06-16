@@ -79,7 +79,7 @@ transaction queries and lets users manage and assign custom spending categories.
   ```
 
   ---
-  2. Update the redirect URL
+  ### 2. Update the redirect URL
 
   In services/open-banking-service/src/main/resources/application.properties, set the ngrok callback URL to
    your own ngrok domain:
@@ -87,7 +87,7 @@ transaction queries and lets users manage and assign custom spending categories.
   enablebanking.api.redirect-url=https://<your-ngrok-domain>/api/v1/open-banking/callback
 
   ---
-  3. Start the backend
+  ### 3. Start the backend
 
   The Dockerfiles build the Spring Boot services automatically — no local Java or Maven needed.
 
@@ -99,7 +99,7 @@ transaction queries and lets users manage and assign custom spending categories.
   The API is accessible via the gateway at http://localhost:8090.
 
   ---
-  4. Start the frontend
+  ### 4. Start the frontend
 
   cd frontend
   npm install
