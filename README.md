@@ -46,7 +46,68 @@ transaction queries and lets users manage and assign custom spending categories.
 
 
 
-## Quickstart
+## Getting Started
+
+  ### Prerequisites
+  - Docker & Docker Compose
+  - Node.js (for the frontend)
+  - An [EnableBanking](https://enablebanking.com) developer account (API credentials + RSA private key)
+  - An [ngrok](https://ngrok.com) account (required for the OAuth2 bank callback — EnableBanking needs a
+  public HTTPS URL)
+
+  ---
+
+  ### 1. Configure secrets
+
+  Each service reads sensitive config from a `secrets.properties` file under `src/main/resources/keys/`.
+  These are not committed.
+
+  **`services/open-banking-service/src/main/resources/keys/secrets.properties`**
+  ```properties
+  enablebanking.api.application-id=<your-application-id>
+  enablebanking.api.private-key-path=classpath:keys/<your-key-file>.pem
+  ngrok.authToken=<your-ngrok-auth-token>
+  spring.datasource.username=testUser
+  spring.datasource.password=testPassword
+  Also place your EnableBanking .pem private key in the same keys/ directory.
+
+  services/auth-service/src/main/resources/keys/secrets.properties
+  services/account-service/src/main/resources/keys/secrets.properties
+  services/transaction-service/src/main/resources/keys/secrets.properties
+  services/api-gateway/src/main/resources/keys/secrets.properties
+  spring.datasource.username=testUser
+  spring.datasource.password=testPassword
+
+  ---
+  2. Update the redirect URL
+
+  In services/open-banking-service/src/main/resources/application.properties, set the ngrok callback URL to
+   your own ngrok domain:
+
+  enablebanking.api.redirect-url=https://<your-ngrok-domain>/api/v1/open-banking/callback
+
+  ---
+  3. Start the backend
+
+  The Dockerfiles build the Spring Boot services automatically — no local Java or Maven needed.
+
+  cd services
+  docker-compose up --build
+
+  This starts PostgreSQL, Zookeeper, Kafka, all five backend services, and a Kafka UI at
+  http://localhost:8091.
+  The API is accessible via the gateway at http://localhost:8090.
+
+  ---
+  4. Start the frontend
+
+  cd frontend
+  npm install
+  npm run dev
+
+  The frontend runs at http://localhost:5173.
+
+  ---
 
 
 
