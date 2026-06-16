@@ -68,6 +68,8 @@ public class JwtService implements IJwtService {
                 .subject(userDetails.getUsername()) // since it returns the email from the user
                 .claims(extraClaims)
                 .claim("userId", user.getId())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpiration * 1000))
                 .signWith(privateKey, Jwts.SIG.RS256)
