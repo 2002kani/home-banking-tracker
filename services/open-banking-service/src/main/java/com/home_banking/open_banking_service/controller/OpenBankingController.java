@@ -36,7 +36,7 @@ public class OpenBankingController {
 
     /*
      * Called by the logged-in user through the gateway → X-User-Id is available.
-     * Generates a random state, stores state→userId mapping, then redirects to EnableBanking.
+     * Generates a random state, stores state -> userId mapping, then redirects to EnableBanking.
      */
     @PostMapping("/auth")
     public ResponseEntity<StartAuthResponse> startAuthorization(
@@ -60,7 +60,7 @@ public class OpenBankingController {
             return ResponseEntity.badRequest().body(errorDescription);
         }
         // TODO: exchange hardcoded bank/country with dynamic solution
-        openBankingService.authAndSave(code, state, "Sparkasse", "DE");
+        openBankingService.authAndSave(code, state);
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(redirectionUrl))
                 .build();

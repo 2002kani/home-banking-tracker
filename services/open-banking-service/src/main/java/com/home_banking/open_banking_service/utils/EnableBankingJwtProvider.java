@@ -19,9 +19,12 @@ import java.util.Base64;
 public class EnableBankingJwtProvider {
     @Value("${enablebanking.api.application-id}")
     private String applicationId;
-
     @Value("${enablebanking.api.private-key-path}")
     private Resource privateKeyResource;
+    @Value("${enablebanking.aud.url}")
+    private String audUrl;
+    @Value("${enablebanking.issuer.url}")
+    private String issuerUrl;
 
     private PrivateKey privateKey;
 
@@ -54,8 +57,8 @@ public class EnableBankingJwtProvider {
                     .add("kid", applicationId)
                     .add("typ", "JWT")
                     .and()
-                .issuer("enablebanking.com")
-                .claim("aud", "api.enablebanking.com")
+                .issuer(issuerUrl)
+                .claim("aud", audUrl)
                 .claim("iat", timeNow)
                 .claim("exp", timeNow + 3600)
                 .signWith(privateKey, SignatureAlgorithm.RS256)

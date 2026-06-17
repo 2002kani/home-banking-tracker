@@ -52,12 +52,14 @@ public class OpenBankingService implements IOpenBankingService {
                 .state(state)
                 .userId(userId)
                 .createdAt(Instant.now())
+                .bankName(bank)
+                .countryCode(country)
                 .build());
         return enablebankingClient.startAuthorization(bank, country, state);
     }
 
     @Override
-    public void authAndSave(String code, String state, String bankName, String bankCountry) {
+    public void authAndSave(String code, String state) {
         PendingSession pending = pendingSessionRepository.findById(state)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown state: " + state));
         Long userId = pending.getUserId();
@@ -69,8 +71,8 @@ public class OpenBankingService implements IOpenBankingService {
                 .sessionId(resp.getSessionId())
                 .userId(userId)
                 .status("ACTIVE")
-                .bankName(bankName)
-                .bankCountry(bankCountry)
+                .bankName(pending.getBankName())
+                .bankCountry(pending.getCountryCode())
                 .validUntil(Instant.now().plus(90, ChronoUnit.DAYS))
                 .createdAt(Instant.now())
                 .build();

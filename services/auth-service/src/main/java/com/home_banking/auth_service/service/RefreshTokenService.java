@@ -4,7 +4,9 @@ import com.home_banking.auth_service.entity.RefreshToken;
 import com.home_banking.auth_service.entity.User;
 import com.home_banking.auth_service.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -62,5 +64,11 @@ public class RefreshTokenService implements IRefreshTokenService {
         List<RefreshToken> allTokens = refreshTokenRepository.findAllByUser(user);
         allTokens.forEach(t -> t.setRevoked(true));
         refreshTokenRepository.saveAll(allTokens);
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 3 * * SUN")
+    public void deleteRevokedRefreshTokens(){
+        refreshTokenRepository.deleteByRevokedTrue();
     }
 }

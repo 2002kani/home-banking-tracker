@@ -29,7 +29,7 @@ public class AccountController {
             @RequestParam String country,
             @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
     ){
-        return ResponseEntity.ok(accountService.startAuth(bank, country, userId)); // TODO: Besser ggf autom. weiterleiten in der ui (?)
+        return ResponseEntity.ok(accountService.startAuth(bank, country, userId));
     }
 
     @GetMapping("/accounts")

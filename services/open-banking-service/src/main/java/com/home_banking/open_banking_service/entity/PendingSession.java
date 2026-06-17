@@ -25,4 +25,10 @@ public class PendingSession {
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
+
+    @Column(name = "country_code")
+    private String countryCode;
+
+    @Column(name = "bank_name")
+    private String bankName;
 }
