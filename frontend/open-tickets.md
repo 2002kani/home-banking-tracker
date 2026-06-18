@@ -6,6 +6,7 @@
 - Analytics hinbekommen
 - Kategorien hinbekommen
 - Settings hinbekommen
+- login / register page anpassen
 
 -=-=-=-=-=-=-=-=-
 
