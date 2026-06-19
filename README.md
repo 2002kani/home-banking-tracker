@@ -5,7 +5,7 @@ A full-stack personal finance management application that connects to real bank 
 ## Microservice Architecture Overview 
 
 ![Backend Architecture](github/backend-architecture.png)
-
+ 
 
 
 ## Services
