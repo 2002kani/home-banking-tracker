@@ -30,6 +30,12 @@ export type AccountDto = {
     balance?: string;
 };
 
+export type NetWorthDto = {
+    totalBalance?: number;
+    changeAbsolut?: number;
+    changePercent?: number;
+};
+
 export type StartAuthorizationData = {
     body?: never;
     path?: never;
@@ -100,3 +106,19 @@ export type GetAccountResponses = {
 };
 
 export type GetAccountResponse = GetAccountResponses[keyof GetAccountResponses];
+
+export type GetAccountNetWorthData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/account/accounts/summary/net-worth';
+};
+
+export type GetAccountNetWorthResponses = {
+    /**
+     * OK
+     */
+    200: NetWorthDto;
+};
+
+export type GetAccountNetWorthResponse = GetAccountNetWorthResponses[keyof GetAccountNetWorthResponses];

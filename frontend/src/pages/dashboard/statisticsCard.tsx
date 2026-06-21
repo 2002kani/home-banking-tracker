@@ -42,7 +42,7 @@ export default function StatCard(props: IProps) {
               ) : (
                 <ArrowDownRight className="h-3 w-3" />
               )}
-              {positive ? "+" : ""}
+              {positive ? "+" : "+"}
               {delta}%
             </span>
           )}
