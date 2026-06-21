@@ -47,4 +47,11 @@ public class AccountController {
         AccountDto account = accountService.getAccount(id, userId);
         return ResponseEntity.ok(account);
     }
+
+    @GetMapping("/accounts/summary/net-worth")
+    public ResponseEntity<AccountDto> getAccountNetWorth(
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
+    )
+    {
+    }
 }
