@@ -2,6 +2,7 @@ package com.home_banking.account_service.service;
 
 import com.home_banking.account_service.dto.AccountDto;
 import com.home_banking.account_service.dto.BanksListResponse;
+import com.home_banking.account_service.dto.NetWorthDto;
 import com.home_banking.account_service.dto.StartAuthResponse;
 import com.home_banking.account_service.event.AccountUpdateEvent;
 
@@ -13,4 +14,6 @@ public interface IAccountService {
     public void updateAccount(AccountUpdateEvent event);
     public List<AccountDto> getAccounts(Long userId);
     public AccountDto getAccount(Long id, Long userId);
+    void upsertNetWorthSnapshot(Long userId);
+    NetWorthDto getNetWorth(Long userId);
 }

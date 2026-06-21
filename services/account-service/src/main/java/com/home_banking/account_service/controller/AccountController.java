@@ -2,6 +2,7 @@ package com.home_banking.account_service.controller;
 
 import com.home_banking.account_service.dto.AccountDto;
 import com.home_banking.account_service.dto.BanksListResponse;
+import com.home_banking.account_service.dto.NetWorthDto;
 import com.home_banking.account_service.dto.StartAuthResponse;
 import com.home_banking.account_service.service.IAccountService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -49,9 +50,10 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/summary/net-worth")
-    public ResponseEntity<AccountDto> getAccountNetWorth(
+    public ResponseEntity<NetWorthDto> getAccountNetWorth(
             @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
     )
     {
+        return ResponseEntity.ok(accountService.getNetWorth(userId));
     }
 }

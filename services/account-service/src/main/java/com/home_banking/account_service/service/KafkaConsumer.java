@@ -15,5 +15,6 @@ public class KafkaConsumer implements IKafkaConsumer {
     @Override
     public void handleAccountUpdate(AccountUpdateEvent event) {
         accountService.updateAccount(event);
+        accountService.upsertNetWorthSnapshot(event.getUserId());
     }
 }
