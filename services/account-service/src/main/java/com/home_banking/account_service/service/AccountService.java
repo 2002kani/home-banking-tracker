@@ -131,8 +131,8 @@ public class AccountService implements IAccountService {
                         lastMonth.getMonthValue()
                 );
 
-        // Kein Vormonat vorhanden → neuer User oder erste Verbindung
-        // Frontend soll in diesem Fall keinen Vergleich anzeigen
+        // No pre month: New user for example
+        // Frontend must not do comparison
         if(lastMonthSnapshot.isEmpty()) {
             return NetWorthDto.builder()
                     .totalBalance(currentTotal)
