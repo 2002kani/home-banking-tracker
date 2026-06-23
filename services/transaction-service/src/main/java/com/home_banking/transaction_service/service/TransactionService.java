@@ -1,5 +1,6 @@
 package com.home_banking.transaction_service.service;
 
+import com.home_banking.transaction_service.dto.ExpensesDto;
 import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.entity.Category;
 import com.home_banking.transaction_service.entity.Transaction;
@@ -15,6 +16,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -65,5 +68,45 @@ public class TransactionService implements ITransactionService {
 
         transaction.setCategory(category);
         transactionRepository.save(transaction);
+    }
+
+    @Override
+    public ExpensesDto getExpensesThisMonth(Long userId) {
+        LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
+        LocalDate today = LocalDate.now();
+
+        // No specification here: since you first go through all transactions, then load them
+        // only to sum the amount after that. A repository with @Query is more efficient
+        // since you can immediently sum the transaction amounts up.
+        BigDecimal expensesCurrentMonth =
+                transactionRepository.sumByUserIdAndTypeAndDateBetween(
+                        userId,
+                        CreditDebitIndicator.DBIT,
+                        firstOfMonth,
+                        today
+                );
+
+        LocalDate lastMonthStart = firstOfMonth.minusMonths(1);
+        LocalDate lastMonthEnd = firstOfMonth.minusDays(1);
+        BigDecimal lastMonth = transactionRepository.sumByUserIdAndTypeAndDateBetween(
+                userId, CreditDebitIndicator.DBIT, lastMonthStart, lastMonthEnd
+        );
+
+        BigDecimal changePercent = calculatePercentChange(expensesCurrentMonth, lastMonth);
+
+        return ExpensesDto.builder()
+                .expenses(expensesCurrentMonth)
+                .changePercent(changePercent)
+                .build();
+    }
+
+    private BigDecimal calculatePercentChange(BigDecimal current, BigDecimal previous){
+        if(previous.compareTo(BigDecimal.ZERO) == 0){
+            return null;
+        }
+        return current.
+                subtract(previous)
+                .divide(previous, 4, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
     }
 }

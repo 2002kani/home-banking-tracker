@@ -1,7 +1,9 @@
 package com.home_banking.transaction_service.controller;
+import com.home_banking.transaction_service.dto.ExpensesDto;
 import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import com.home_banking.transaction_service.service.ITransactionService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ public class TransactionController {
 
     @GetMapping("/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactions(
-            @RequestHeader("X-User-Id") Long userId,
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId,
             @RequestParam(required = false) LocalDate dateFrom,
             @RequestParam(required = false) LocalDate dateTo,
             @RequestParam(required = false) CreditDebitIndicator type,
@@ -39,11 +41,18 @@ public class TransactionController {
 
     @PatchMapping("/transaction/{id}")
     public ResponseEntity<Void> categorizeTransaction(
-            @RequestHeader("X-User-Id") Long userId,
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long id,
             @RequestParam Long categoryId
     ){
         transactionService.categorizeTransaction(userId, id, categoryId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/transaction/expenses")
+    public ResponseEntity<ExpensesDto> getExpensesThisMonth(
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
+    ){
+        return ResponseEntity.ok(transactionService.getExpensesThisMonth(userId));
     }
 }
