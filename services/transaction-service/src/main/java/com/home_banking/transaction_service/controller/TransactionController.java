@@ -49,10 +49,11 @@ public class TransactionController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/transaction/expenses")
+    @GetMapping("/transactions/summary/expenses")
     public ResponseEntity<ExpensesDto> getExpensesThisMonth(
-            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId,
+            @RequestParam CreditDebitIndicator type
     ){
-        return ResponseEntity.ok(transactionService.getExpensesThisMonth(userId));
+        return ResponseEntity.ok(transactionService.getExpensesThisMonth(userId, type));
     }
 }

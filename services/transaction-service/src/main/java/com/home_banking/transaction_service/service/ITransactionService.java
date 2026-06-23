@@ -13,5 +13,5 @@ public interface ITransactionService {
     void persistTransactions(TransactionEvent event);
     TransactionDto getTransactionById(Long id);
     void categorizeTransaction(Long userId, Long id, Long categoryId);
-    ExpensesDto getExpensesThisMonth(Long userId);
+    ExpensesDto getExpensesThisMonth(Long userId, CreditDebitIndicator type);
 }

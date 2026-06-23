@@ -71,25 +71,22 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public ExpensesDto getExpensesThisMonth(Long userId) {
+    public ExpensesDto getExpensesThisMonth(Long userId, CreditDebitIndicator type) {
         LocalDate firstOfMonth = LocalDate.now().withDayOfMonth(1);
-        LocalDate today = LocalDate.now();
+        LocalDate lastMonthStart = firstOfMonth.minusMonths(1);
+        LocalDate lastMonthEnd = firstOfMonth.minusDays(1);
 
         // No specification here: since you first go through all transactions, then load them
         // only to sum the amount after that. A repository with @Query is more efficient
         // since you can immediently sum the transaction amounts up.
-        BigDecimal expensesCurrentMonth =
-                transactionRepository.sumByUserIdAndTypeAndDateBetween(
-                        userId,
-                        CreditDebitIndicator.DBIT,
-                        firstOfMonth,
-                        today
-                );
+        BigDecimal expensesCurrentMonth = transactionRepository.sumByUserIdAndTypeAndDateBetween(
+                        userId, type, lastMonthStart, lastMonthEnd
+        );
 
-        LocalDate lastMonthStart = firstOfMonth.minusMonths(1);
-        LocalDate lastMonthEnd = firstOfMonth.minusDays(1);
+        LocalDate previousMonthStart = firstOfMonth.minusMonths(2);
+        LocalDate previousMonthEnd = firstOfMonth.minusMonths(1).minusDays(1);
         BigDecimal lastMonth = transactionRepository.sumByUserIdAndTypeAndDateBetween(
-                userId, CreditDebitIndicator.DBIT, lastMonthStart, lastMonthEnd
+                userId, type, previousMonthStart, previousMonthEnd
         );
 
         BigDecimal changePercent = calculatePercentChange(expensesCurrentMonth, lastMonth);
