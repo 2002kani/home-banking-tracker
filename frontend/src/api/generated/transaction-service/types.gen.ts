@@ -25,6 +25,11 @@ export type TransactionDto = {
     categoryName?: string;
 };
 
+export type ExpensesDto = {
+    expenses?: number;
+    changePercent?: number;
+};
+
 export type GetCategoriesData = {
     body?: never;
     headers: {
@@ -83,9 +88,6 @@ export type GetTransactionByIdResponse = GetTransactionByIdResponses[keyof GetTr
 
 export type CategorizeTransactionData = {
     body?: never;
-    headers: {
-        'X-User-Id': number;
-    };
     path: {
         id: number;
     };
@@ -104,9 +106,6 @@ export type CategorizeTransactionResponses = {
 
 export type GetTransactionsData = {
     body?: never;
-    headers: {
-        'X-User-Id': number;
-    };
     path?: never;
     query?: {
         dateFrom?: string;
@@ -125,6 +124,24 @@ export type GetTransactionsResponses = {
 };
 
 export type GetTransactionsResponse = GetTransactionsResponses[keyof GetTransactionsResponses];
+
+export type GetExpensesThisMonthData = {
+    body?: never;
+    path?: never;
+    query: {
+        type: 'CRDT' | 'DBIT';
+    };
+    url: '/api/v1/transactions/summary/expenses';
+};
+
+export type GetExpensesThisMonthResponses = {
+    /**
+     * OK
+     */
+    200: ExpensesDto;
+};
+
+export type GetExpensesThisMonthResponse = GetExpensesThisMonthResponses[keyof GetExpensesThisMonthResponses];
 
 export type DeleteCategoryData = {
     body?: never;

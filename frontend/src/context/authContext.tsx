@@ -51,7 +51,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setRefreshCallbacks(
       (newToken) => setToken(newToken),
-      () => { clearToken(); setToken(null); },
+      () => {
+        clearToken();
+        setToken(null);
+      },
     );
   }, []);
 

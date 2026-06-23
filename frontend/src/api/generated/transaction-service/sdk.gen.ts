@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CategorizeTransactionData, CategorizeTransactionResponses, CreateCategoryData, CreateCategoryResponses, DeleteCategoryData, DeleteCategoryResponses, GetCategoriesData, GetCategoriesResponses, GetTransactionByIdData, GetTransactionByIdResponses, GetTransactionsData, GetTransactionsResponses } from './types.gen';
+import type { CategorizeTransactionData, CategorizeTransactionResponses, CreateCategoryData, CreateCategoryResponses, DeleteCategoryData, DeleteCategoryResponses, GetCategoriesData, GetCategoriesResponses, GetExpensesThisMonthData, GetExpensesThisMonthResponses, GetTransactionByIdData, GetTransactionByIdResponses, GetTransactionsData, GetTransactionsResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -33,6 +33,8 @@ export const getTransactionById = <ThrowOnError extends boolean = false>(options
 
 export const categorizeTransaction = <ThrowOnError extends boolean = false>(options: Options<CategorizeTransactionData, ThrowOnError>) => (options.client ?? client).patch<CategorizeTransactionResponses, unknown, ThrowOnError>({ url: '/api/v1/transaction/{id}', ...options });
 
-export const getTransactions = <ThrowOnError extends boolean = false>(options: Options<GetTransactionsData, ThrowOnError>) => (options.client ?? client).get<GetTransactionsResponses, unknown, ThrowOnError>({ url: '/api/v1/transactions', ...options });
+export const getTransactions = <ThrowOnError extends boolean = false>(options?: Options<GetTransactionsData, ThrowOnError>) => (options?.client ?? client).get<GetTransactionsResponses, unknown, ThrowOnError>({ url: '/api/v1/transactions', ...options });
+
+export const getExpensesThisMonth = <ThrowOnError extends boolean = false>(options: Options<GetExpensesThisMonthData, ThrowOnError>) => (options.client ?? client).get<GetExpensesThisMonthResponses, unknown, ThrowOnError>({ url: '/api/v1/transactions/summary/expenses', ...options });
 
 export const deleteCategory = <ThrowOnError extends boolean = false>(options: Options<DeleteCategoryData, ThrowOnError>) => (options.client ?? client).delete<DeleteCategoryResponses, unknown, ThrowOnError>({ url: '/api/v1/category/{id}', ...options });
