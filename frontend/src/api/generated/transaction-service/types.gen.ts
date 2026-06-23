@@ -25,6 +25,11 @@ export type TransactionDto = {
     categoryName?: string;
 };
 
+export type SavingsDto = {
+    savingsRate?: number;
+    savingsAmount?: number;
+};
+
 export type ExpensesDto = {
     expenses?: number;
     changePercent?: number;
@@ -124,6 +129,22 @@ export type GetTransactionsResponses = {
 };
 
 export type GetTransactionsResponse = GetTransactionsResponses[keyof GetTransactionsResponses];
+
+export type GetSavingsLastMonthData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/transactions/summary/savings';
+};
+
+export type GetSavingsLastMonthResponses = {
+    /**
+     * OK
+     */
+    200: SavingsDto;
+};
+
+export type GetSavingsLastMonthResponse = GetSavingsLastMonthResponses[keyof GetSavingsLastMonthResponses];
 
 export type GetExpensesThisMonthData = {
     body?: never;

@@ -1,8 +1,10 @@
 import PageHeader from "@/components/shared/pageHeader";
 import StatCard from "./statisticsCard";
-import { Wallet, TrendingDown, TrendingUp } from "lucide-react";
+import { Wallet, TrendingDown, TrendingUp, PiggyBank } from "lucide-react";
 import useNetWorth from "@/hooks/useNetWorth";
 import useExpenses from "@/hooks/useExpenses";
+import useSWR from "swr";
+import { getSavingsLastMonth } from "@/api/generated/transaction-service";
 
 function formatEur(value?: number) {
   return value != null
@@ -22,6 +24,15 @@ function DashboardPage() {
     changePercent: incomeChange,
     isLoading: isIncomeLoading,
   } = useExpenses("CRDT");
+
+  const { data, isLoading: savingsLoading } = useSWR(
+    ["api/savings"],
+    async () => {
+      const result = await getSavingsLastMonth();
+      if (result.error) throw result.error;
+      return result;
+    },
+  );
 
   return (
     <>
@@ -51,6 +62,14 @@ function DashboardPage() {
           delta={expensesChange}
           hint="letzten Monat"
           icon={<TrendingDown className="h-4 w-4" />}
+        />
+        <StatCard
+          label="Sparrate letzten Monat"
+          value={savingsLoading ? "..." : `${data?.data?.savingsRate ?? "–"} %`}
+          delta={data?.data?.savingsAmount}
+          deltaUnit=" €"
+          hint="Sparrate letzten Monat"
+          icon={<PiggyBank className="h-4 w-4" />}
         />
       </div>
     </>

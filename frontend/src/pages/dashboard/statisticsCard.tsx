@@ -7,11 +7,12 @@ interface IProps {
   icon?: React.ReactNode;
   value: string;
   delta?: number;
+  deltaUnit?: string;
   hint?: string;
 }
 
 export default function StatCard(props: IProps) {
-  const { label, value, delta, hint, icon } = props;
+  const { label, value, delta, deltaUnit = "%", hint, icon } = props;
   const positive = (delta ?? 0) >= 0;
   return (
     <Card className="rounded-lg border-border shadow-none">
@@ -43,7 +44,8 @@ export default function StatCard(props: IProps) {
                 <ArrowDownRight className="h-3 w-3" />
               )}
               {positive ? "+" : ""}
-              {delta}%
+              {delta}
+              {deltaUnit}
             </span>
           )}
           {hint && <span className="text-muted-foreground">{hint}</span>}
