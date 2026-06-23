@@ -1,6 +1,7 @@
 package com.home_banking.transaction_service.service;
 
 import com.home_banking.transaction_service.dto.ExpensesDto;
+import com.home_banking.transaction_service.dto.SavingsDto;
 import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import com.home_banking.transaction_service.event.TransactionEvent;
@@ -14,4 +15,5 @@ public interface ITransactionService {
     TransactionDto getTransactionById(Long id);
     void categorizeTransaction(Long userId, Long id, Long categoryId);
     ExpensesDto getExpensesThisMonth(Long userId, CreditDebitIndicator type);
+    SavingsDto getSavingsLastMonth(Long userId);
 }

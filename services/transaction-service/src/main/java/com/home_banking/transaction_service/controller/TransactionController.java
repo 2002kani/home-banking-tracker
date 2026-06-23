@@ -1,5 +1,6 @@
 package com.home_banking.transaction_service.controller;
 import com.home_banking.transaction_service.dto.ExpensesDto;
+import com.home_banking.transaction_service.dto.SavingsDto;
 import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import com.home_banking.transaction_service.service.ITransactionService;
@@ -55,5 +56,12 @@ public class TransactionController {
             @RequestParam CreditDebitIndicator type
     ){
         return ResponseEntity.ok(transactionService.getExpensesThisMonth(userId, type));
+    }
+
+    @GetMapping("/transactions/summary/savings")
+    public ResponseEntity<SavingsDto> getSavingsLastMonth(
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
+    ){
+        return ResponseEntity.ok(transactionService.getSavingsLastMonth(userId));
     }
 }

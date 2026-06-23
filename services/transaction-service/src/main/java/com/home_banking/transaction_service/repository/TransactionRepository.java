@@ -27,4 +27,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
             @Param("from") LocalDate from,
             @Param("to") LocalDate to
     );
+
+
 }

@@ -2,6 +2,8 @@
 
 
 # Backlog:
+- Man soll sein spar ziel selbst setzen können (welcher angezeigt wird in dashboard) 
+
 - In transaction-service: Alerts publishen für notificationservice in kafka 
 
 - Fehler beheben: wegen LocalDate musste ich extra KafkaConsumerConfig und ProducerCOnfig erstellen

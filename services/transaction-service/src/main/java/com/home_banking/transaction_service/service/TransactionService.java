@@ -1,6 +1,7 @@
 package com.home_banking.transaction_service.service;
 
 import com.home_banking.transaction_service.dto.ExpensesDto;
+import com.home_banking.transaction_service.dto.SavingsDto;
 import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.entity.Category;
 import com.home_banking.transaction_service.entity.Transaction;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -95,6 +97,38 @@ public class TransactionService implements ITransactionService {
                 .expenses(expensesCurrentMonth)
                 .changePercent(changePercent)
                 .build();
+    }
+
+    @Override
+    public SavingsDto getSavingsLastMonth(Long userId) {
+        YearMonth lastMonth = YearMonth.now().minusMonths(1);
+        LocalDate lastMonthStart = lastMonth.atDay(1);
+        LocalDate lastMonthEnd = lastMonth.atEndOfMonth();
+
+        BigDecimal incomeLastMonth =  transactionRepository.sumByUserIdAndTypeAndDateBetween(
+                userId, CreditDebitIndicator.CRDT, lastMonthStart, lastMonthEnd
+        );
+        BigDecimal expensesLastMonth =  transactionRepository.sumByUserIdAndTypeAndDateBetween(
+                userId, CreditDebitIndicator.DBIT, lastMonthStart, lastMonthEnd
+        );
+
+        BigDecimal savingsRateThisMonth = calculateSavingsRate(incomeLastMonth, expensesLastMonth);
+
+        BigDecimal savingsAmount = incomeLastMonth.subtract(expensesLastMonth);
+
+        return SavingsDto.builder()
+                .savingsRate(savingsRateThisMonth)
+                .savingsAmount(savingsAmount)
+                .build();
+    }
+
+    private BigDecimal calculateSavingsRate(BigDecimal income, BigDecimal expenses){
+        if(income.compareTo(BigDecimal.ZERO)==0){
+            return BigDecimal.ZERO;
+        }
+        return income.subtract(expenses)
+                .divide(income, 4, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
     }
 
     private BigDecimal calculatePercentChange(BigDecimal current, BigDecimal previous){
