@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 interface IProps {
   label: string;
@@ -9,10 +10,12 @@ interface IProps {
   delta?: number;
   deltaUnit?: string;
   hint?: string;
+  hideable?: boolean;
 }
 
 export default function StatCard(props: IProps) {
-  const { label, value, delta, deltaUnit = "%", hint, icon } = props;
+  const { label, value, delta, deltaUnit = "%", hint, icon, hideable } = props;
+  const [hidden, setHidden] = useState(false);
   const positive = (delta ?? 0) >= 0;
   return (
     <Card className="rounded-lg border-border shadow-none">
@@ -21,11 +24,22 @@ export default function StatCard(props: IProps) {
           <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             {label}
           </span>
-          {icon && <div className="text-muted-foreground">{icon}</div>}
+          <div className="flex items-center gap-2 text-muted-foreground">
+            {hideable && (
+              <button onClick={() => setHidden((h) => !h)}>
+                {hidden ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            )}
+            {icon}
+          </div>
         </div>
         <div className="mt-3 flex items-baseline gap-2">
           <div className="font-mono text-2xl font-semibold tracking-tight">
-            {value}
+            {hidden ? "•••••" : value}
           </div>
         </div>
         <div className="mt-3 flex items-center gap-2 text-xs">

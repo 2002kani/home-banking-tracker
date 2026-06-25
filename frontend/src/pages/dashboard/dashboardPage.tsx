@@ -48,6 +48,7 @@ function DashboardPage() {
           delta={netWorth?.changePercent ?? 0}
           hint="vs. Vormonat"
           icon={<Wallet className="h-4 w-4" />}
+          hideable
         />
         <StatCard
           label="Einnahmen letzten Monat"
