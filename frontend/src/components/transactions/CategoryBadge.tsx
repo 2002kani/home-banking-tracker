@@ -1,11 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 
 interface CategoryBadgeProps {
-  name: string;
-  color: string;
+  name?: string;
+  color?: string;
 }
 
-export function CategoryBadge({ name, color }: CategoryBadgeProps) {
+const DEFAULT_COLOR = "#64748b";
+
+export function CategoryBadge({ name = "", color = DEFAULT_COLOR }: CategoryBadgeProps) {
   return (
     <Badge
       variant="outline"

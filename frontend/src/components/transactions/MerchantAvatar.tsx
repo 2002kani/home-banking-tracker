@@ -1,15 +1,16 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import type { TransactionDto } from "@/api/generated/transaction-service";
 import { cn } from "@/lib/utils";
 
 interface MerchantAvatarProps {
   name: string;
-  type: "CRDT" | "DBIT";
+  type: TransactionDto["type"];
 }
 
 export function MerchantAvatar({ name, type }: MerchantAvatarProps) {
   const initials = name
     .split(" ")
-    .map((w) => w[0])
+    .map((w) => w[0] ?? "")
     .join("")
     .slice(0, 2)
     .toUpperCase();

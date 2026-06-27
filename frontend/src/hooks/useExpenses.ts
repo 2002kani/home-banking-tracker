@@ -1,6 +1,8 @@
 import { getExpensesThisMonth } from "@/api/generated/transaction-service";
+import type { TransactionDto } from "@/api/generated/transaction-service";
 import useSWR from "swr";
-import type { CreditDebitIndicator } from "@/lib/types";
+
+type CreditDebitIndicator = NonNullable<TransactionDto["type"]>;
 
 function useExpenses(type: CreditDebitIndicator) {
   const { data, isLoading } = useSWR(["expenses", type], async () => {

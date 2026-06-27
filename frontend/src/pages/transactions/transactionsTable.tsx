@@ -6,252 +6,27 @@ import { MerchantAvatar } from "@/components/transactions/MerchantAvatar";
 import { CategoryBadge } from "@/components/transactions/CategoryBadge";
 import { TransactionPopover } from "@/components/transactions/TransactionPopover";
 import { STATUS_LABEL } from "@/lib/transactionConfig";
-import type { Transaction } from "@/lib/types";
-
-// TODO: Replace with API data
-const MOCK_DATA: Transaction[] = [
-  {
-    id: 1,
-    accountId: "DE89370400440532013000",
-    amount: "100.00",
-    currency: "EUR",
-    creditorName: "REWE GmbH",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-01",
-    status: "BOOK",
-    categoryId: 1,
-    categoryName: "Lebensmittel",
-    categoryColor: "#4CAF50",
-  },
-  {
-    id: 2,
-    accountId: "DE89370400440532013000",
-    amount: "2850.00",
-    currency: "EUR",
-    creditorName: "Max Mustermann",
-    debtorName: "Arbeitgeber GmbH",
-    type: "CRDT",
-    bookingDate: "2024-01-02",
-    status: "BOOK",
-    categoryId: 7,
-    categoryName: "Gehalt",
-    categoryColor: "#8BC34A",
-  },
-  {
-    id: 3,
-    accountId: "DE89370400440532013000",
-    amount: "125.49",
-    currency: "EUR",
-    creditorName: "Amazon",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-05",
-    status: "BOOK",
-    categoryId: 2,
-    categoryName: "Shopping",
-    categoryColor: "#FF5722",
-  },
-  {
-    id: 4,
-    accountId: "DE89370400440532013000",
-    amount: "9.99",
-    currency: "EUR",
-    creditorName: "Spotify AB",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-10",
-    status: "BOOK",
-    categoryId: 3,
-    categoryName: "Unterhaltung",
-    categoryColor: "#9C27B0",
-  },
-  {
-    id: 5,
-    accountId: "DE89370400440532013000",
-    amount: "45.20",
-    currency: "EUR",
-    creditorName: "Edeka",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-12",
-    status: "BOOK",
-    categoryId: 1,
-    categoryName: "Lebensmittel",
-    categoryColor: "#4CAF50",
-  },
-  {
-    id: 6,
-    accountId: "DE89370400440532013000",
-    amount: "14.99",
-    currency: "EUR",
-    creditorName: "Netflix",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-15",
-    status: "PDNG",
-    categoryId: 3,
-    categoryName: "Unterhaltung",
-    categoryColor: "#9C27B0",
-  },
-  {
-    id: 7,
-    accountId: "DE89370400440532013000",
-    amount: "500.00",
-    currency: "EUR",
-    creditorName: "Max Mustermann",
-    debtorName: "Jonas Weber",
-    type: "CRDT",
-    bookingDate: "2024-01-16",
-    status: "BOOK",
-    categoryId: 8,
-    categoryName: "Überweisung",
-    categoryColor: "#2196F3",
-  },
-  {
-    id: 8,
-    accountId: "DE89370400440532013000",
-    amount: "999.00",
-    currency: "EUR",
-    creditorName: "Apple Store",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-18",
-    status: "BOOK",
-    categoryId: 4,
-    categoryName: "Elektronik",
-    categoryColor: "#607D8B",
-  },
-  {
-    id: 9,
-    accountId: "DE89370400440532013000",
-    amount: "60.00",
-    currency: "EUR",
-    creditorName: "Shell",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-20",
-    status: "BOOK",
-    categoryId: 5,
-    categoryName: "Transport",
-    categoryColor: "#FF9800",
-  },
-  {
-    id: 10,
-    accountId: "DE89370400440532013000",
-    amount: "32.80",
-    currency: "EUR",
-    creditorName: "Lidl",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-22",
-    status: "SCHD",
-    categoryId: 1,
-    categoryName: "Lebensmittel",
-    categoryColor: "#4CAF50",
-  },
-  {
-    id: 11,
-    accountId: "DE89370400440532013000",
-    amount: "59.99",
-    currency: "EUR",
-    creditorName: "Adobe Systems",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-25",
-    status: "BOOK",
-    categoryId: 6,
-    categoryName: "Software",
-    categoryColor: "#3F51B5",
-  },
-  {
-    id: 12,
-    accountId: "DE89370400440532013000",
-    amount: "22.50",
-    currency: "EUR",
-    creditorName: "Uber",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-27",
-    status: "RJCT",
-    categoryId: 5,
-    categoryName: "Transport",
-    categoryColor: "#FF9800",
-  },
-  {
-    id: 13,
-    accountId: "DE89370400440532013000",
-    amount: "250.00",
-    currency: "EUR",
-    creditorName: "IKEA",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-28",
-    status: "BOOK",
-    categoryId: 9,
-    categoryName: "Wohnen",
-    categoryColor: "#2196F3",
-  },
-  {
-    id: 14,
-    accountId: "DE89370400440532013000",
-    amount: "200.00",
-    currency: "EUR",
-    creditorName: "Max Mustermann",
-    debtorName: "Eltern",
-    type: "CRDT",
-    bookingDate: "2024-01-30",
-    status: "HOLD",
-    categoryId: 8,
-    categoryName: "Überweisung",
-    categoryColor: "#2196F3",
-  },
-  {
-    id: 15,
-    accountId: "DE89370400440532013000",
-    amount: "20.00",
-    currency: "EUR",
-    creditorName: "Maxilian Mustermann",
-    debtorName: "Eltern",
-    type: "DBIT",
-    bookingDate: "2024-01-30",
-    status: "BOOK",
-    categoryId: 8,
-    categoryName: "Wohnen",
-    categoryColor: "#2196F3",
-  },
-  {
-    id: 16,
-    accountId: "DE89370400440532013000",
-    amount: "999.00",
-    currency: "EUR",
-    creditorName: "Apple Store",
-    debtorName: "Max Mustermann",
-    type: "DBIT",
-    bookingDate: "2024-01-18",
-    status: "BOOK",
-    categoryId: 4,
-    categoryName: "Elektronik",
-    categoryColor: "#607D8B",
-  },
-];
+import type { TransactionDto } from "@/api/generated/transaction-service";
+import useTransactions from "@/hooks/useTransactions";
 
 const ITEMS_PER_PAGE = 15;
 
-function getMerchantName(transaction: Transaction): string {
+function getMerchantName(transaction: TransactionDto): string {
   return transaction.type === "CRDT"
-    ? transaction.debtorName
-    : transaction.creditorName;
+    ? (transaction.debtorName ?? "")
+    : (transaction.creditorName ?? "");
 }
 
-function formatAmount(amount: string, currency: string): string {
+function formatAmount(amount: string | undefined, currency: string | undefined): string {
+  if (!amount || !currency) return "–";
   return new Intl.NumberFormat("de-DE", {
     style: "currency",
     currency,
   }).format(parseFloat(amount));
 }
 
-function formatDate(dateString: string): string {
+function formatDate(dateString: string | undefined): string {
+  if (!dateString) return "–";
   return new Date(dateString).toLocaleDateString("de-DE", {
     day: "2-digit",
     month: "short",
@@ -263,7 +38,7 @@ function TransactionRow({
   transaction,
   isLast,
 }: {
-  transaction: Transaction;
+  transaction: TransactionDto;
   isLast: boolean;
 }) {
   const isCredit = transaction.type === "CRDT";
@@ -280,13 +55,10 @@ function TransactionRow({
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="truncate text-sm font-medium">{merchant}</span>
-          <CategoryBadge
-            name={transaction.categoryName}
-            color={transaction.categoryColor}
-          />
+          <CategoryBadge name={transaction.categoryName} />
         </div>
         <span className="text-xs text-muted-foreground">
-          {STATUS_LABEL[transaction.status]}
+          {transaction.status ? STATUS_LABEL[transaction.status] : "–"}
         </span>
       </div>
 
@@ -317,12 +89,13 @@ function TransactionRow({
 function TransactionsTable() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const { transactions, isLoading } = useTransactions();
 
-  const filtered = MOCK_DATA.filter((t) => {
+  const filtered = transactions.filter((t) => {
     const q = search.toLowerCase();
     return (
       getMerchantName(t).toLowerCase().includes(q) ||
-      t.categoryName.toLowerCase().includes(q)
+      (t.categoryName ?? "").toLowerCase().includes(q)
     );
   });
 
@@ -348,7 +121,11 @@ function TransactionsTable() {
       </div>
 
       <div className="overflow-hidden rounded-xl border border-border bg-card">
-        {paged.length === 0 ? (
+        {isLoading ? (
+          <div className="py-16 text-center text-sm text-muted-foreground">
+            Laden...
+          </div>
+        ) : paged.length === 0 ? (
           <div className="py-16 text-center text-sm text-muted-foreground">
             Keine Transaktionen gefunden.
           </div>

@@ -1,6 +1,6 @@
-import type { Transaction } from "@/lib/types";
+import type { TransactionDto } from "@/api/generated/transaction-service";
 
-export const STATUS_LABEL: Record<Transaction["status"], string> = {
+export const STATUS_LABEL: Record<NonNullable<TransactionDto["status"]>, string> = {
   BOOK: "Gebucht",
   CNCL: "Storniert",
   HOLD: "Zurückgehalten",

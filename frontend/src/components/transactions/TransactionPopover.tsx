@@ -14,7 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { CategoryBadge } from "@/components/transactions/CategoryBadge";
 import { STATUS_LABEL } from "@/lib/transactionConfig";
-import type { Transaction } from "@/lib/types";
+import type { TransactionDto } from "@/api/generated/transaction-service";
 
 // TODO: Replace with API data
 const MOCK_CATEGORIES = [
@@ -44,15 +44,19 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 export function TransactionPopover({
   transaction,
 }: {
-  transaction: Transaction;
+  transaction: TransactionDto;
 }) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(
     transaction.categoryId,
   );
 
-  const selectedCategory =
-    MOCK_CATEGORIES.find((c) => c.id === selectedCategoryId) ??
-    MOCK_CATEGORIES[0];
+  const selectedCategory = MOCK_CATEGORIES.find(
+    (c) => c.id === selectedCategoryId,
+  ) ?? {
+    id: transaction.categoryId ?? 0,
+    name: transaction.categoryName ?? "",
+    color: "#64748b",
+  };
 
   return (
     <Popover>
@@ -72,18 +76,27 @@ export function TransactionPopover({
         <Separator />
 
         <div className="space-y-2 px-4 py-3">
-          <DetailRow label="Konto" value={transaction.accountId} />
-          <DetailRow label="Gläubiger" value={transaction.creditorName} />
-          <DetailRow label="Schuldner" value={transaction.debtorName} />
+          <DetailRow label="Konto" value={transaction.accountId ?? "–"} />
+          <DetailRow
+            label="Gläubiger"
+            value={transaction.creditorName ?? "–"}
+          />
+          <DetailRow label="Schuldner" value={transaction.debtorName ?? "–"} />
           <DetailRow
             label="Typ"
             value={transaction.type === "CRDT" ? "Eingang" : "Ausgang"}
           />
-          <DetailRow label="Status" value={STATUS_LABEL[transaction.status]} />
-          <DetailRow label="Buchungsdatum" value={transaction.bookingDate} />
+          <DetailRow
+            label="Status"
+            value={transaction.status ? STATUS_LABEL[transaction.status] : "–"}
+          />
+          <DetailRow
+            label="Buchungsdatum"
+            value={transaction.bookingDate ?? "–"}
+          />
           <DetailRow
             label="Betrag"
-            value={`${transaction.amount} ${transaction.currency}`}
+            value={`${transaction.amount ?? "–"} ${transaction.currency ?? ""}`}
           />
         </div>
 
@@ -97,17 +110,15 @@ export function TransactionPopover({
               color={selectedCategory.color}
             />
             <Select
-              value={selectedCategoryId}
-              onValueChange={(value) => {
-                if (value !== null) setSelectedCategoryId(value);
-              }}
+              value={String(selectedCategoryId)}
+              onValueChange={(value) => setSelectedCategoryId(Number(value))}
             >
               <SelectTrigger size="sm" className="flex-1">
                 {selectedCategory.name}
               </SelectTrigger>
               <SelectContent>
                 {MOCK_CATEGORIES.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>
+                  <SelectItem key={cat.id} value={String(cat.id)}>
                     <span className="flex items-center gap-2">
                       <span
                         className="h-2 w-2 shrink-0 rounded-full"

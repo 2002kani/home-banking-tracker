@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Transaction } from "@/lib/types";
+import type { TransactionDto } from "@/api/generated/transaction-service";
 
-export const columns: ColumnDef<Transaction>[] = [
+export const columns: ColumnDef<TransactionDto>[] = [
   {
     accessorKey: "date",
     header: "Datum",
