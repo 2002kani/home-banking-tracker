@@ -1,5 +1,7 @@
 # Tickets:
 
+- backend filterung und pagination einführen für transactions
+
 
 # Backlog:
 - Man soll sein spar ziel selbst setzen können (welcher angezeigt wird in dashboard) 

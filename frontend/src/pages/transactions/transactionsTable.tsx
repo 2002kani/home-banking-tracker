@@ -91,7 +91,9 @@ function TransactionsTable() {
   const [page, setPage] = useState(0);
   const { transactions, isLoading } = useTransactions();
 
-  const filtered = transactions.filter((t) => {
+  const filtered = [...transactions]
+    .sort((a, b) => (b.bookingDate ?? "").localeCompare(a.bookingDate ?? ""))
+    .filter((t) => {
     const q = search.toLowerCase();
     return (
       getMerchantName(t).toLowerCase().includes(q) ||
