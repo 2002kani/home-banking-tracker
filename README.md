@@ -1,4 +1,5 @@
 # Real Home Banking Manager (WIP) 
+![Transaction Snaposhot](github/transaction-snapshopt.png)
  
 A full-stack personal finance management application that connects to real bank accounts via the Enable Banking Open Banking API. The backend performs automated OAuth2 authorization flows with RSA-signed JWT authentication, periodically syncs real transaction data and account balances through a scheduled polling service, and distributes the data across microservices via Apache Kafka. A React + TypeScript frontend provides a guided bank onboarding experience, transaction history with filtering and categorization, and account balance monitoring which is all **sourced from the user's actual bank**. Not production-ready yet. Built as a portfolio project to explore microservice architecture, Open Banking integration, and full-stack development.
 
