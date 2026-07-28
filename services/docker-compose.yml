@@ -114,8 +114,8 @@ services:
 
   open-banking-service:
     build: ./open-banking-service
-    expose:
-      - "8082"
+    ports:
+      - "8082:8082"
     depends_on:
       postgres:
         condition: service_healthy

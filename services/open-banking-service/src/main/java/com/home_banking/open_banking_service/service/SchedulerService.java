@@ -57,6 +57,14 @@ public class SchedulerService implements  ISchedulerService {
         });
     }
 
+    @Override
+    public void fullResync() {
+        List<BankAccount> accounts = bankAccountRepository.findAll();
+        accounts.forEach(account -> account.setLastSyncAt(null));
+        bankAccountRepository.saveAll(accounts);
+        syncTransactions();
+    }
+
     private void mapAccountTransaction(BankSession session, BankAccount account, LocalDate dateFrom,  LocalDate dateTo) {
         TransactionsResponse response = enablebankingClient.getTransactionsByDate(
                 account.getAccountUid(),

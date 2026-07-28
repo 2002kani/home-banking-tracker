@@ -8,6 +8,7 @@ import com.home_banking.open_banking_service.dto.sessionResponses.TransactionsRe
 import com.home_banking.open_banking_service.entity.BankAccount;
 import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.service.IOpenBankingService;
+import com.home_banking.open_banking_service.service.ISchedulerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,7 @@ public class OpenBankingController {
     private final EnablebankingClient enablebankingClient;
     private final IOpenBankingService openBankingService;
     private final BankAccountRepository bankAccountRepository;
+    private final ISchedulerService schedulerService;
 
     @Value("${frontend.redirection-url}")
     private String redirectionUrl;
@@ -79,5 +81,17 @@ public class OpenBankingController {
     public ResponseEntity<TransactionsResponse> getTransactions() {
         BankAccount bankAccount = bankAccountRepository.findAll().get(0);
         return ResponseEntity.ok(enablebankingClient.getAllTransactions(bankAccount.getAccountUid()));
+    }
+
+    @PostMapping("/sync")
+    public ResponseEntity<Void> sync(){
+        schedulerService.syncTransactions();
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/sync/full")
+    public ResponseEntity<Void> longSync(){
+        schedulerService.fullResync();
+        return ResponseEntity.ok().build();
     }
 }
