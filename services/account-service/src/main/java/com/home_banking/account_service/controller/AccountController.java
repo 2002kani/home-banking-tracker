@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/account")
+@RequestMapping("/api/v1/accounts")
 public class AccountController {
     private final IAccountService accountService;
 
@@ -23,8 +23,8 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAvailableBanks(country));
     }
 
-    // Initiate auth-flow on open-banking-service
-    @PostMapping("/auth")
+    // Initiate connection-flow on open-banking-service
+    @PostMapping("/bank-connection")
     public ResponseEntity<StartAuthResponse> startAuthorization(
             @RequestParam String bank,
             @RequestParam String country,
@@ -33,14 +33,14 @@ public class AccountController {
         return ResponseEntity.ok(accountService.startAuth(bank, country, userId));
     }
 
-    @GetMapping("/accounts")
+    @GetMapping
     public ResponseEntity<List<AccountDto>> getAccounts(
             @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
     ){
         return ResponseEntity.ok(accountService.getAccounts(userId));
     }
 
-    @GetMapping("/accounts/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getAccount(
             @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long id
@@ -49,7 +49,7 @@ public class AccountController {
         return ResponseEntity.ok(account);
     }
 
-    @GetMapping("/accounts/summary/net-worth")
+    @GetMapping("/summary/net-worth")
     public ResponseEntity<NetWorthDto> getAccountNetWorth(
             @Parameter(hidden = true) @RequestHeader("X-User-Id") Long userId
     )

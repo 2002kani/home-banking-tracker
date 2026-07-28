@@ -18,7 +18,7 @@ spring:
             - id: account-service
               uri: http://account-service:8081
               predicates:
-                - Path=/api/v1/account, /api/v1/account/**
+                - Path=/api/v1/accounts, /api/v1/accounts/**
             - id: auth-service
               uri: http://auth-service:8083
               predicates:

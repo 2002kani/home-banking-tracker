@@ -23,6 +23,7 @@ public class AuthenticationService {
     private final IRefreshTokenService refreshTokenService;
 
     public AuthenticationResponse register(RegisterRequest request){
+        // TODO: implement own exception handler instead of runtime exception
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new RuntimeException("Email already exists");
         }
