@@ -18,12 +18,12 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
     meta?: Record<string, unknown>;
 };
 
-export const startAuthorization = <ThrowOnError extends boolean = false>(options: Options<StartAuthorizationData, ThrowOnError>) => (options.client ?? client).post<StartAuthorizationResponses, unknown, ThrowOnError>({ url: '/api/v1/account/auth', ...options });
+export const startAuthorization = <ThrowOnError extends boolean = false>(options: Options<StartAuthorizationData, ThrowOnError>) => (options.client ?? client).post<StartAuthorizationResponses, unknown, ThrowOnError>({ url: '/api/v1/accounts/bank-connection', ...options });
 
-export const getAvailableBanks = <ThrowOnError extends boolean = false>(options?: Options<GetAvailableBanksData, ThrowOnError>) => (options?.client ?? client).get<GetAvailableBanksResponses, unknown, ThrowOnError>({ url: '/api/v1/account/banks', ...options });
+export const getAccounts = <ThrowOnError extends boolean = false>(options?: Options<GetAccountsData, ThrowOnError>) => (options?.client ?? client).get<GetAccountsResponses, unknown, ThrowOnError>({ url: '/api/v1/accounts', ...options });
 
-export const getAccounts = <ThrowOnError extends boolean = false>(options?: Options<GetAccountsData, ThrowOnError>) => (options?.client ?? client).get<GetAccountsResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts', ...options });
+export const getAccount = <ThrowOnError extends boolean = false>(options: Options<GetAccountData, ThrowOnError>) => (options.client ?? client).get<GetAccountResponses, unknown, ThrowOnError>({ url: '/api/v1/accounts/{id}', ...options });
 
-export const getAccount = <ThrowOnError extends boolean = false>(options: Options<GetAccountData, ThrowOnError>) => (options.client ?? client).get<GetAccountResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts/{id}', ...options });
+export const getAccountNetWorth = <ThrowOnError extends boolean = false>(options?: Options<GetAccountNetWorthData, ThrowOnError>) => (options?.client ?? client).get<GetAccountNetWorthResponses, unknown, ThrowOnError>({ url: '/api/v1/accounts/summary/net-worth', ...options });
 
-export const getAccountNetWorth = <ThrowOnError extends boolean = false>(options?: Options<GetAccountNetWorthData, ThrowOnError>) => (options?.client ?? client).get<GetAccountNetWorthResponses, unknown, ThrowOnError>({ url: '/api/v1/account/accounts/summary/net-worth', ...options });
+export const getAvailableBanks = <ThrowOnError extends boolean = false>(options?: Options<GetAvailableBanksData, ThrowOnError>) => (options?.client ?? client).get<GetAvailableBanksResponses, unknown, ThrowOnError>({ url: '/api/v1/accounts/banks', ...options });

@@ -9,6 +9,19 @@ export type StartAuthResponse = {
     authorization_id?: string;
 };
 
+export type AccountDto = {
+    iban?: string;
+    name?: string;
+    currency?: string;
+    balance?: string;
+};
+
+export type NetWorthDto = {
+    totalBalance?: number;
+    changeAbsolut?: number;
+    changePercent?: number;
+};
+
 export type AuthMethodDto = {
     psu_type?: 'BUSINESS' | 'PERSONAL';
 };
@@ -23,19 +36,6 @@ export type BanksListResponse = {
     aspsps?: Array<BankDto>;
 };
 
-export type AccountDto = {
-    iban?: string;
-    name?: string;
-    currency?: string;
-    balance?: string;
-};
-
-export type NetWorthDto = {
-    totalBalance?: number;
-    changeAbsolut?: number;
-    changePercent?: number;
-};
-
 export type StartAuthorizationData = {
     body?: never;
     path?: never;
@@ -43,7 +43,7 @@ export type StartAuthorizationData = {
         bank: string;
         country: string;
     };
-    url: '/api/v1/account/auth';
+    url: '/api/v1/accounts/bank-connection';
 };
 
 export type StartAuthorizationResponses = {
@@ -55,29 +55,11 @@ export type StartAuthorizationResponses = {
 
 export type StartAuthorizationResponse = StartAuthorizationResponses[keyof StartAuthorizationResponses];
 
-export type GetAvailableBanksData = {
-    body?: never;
-    path?: never;
-    query?: {
-        country?: string;
-    };
-    url: '/api/v1/account/banks';
-};
-
-export type GetAvailableBanksResponses = {
-    /**
-     * OK
-     */
-    200: BanksListResponse;
-};
-
-export type GetAvailableBanksResponse = GetAvailableBanksResponses[keyof GetAvailableBanksResponses];
-
 export type GetAccountsData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/v1/account/accounts';
+    url: '/api/v1/accounts';
 };
 
 export type GetAccountsResponses = {
@@ -95,7 +77,7 @@ export type GetAccountData = {
         id: number;
     };
     query?: never;
-    url: '/api/v1/account/accounts/{id}';
+    url: '/api/v1/accounts/{id}';
 };
 
 export type GetAccountResponses = {
@@ -111,7 +93,7 @@ export type GetAccountNetWorthData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/v1/account/accounts/summary/net-worth';
+    url: '/api/v1/accounts/summary/net-worth';
 };
 
 export type GetAccountNetWorthResponses = {
@@ -122,3 +104,21 @@ export type GetAccountNetWorthResponses = {
 };
 
 export type GetAccountNetWorthResponse = GetAccountNetWorthResponses[keyof GetAccountNetWorthResponses];
+
+export type GetAvailableBanksData = {
+    body?: never;
+    path?: never;
+    query?: {
+        country?: string;
+    };
+    url: '/api/v1/accounts/banks';
+};
+
+export type GetAvailableBanksResponses = {
+    /**
+     * OK
+     */
+    200: BanksListResponse;
+};
+
+export type GetAvailableBanksResponse = GetAvailableBanksResponses[keyof GetAvailableBanksResponses];
