@@ -80,7 +80,7 @@ public class TransactionService implements ITransactionService {
 
         // No specification here: since you first go through all transactions, then load them
         // only to sum the amount after that. A repository with @Query is more efficient
-        // since you can immediently sum the transaction amounts up.
+        // since you can immediently sum the transaction amounts up!
         BigDecimal expensesCurrentMonth = transactionRepository.sumByUserIdAndTypeAndDateBetween(
                         userId, type, lastMonthStart, lastMonthEnd
         );
