@@ -87,6 +87,8 @@ public class SchedulerService implements  ISchedulerService {
                     .type(tx.getType())
                     .bookingDate(tx.getBookingDate() != null ? tx.getBookingDate() : null)
                     .status(tx.getStatus())
+                    .mcc(tx.getMcc())
+                    .remittanceInformation(tx.getRemittanceInformation())
                     .build();
 
             kafkaPublisherService.publishTransactionEvent(event);

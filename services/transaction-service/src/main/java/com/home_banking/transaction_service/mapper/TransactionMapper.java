@@ -2,6 +2,7 @@ package com.home_banking.transaction_service.mapper;
 
 import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.entity.Transaction;
+import com.home_banking.transaction_service.enums.CategorySource;
 import com.home_banking.transaction_service.event.TransactionEvent;
 
 import java.time.Instant;
@@ -21,6 +22,9 @@ public class TransactionMapper {
                 .bookingDate(event.getBookingDate())
                 .status(event.getStatus())
                 .createdAt(Instant.now())
+                .merchantCategoryCode(event.getMcc())
+                .remittanceInformation(event.getRemittance_information() != null ? String.join("\n", event.getRemittance_information()) : null)
+                .categorySource(CategorySource.NONE)
                 .build();
     }
 

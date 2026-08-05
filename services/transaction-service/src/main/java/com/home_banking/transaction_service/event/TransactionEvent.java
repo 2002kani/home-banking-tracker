@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @Data
@@ -26,5 +27,7 @@ public class TransactionEvent {
     private CreditDebitIndicator type;
     private LocalDate bookingDate;
     private TransactionStatus status;
+    private String mcc;
+    private List<String> remittance_information;
 }
 

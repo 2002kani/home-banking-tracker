@@ -1,5 +1,6 @@
 package com.home_banking.transaction_service.entity;
 
+import com.home_banking.transaction_service.enums.CategorySource;
 import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import com.home_banking.transaction_service.enums.TransactionStatus;
 import jakarta.persistence.*;
@@ -60,6 +61,15 @@ public class Transaction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Column(name = "merchant_category_code")
+    private String merchantCategoryCode;
+
+    @Column(name = "category_source")
+    private CategorySource categorySource;
+
+    @Column(name = "remittance_information")
+    private String remittanceInformation;
 
     @Column(name = "created_at")
     private Instant createdAt;

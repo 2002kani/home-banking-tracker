@@ -48,7 +48,10 @@ public class TransactionService implements ITransactionService {
     public void persistTransactions(TransactionEvent event) {
         try {
             // Implement logic here (already deduplicated here)
-            transactionRepository.save(TransactionMapper.mapToEntity(event));
+            Transaction transaction = TransactionMapper.mapToEntity(event);
+
+
+            // zum schluss in transaction repo speichern
         } catch (DataIntegrityViolationException e) {
             log.warn("Duplicate transaction ignored: {}", event.getExternalId());
         }

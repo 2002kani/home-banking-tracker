@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,4 +29,10 @@ public class TransactionDto {
     private LocalDate bookingDate;
 
     private TransactionStatus status;
+
+    @JsonProperty("merchant_category_code")
+    private String mcc;
+
+    @JsonProperty("remittance_information")
+    private List<String> remittanceInformation;
 }
