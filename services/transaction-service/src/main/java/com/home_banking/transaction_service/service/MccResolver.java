@@ -29,7 +29,7 @@ public class MccResolver implements ICategoryResolver{
     @Override
     public Optional<Category> resolve(Transaction tx, Long userId) {
         if(tx.getMerchantCategoryCode() == null){
-            return Optional.empty(); // if no online banking
+            return Optional.empty(); // for example if no online banking, or mcc just not set
         }
         return mccCategoryMappingRepository.findById(tx.getMerchantCategoryCode())
                 .map(MccCategoryMapping::getCategory);

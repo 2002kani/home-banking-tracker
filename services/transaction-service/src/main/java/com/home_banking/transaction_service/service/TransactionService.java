@@ -5,6 +5,7 @@ import com.home_banking.transaction_service.dto.SavingsDto;
 import com.home_banking.transaction_service.dto.TransactionDto;
 import com.home_banking.transaction_service.entity.Category;
 import com.home_banking.transaction_service.entity.Transaction;
+import com.home_banking.transaction_service.enums.CategorySource;
 import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import com.home_banking.transaction_service.event.TransactionEvent;
 import com.home_banking.transaction_service.mapper.TransactionMapper;
@@ -56,7 +57,7 @@ public class TransactionService implements ITransactionService {
                 transaction.setCategorySource(result.categorySource());
             }
 
-            // zum schluss in transaction repo speichern
+            transactionRepository.save(transaction);
         } catch (DataIntegrityViolationException e) {
             log.warn("Duplicate transaction ignored: {}", event.getExternalId());
         }
@@ -78,6 +79,7 @@ public class TransactionService implements ITransactionService {
                 .orElseThrow(() ->  new RuntimeException("Category not found"));
 
         transaction.setCategory(category);
+        transaction.setCategorySource(CategorySource.MANUAL);
         transactionRepository.save(transaction);
     }
 
