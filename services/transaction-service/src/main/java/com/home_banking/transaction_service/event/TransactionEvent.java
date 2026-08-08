@@ -28,6 +28,6 @@ public class TransactionEvent {
     private LocalDate bookingDate;
     private TransactionStatus status;
     private String mcc;
-    private List<String> remittance_information;
+    private List<String> remittanceInformation;
 }
 

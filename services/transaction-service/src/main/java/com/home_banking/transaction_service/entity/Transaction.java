@@ -66,6 +66,7 @@ public class Transaction {
     private String merchantCategoryCode;
 
     @Column(name = "category_source")
+    @Enumerated(EnumType.STRING)
     private CategorySource categorySource;
 
     @Column(name = "remittance_information")

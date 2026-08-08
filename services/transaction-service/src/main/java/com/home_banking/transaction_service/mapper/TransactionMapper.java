@@ -23,7 +23,7 @@ public class TransactionMapper {
                 .status(event.getStatus())
                 .createdAt(Instant.now())
                 .merchantCategoryCode(event.getMcc())
-                .remittanceInformation(event.getRemittance_information() != null ? String.join("\n", event.getRemittance_information()) : null)
+                .remittanceInformation(event.getRemittanceInformation() != null ? String.join("\n", event.getRemittanceInformation()) : null)
                 .categorySource(CategorySource.NONE)
                 .build();
     }

@@ -29,6 +29,7 @@ import java.util.List;
 public class TransactionService implements ITransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
+    private final CategorizationEngine categorizationEngine;
 
     @Override
     public List<TransactionDto> getTransactions(Long userId, LocalDate from, LocalDate to, CreditDebitIndicator type,  Long categoryId) {
@@ -47,9 +48,13 @@ public class TransactionService implements ITransactionService {
     @Override
     public void persistTransactions(TransactionEvent event) {
         try {
-            // Implement logic here (already deduplicated here)
             Transaction transaction = TransactionMapper.mapToEntity(event);
+            CategorizationResult result = categorizationEngine.categorize(transaction, transaction.getUserId());
 
+            if(result.matched()){
+                transaction.setCategory(result.category());
+                transaction.setCategorySource(result.categorySource());
+            }
 
             // zum schluss in transaction repo speichern
         } catch (DataIntegrityViolationException e) {
