@@ -59,7 +59,7 @@ public class TransactionService implements ITransactionService {
 
             transactionRepository.save(transaction);
         } catch (DataIntegrityViolationException e) {
-            log.warn("Duplicate transaction ignored: {}", event.getExternalId());
+            log.warn("Duplicate transaction ignored! : {}", event.getExternalId());
         }
     }
 
