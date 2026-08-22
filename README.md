@@ -11,7 +11,7 @@ A full-stack personal finance management application that connects to real bank 
 
 ## Services
 
-### Auth Service
+### Auth Service 
 Handles user registration and login. Issues RS256-signed JWTs containing the user ID, which downstream
 services use to identify the requesting user.
 
