@@ -6,31 +6,6 @@ A full-stack personal finance management application that connects to real bank 
 ## Microservice Architecture Overview   
  
 ![Backend Architecture](github/backend-architecture.png)
-  
-
-
-## Services
-
-### Auth Service 
-Handles user registration and login. Issues RS256-signed JWTs containing the user ID, which downstream
-services use to identify the requesting user.
-
-### API Gateway
-Single entry point for all client requests. Validates the JWT on every incoming request and injects the
-extracted user ID as an `X-User-Id` header before forwarding to the target service.
-
-### Open Banking Service
-Core integration with the EnableBanking API. Manages the OAuth2 bank authorization flow, stores sessions
-and account data in PostgreSQL, and runs a scheduled sync that periodically fetches transactions and
-balances — publishing them to Kafka for downstream consumption.
-
-### Account Service
-Exposes the bank connection endpoints to the frontend (proxied to the Open Banking Service) and keeps
-account data up to date by consuming `AccountUpdateEvent` messages from Kafka.
-
-### Transaction Service
-Consumes raw transaction events from Kafka and persists them to PostgreSQL. Provides filterable
-transaction queries and lets users manage and assign custom spending categories.
 
 
 
