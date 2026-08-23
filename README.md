@@ -11,6 +11,7 @@ A full-stack personal finance management application that connects to real bank 
 
 ## Tech Stack
 - Java (Spring Boot)
+- Typescript (react)
 - Apache Kafka
 - PostgreSQL
 - Hibernate
@@ -19,6 +20,7 @@ A full-stack personal finance management application that connects to real bank 
 - JWT
 - Spring Cloud Gateway
 - ngrok
+- Shadcn
 
 
 
