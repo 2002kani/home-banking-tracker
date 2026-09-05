@@ -4,6 +4,7 @@ services:
 
   postgres:
     image: postgres:16
+    pull_policy: missing
     environment:
       POSTGRES_DB: home_banking
       POSTGRES_USER: ${POSTGRES_USER}
@@ -21,6 +22,7 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
+    pull_policy: missing
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: WARN
@@ -33,6 +35,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
+    pull_policy: missing
     restart: on-failure
     ports:
       - "9092:9092"
@@ -55,7 +58,8 @@ services:
       retries: 10
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:v0.7.2
+    pull_policy: missing
     ports:
       - "8091:8080"
     depends_on:
@@ -71,6 +75,8 @@ services:
 
   auth-service:
     build: ./auth-service
+    image: home-banking/auth-service:local
+    pull_policy: missing
     expose:
       - "8083"
     depends_on:
@@ -83,6 +89,8 @@ services:
 
   account-service:
     build: ./account-service
+    image: home-banking/account-service:local
+    pull_policy: missing
     expose:
       - "8081"
     depends_on:
@@ -99,6 +107,8 @@ services:
 
   transaction-service:
     build: ./transaction-service
+    image: home-banking/transaction-service:local
+    pull_policy: missing
     expose:
       - "8080"
     depends_on:
@@ -114,6 +124,8 @@ services:
 
   open-banking-service:
     build: ./open-banking-service
+    image: home-banking/open-banking-service:local
+    pull_policy: missing
     ports:
       - "8082:8082"
     depends_on:
@@ -129,6 +141,8 @@ services:
 
   api-gateway:
     build: ./api-gateway
+    image: home-banking/api-gateway:local
+    pull_policy: missing
     ports:
       - "8090:8090"
     depends_on:
