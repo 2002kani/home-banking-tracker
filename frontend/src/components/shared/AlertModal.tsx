@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface IProps {
-  trigger: React.ReactNode;
+  trigger: React.ReactElement;
   alertTitle: string;
   alertDescription: string;
   handleSubmit: () => void;
@@ -21,7 +21,7 @@ function AlertModal(props: IProps) {
   const { trigger, alertTitle, alertDescription, handleSubmit } = props;
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{trigger}</AlertDialogTrigger>
+      <AlertDialogTrigger render={trigger}>{trigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{alertTitle}</AlertDialogTitle>

@@ -1,4 +1,4 @@
-import { LogOut, Moon, Sun, Shield } from "lucide-react";
+import { LogOut, Moon, Sun, Shield, Trash } from "lucide-react";
 import PageHeader from "@/components/shared/pageHeader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -46,9 +46,7 @@ function SettingsPage() {
             </Button>
           </div>
         </div>
-
         <Separator />
-
         <div className="space-y-3">
           <div>
             <h2 className="text-sm font-medium">Sicherheit</h2>
@@ -61,9 +59,7 @@ function SettingsPage() {
             Passwort ändern
           </Button>
         </div>
-
         <Separator />
-
         <div className="space-y-3">
           <div>
             <h2 className="text-sm font-medium">Sitzung</h2>
@@ -85,6 +81,29 @@ function SettingsPage() {
                 Abmelden
               </Button>
             }
+          ></AlertModal>
+        </div>
+
+        <div className="space-y-3">
+          <h2 className="text-sm font-medium">Account löschen</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Deinen Account und alle zugehörigen Daten dauerhaft löschen.
+          </p>
+
+          <AlertModal
+            handleSubmit={() => ""}
+            trigger={
+              <Button
+                variant="destructive"
+                size="sm"
+                className="gap-2 cursor-pointer"
+              >
+                <Trash className="h-4 w-4" />
+                Löschen
+              </Button>
+            }
+            alertTitle="Account wirklich löschen?"
+            alertDescription="Dein Account und alle zugehörigen Daten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden."
           ></AlertModal>
         </div>
       </div>
