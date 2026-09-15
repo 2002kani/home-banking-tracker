@@ -4,6 +4,7 @@ import com.home_banking.transaction_service.entity.Transaction;
 import com.home_banking.transaction_service.enums.CreditDebitIndicator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -28,5 +29,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
             @Param("to") LocalDate to
     );
 
-
+    @Modifying
+    @Query("DELETE FROM Transaction t WHERE t.userId = :userId")
+    int deleteAllByUserId(@Param("userId") Long userId);
 }

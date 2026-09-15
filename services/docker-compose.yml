@@ -86,6 +86,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      TRANSACTION_SERVICE_BASE_URL: http://transaction-service:8080
 
   account-service:
     build: ./account-service
