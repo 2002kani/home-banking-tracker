@@ -12,6 +12,7 @@ import com.home_banking.open_banking_service.repository.BankAccountRepository;
 import com.home_banking.open_banking_service.repository.BankSessionRepository;
 import com.home_banking.open_banking_service.repository.PendingSessionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -106,6 +107,14 @@ public class OpenBankingService implements IOpenBankingService {
         }
 
         ngrokService.closeTunnelDelayed();
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserBankingDetails(Long userId) {
+        bankAccountRepository.deleteAllByUserId(userId);
+        bankSessionRepository.deleteAllByUserId(userId);
+        pendingSessionRepository.deleteAllByUserId(userId);
     }
 
     private String getEventBalance(String accountUid) {

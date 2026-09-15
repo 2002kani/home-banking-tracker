@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserDataService implements IUserDataService {
+public class UserTransactionService implements IUserTransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
 
