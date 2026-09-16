@@ -5,10 +5,16 @@ import { Separator } from "@/components/ui/separator";
 import { useTheme } from "@/context/themeContext";
 import AlertModal from "@/components/shared/AlertModal";
 import { useAuth } from "@/context/authContext";
+import { deleteAccount } from "@/services/authService";
 
 function SettingsPage() {
   const { logout } = useAuth();
   const { theme, setTheme } = useTheme();
+
+  const handleDeleteAccount = async () => {
+    await deleteAccount();
+    logout();
+  };
 
   return (
     <>
@@ -91,7 +97,7 @@ function SettingsPage() {
           </p>
 
           <AlertModal
-            handleSubmit={() => ""}
+            handleSubmit={handleDeleteAccount}
             trigger={
               <Button
                 variant="destructive"

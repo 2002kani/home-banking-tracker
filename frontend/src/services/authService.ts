@@ -2,7 +2,11 @@ import type {
   AuthenticationRequest,
   RegisterRequest,
 } from "@/api/generated/auth-service";
-import { authenticate, register } from "@/api/generated/auth-service/sdk.gen";
+import {
+  authenticate,
+  deleteUser,
+  register,
+} from "@/api/generated/auth-service/sdk.gen";
 
 export type TokenPair = { accessToken: string; refreshToken: string };
 
@@ -24,4 +28,8 @@ export async function loginUser(
 export async function registerUser(req: RegisterRequest): Promise<TokenPair> {
   const res = await register({ body: req });
   return extractTokens(res.data, "Registrierung fehlgeschlagen");
+}
+
+export async function deleteAccount(): Promise<void> {
+  await deleteUser();
 }

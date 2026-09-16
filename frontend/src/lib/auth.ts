@@ -11,6 +11,7 @@ export function setAuthToken(accessToken: string) {
   const headers = { Authorization: `Bearer ${accessToken}` };
   transactionClient.setConfig({ headers });
   accountClient.setConfig({ headers });
+  authClient.setConfig({ headers });
   localStorage.setItem("jwt", accessToken);
 }
 
@@ -31,6 +32,7 @@ export function clearToken() {
   localStorage.removeItem("refreshToken");
   transactionClient.setConfig({ headers: { Authorization: undefined } });
   accountClient.setConfig({ headers: { Authorization: undefined } });
+  authClient.setConfig({ headers: { Authorization: undefined } });
 }
 
 // Silent-Refresh Interceptor: bei 401/403 automatisch neues Access Token holen und Request wiederholen
@@ -49,6 +51,8 @@ export function setRefreshCallbacks(
 function setupRefreshInterceptor(apiClient: typeof transactionClient) {
   apiClient.interceptors.response.use(async (response, request) => {
     if (![401, 403].includes(response.status) || isRefreshing) return response;
+    // Login/Register/Refresh selbst nie nachtraeglich refreshen
+    if (new URL(request.url).pathname.startsWith("/api/v1/auth/")) return response;
 
     const storedRefreshToken = getStoredRefreshToken();
     if (!storedRefreshToken) return response;
@@ -82,3 +86,4 @@ function setupRefreshInterceptor(apiClient: typeof transactionClient) {
 
 setupRefreshInterceptor(transactionClient);
 setupRefreshInterceptor(accountClient);
+setupRefreshInterceptor(authClient);
