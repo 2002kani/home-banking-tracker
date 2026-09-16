@@ -87,6 +87,8 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       TRANSACTION_SERVICE_BASE_URL: http://transaction-service:8080
+      ACCOUNT_SERVICE_BASE_URL: http://account-service:8081
+      OPEN_BANKING_SERVICE_BASE_URL: http://open-banking-service:8082
 
   account-service:
     build: ./account-service

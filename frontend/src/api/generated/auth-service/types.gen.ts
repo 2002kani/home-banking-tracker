@@ -72,3 +72,17 @@ export type AuthenticateResponses = {
 };
 
 export type AuthenticateResponse = AuthenticateResponses[keyof AuthenticateResponses];
+
+export type DeleteUserData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me';
+};
+
+export type DeleteUserResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};

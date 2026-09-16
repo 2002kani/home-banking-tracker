@@ -26,7 +26,7 @@ public class UserClient {
 
     public UserClient(
             WebClient webClient,
-            @Value("${transactions.api.base-url}") String transactionsUrl,
+            @Value("${transaction-service.base-url}") String transactionsUrl,
             @Value("${account-service.base-url}") String accountUrl,
             @Value("${open-banking-service.base-url}") String openBankingUrl
     ) {

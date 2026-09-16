@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { GetAspspsData, GetAspspsResponses, GetBalancesData, GetBalancesResponses, GetTransactionsData, GetTransactionsResponses, HandleCallbackData, HandleCallbackResponses, StartAuthorizationData, StartAuthorizationResponses } from './types.gen';
+import type { GetAspspsData, GetAspspsResponses, GetBalancesData, GetBalancesResponses, GetTransactionsData, GetTransactionsResponses, HandleCallbackData, HandleCallbackResponses, LongSyncData, LongSyncResponses, StartAuthorizationData, StartAuthorizationResponses, SyncData, SyncResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -17,6 +17,10 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: Record<string, unknown>;
 };
+
+export const sync = <ThrowOnError extends boolean = false>(options?: Options<SyncData, ThrowOnError>) => (options?.client ?? client).post<SyncResponses, unknown, ThrowOnError>({ url: '/api/v1/open-banking/sync', ...options });
+
+export const longSync = <ThrowOnError extends boolean = false>(options?: Options<LongSyncData, ThrowOnError>) => (options?.client ?? client).post<LongSyncResponses, unknown, ThrowOnError>({ url: '/api/v1/open-banking/sync/full', ...options });
 
 export const startAuthorization = <ThrowOnError extends boolean = false>(options: Options<StartAuthorizationData, ThrowOnError>) => (options.client ?? client).post<StartAuthorizationResponses, unknown, ThrowOnError>({ url: '/api/v1/open-banking/auth', ...options });
 

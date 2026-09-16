@@ -26,6 +26,8 @@ export type TransactionDto = {
     transaction_id?: string;
     credit_debit_indicator?: 'CRDT' | 'DBIT';
     booking_date?: string;
+    merchant_category_code?: string;
+    remittance_information?: Array<string>;
 };
 
 export type TransactionsResponse = {
@@ -60,6 +62,34 @@ export type AspspsListResponse = {
 
 export type AuthMethodDto = {
     psu_type?: 'BUSINESS' | 'PERSONAL';
+};
+
+export type SyncData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/open-banking/sync';
+};
+
+export type SyncResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type LongSyncData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/open-banking/sync/full';
+};
+
+export type LongSyncResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
 };
 
 export type StartAuthorizationData = {
